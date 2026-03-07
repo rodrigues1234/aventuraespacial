@@ -1,0 +1,2447 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8">
+<meta name="theme-color" content="#0a0a1a">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Aventura Espacial 🚀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@700;800;900&family=Patrick+Hand&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+:root{
+  --dark:#02021a;--navy:#07073a;
+  --yellow:#FFD700;--orange:#FF6B35;--green:#2ECC71;--red:#E74C3C;
+  --blue:#3498DB;--purple:#9B59B6;--teal:#1ABC9C;--pink:#FF69B4;
+}
+body{font-family:'Nunito',sans-serif;background:var(--dark);min-height:100dvh;overflow:hidden;touch-action:manipulation;}
+canvas#bg{position:fixed;inset:0;z-index:0;pointer-events:none;}
+canvas#cnf{position:fixed;inset:0;z-index:999;pointer-events:none;}
+
+/* ── SCREENS ── */
+.sc{display:none;position:fixed;inset:0;z-index:10;flex-direction:column;align-items:center;justify-content:center;padding:max(10px,env(safe-area-inset-top)) max(10px,env(safe-area-inset-right)) max(10px,env(safe-area-inset-bottom)) max(10px,env(safe-area-inset-left));overflow-y:auto;animation:scIn .3s ease;}
+.sc.on{display:flex;}
+@keyframes scIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── TYPOGRAPHY ── */
+.t-xl{font-family:'Fredoka One',cursive;font-size:clamp(3rem,9vw,7rem);color:var(--yellow);text-shadow:0 0 40px rgba(255,215,0,.5),0 4px 8px rgba(0,0,0,.6);text-align:center;line-height:1.1;}
+.t-lg{font-family:'Fredoka One',cursive;font-size:clamp(1.9rem,5.5vw,4rem);color:#fff;text-align:center;}
+.t-md{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.8vw,2.6rem);color:#fff;text-align:center;}
+.t-sm{font-size:clamp(.9rem,2.3vw,1.4rem);color:rgba(255,255,255,.7);text-align:center;}
+
+/* ── BUTTONS ── */
+.btn-y{touch-action:manipulation;background:linear-gradient(135deg,var(--yellow),#FFA500);border:none;border-radius:35px;padding:clamp(13px,2.3vw,19px) clamp(40px,6.5vw,65px);font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3vw,2rem);color:#02021a;cursor:pointer;box-shadow:0 8px 28px rgba(255,215,0,.35);transition:all .2s;}
+.btn-y:hover{transform:translateY(-3px);box-shadow:0 14px 38px rgba(255,215,0,.5);}
+.btn-y:active{transform:scale(.96);}
+.btn-g{touch-action:manipulation;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.28);border-radius:25px;padding:clamp(10px,1.8vw,15px) clamp(28px,4.5vw,46px);font-family:'Fredoka One',cursive;font-size:clamp(1.1rem,2.5vw,1.7rem);color:#fff;cursor:pointer;transition:all .2s;}
+.btn-g:hover{background:rgba(255,255,255,.17);}
+.btn-g:active{transform:scale(.96);}
+.btn-rnd{touch-action:manipulation;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:50%;width:clamp(48px,7vw,64px);height:clamp(48px,7vw,64px);font-size:1.55rem;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
+.btn-rnd:hover,.btn-rnd:active{background:rgba(255,255,255,.22);transform:scale(.94);}
+.btn-hear{background:linear-gradient(135deg,var(--blue),#1a5276);border:none;border-radius:50%;width:clamp(54px,7.5vw,72px);height:clamp(54px,7.5vw,72px);font-size:clamp(1.6rem,2.8vw,2.2rem);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 5px 16px rgba(52,152,219,.44);transition:all .2s;}
+.btn-hear:hover,.btn-hear:active{transform:scale(1.1);}
+
+/* ── CARD ── */
+.card{background:linear-gradient(145deg,rgba(14,14,58,.96),rgba(7,7,38,.96));border:2px solid rgba(255,255,255,.12);border-radius:26px;padding:clamp(16px,2.8vw,34px);box-shadow:0 18px 55px rgba(0,0,0,.5);backdrop-filter:blur(8px);}
+
+/* ── GRID ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(11px,2.3vw,23px);}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(9px,1.8vw,16px);}
+
+/* ── STARS PILL ── */
+.spill{display:flex;align-items:center;gap:8px;background:rgba(255,215,0,.1);border:2px solid rgba(255,215,0,.3);border-radius:28px;padding:7px 16px;}
+.spill span{font-family:'Fredoka One',cursive;font-size:1.45rem;color:var(--yellow);}
+
+/* ── GAME HEADER ── */
+.ghdr{display:flex;align-items:center;width:100%;max-width:860px;margin-bottom:13px;gap:11px;}
+.pbar-w{flex:1;background:rgba(255,255,255,.1);border-radius:18px;height:13px;overflow:hidden;}
+.pbar{background:linear-gradient(90deg,var(--orange),var(--yellow));height:100%;border-radius:18px;transition:width .5s ease;}
+
+/* ── Q CARD ── */
+.qcard{max-width:860px;width:100%;}
+.ibar{display:flex;align-items:center;justify-content:space-between;gap:11px;margin-bottom:14px;}
+.qinstr{font-size:clamp(1.15rem,2.7vw,1.8rem);color:rgba(255,255,255,.95);font-weight:800;line-height:1.4;flex:1;}
+
+/* ── OBJECTS ── */
+.objs{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(5px,1.3vw,11px);margin:5px 0 13px;min-height:48px;}
+.oem{font-size:clamp(1.9rem,3.8vw,2.8rem);animation:pop .28s ease backwards;}
+@keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+
+/* ── MATH ── */
+.mathw{display:flex;align-items:center;justify-content:center;gap:clamp(7px,1.8vw,18px);flex-wrap:wrap;margin:7px 0 13px;}
+.mg{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.mglbl{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2vw,1.5rem);color:rgba(255,255,255,.5);}
+.mgobjs{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:160px;}
+.mop{font-family:'Fredoka One',cursive;font-size:clamp(2rem,4.6vw,3.4rem);color:var(--yellow);}
+.meq{font-family:'Fredoka One',cursive;font-size:clamp(2.6rem,5.8vw,4.2rem);color:#fff;text-shadow:0 0 20px rgba(52,152,219,.75);}
+
+/* ── OPTIONS ── */
+.opts{display:grid;gap:clamp(8px,1.7vw,14px);max-width:680px;margin:0 auto;}
+.opts.c3{grid-template-columns:repeat(3,1fr);}
+.opts.c2{grid-template-columns:repeat(2,1fr);}
+.obtn{touch-action:manipulation;background:linear-gradient(145deg,rgba(255,255,255,.1),rgba(255,255,255,.04));border:3px solid rgba(255,255,255,.2);border-radius:19px;padding:clamp(13px,2.2vw,23px) 6px;cursor:pointer;font-family:'Fredoka One',cursive;font-size:clamp(1.7rem,3.8vw,2.6rem);color:#fff;transition:all .2s;min-height:clamp(76px,10.5vw,106px);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.26);line-height:1;}
+.obtn:hover{border-color:var(--yellow);background:rgba(255,215,0,.13);transform:translateY(-3px);}
+.obtn:active{transform:scale(.94);} .obtn{will-change:transform;}
+.obtn.ok{will-change:transform;border-color:var(--green);background:rgba(46,204,113,.28);animation:opulse .4s ease;}
+.obtn.err{border-color:var(--red);background:rgba(231,76,60,.28);animation:shake .38s ease;}
+.obtn.rev{border-color:var(--green);background:rgba(46,204,113,.18);animation:rglow 1s ease infinite alternate;}
+.obtn.dis{cursor:default;opacity:.35;pointer-events:none;}
+@keyframes opulse{0%{transform:scale(1)}50%{transform:scale(1.07)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-10px)}75%{transform:translateX(10px)}}
+@keyframes rglow{from{box-shadow:0 0 10px rgba(46,204,113,.3)}to{box-shadow:0 0 38px rgba(46,204,113,.85),0 0 65px rgba(46,204,113,.35)}}
+
+/* ── FEEDBACK ── */
+.fb{font-family:'Fredoka One',cursive;font-size:clamp(1.05rem,2.5vw,1.75rem);margin-top:11px;min-height:34px;animation:fup .28s ease;line-height:1.4;}
+@keyframes fup{from{opacity:0;transform:translateY(11px)}to{opacity:1;transform:translateY(0)}}
+.fb.ok{color:#2ECC71;}.fb.err{color:#FFB3A7;}.fb.hint{color:#F1C40F;}
+
+/* ── EXPLAIN ── */
+.exbox{background:rgba(241,196,15,.1);border:2px solid rgba(241,196,15,.28);border-radius:16px;padding:clamp(11px,1.9vw,18px);margin:9px 0;animation:fup .4s ease;}
+.extit{font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.3vw,1.5rem);color:var(--yellow);margin-bottom:7px;}
+.extxt{font-size:clamp(.84rem,1.8vw,1.15rem);color:rgba(255,255,255,.9);line-height:1.6;font-weight:700;}
+.exobjs{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:7px 0;}
+.exobjs span{font-size:clamp(1.4rem,2.8vw,2rem);animation:pop .28s ease backwards;}
+.taphint{margin-top:7px;color:rgba(255,255,255,.55);font-size:clamp(.8rem,1.7vw,1rem);font-weight:700;}
+
+/* ── LETTER ── */
+.bigltr{display:flex;flex-direction:column;align-items:center;gap:10px;margin:8px 0 2px;}
+.letter-forms{display:grid;grid-template-columns:repeat(3,minmax(80px,1fr));gap:10px;max-width:620px;width:100%;margin:0 auto 8px;}
+.letter-form{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.14);border-radius:18px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:102px;}
+.letter-form b{font-size:.82rem;color:rgba(255,255,255,.66);letter-spacing:.03em;}
+.letter-form .glyph{font-size:clamp(2.4rem,8vw,4.8rem);line-height:1;color:#fff;text-shadow:0 0 30px rgba(155,89,182,.65);}
+.letter-form.hand .glyph{font-family:'Patrick Hand',cursive;font-size:clamp(2.6rem,8.5vw,5.1rem);}
+.ltr-opt{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
+.ltr-opt .up,.ltr-opt .low{font-family:'Fredoka One',cursive;font-size:clamp(1.7rem,4vw,2.5rem);}
+.ltr-opt .hand{font-family:'Patrick Hand',cursive;font-size:clamp(1.9rem,4.2vw,2.8rem);transform:translateY(2px);}
+.bigltr .sound-tip{font-size:clamp(.95rem,2vw,1.15rem);color:rgba(255,255,255,.72);font-weight:800;text-align:center;}
+@keyframes lglow{0%,100%{text-shadow:0 0 30px rgba(155,89,182,.5)}50%{text-shadow:0 0 75px rgba(155,89,182,1),0 0 120px rgba(155,89,182,.35)}}
+.wdhero{font-size:clamp(4.2rem,10.5vw,8rem);display:block;text-align:center;margin:3px 0;}
+.wddisp{font-family:'Fredoka One',cursive;font-size:clamp(1.7rem,4.2vw,3rem);color:#fff;letter-spacing:5px;margin:5px 0;}
+.wddisp .hl{color:var(--yellow);font-size:1.15em;}
+.wddisp .bl{color:var(--teal);font-size:1.15em;text-decoration:underline;}
+
+/* ── SEQUENCE ── */
+.seqw{display:flex;align-items:center;justify-content:center;gap:clamp(7px,1.8vw,16px);flex-wrap:wrap;margin:8px 0 13px;}
+.snum{font-family:'Fredoka One',cursive;font-size:clamp(1.9rem,4.5vw,3.2rem);color:#fff;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);border-radius:14px;padding:9px 16px;min-width:55px;text-align:center;}
+.snum.bl{color:var(--teal);border-color:var(--teal);background:rgba(26,188,156,.14);}
+.ssep{font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,2.8vw,2.2rem);color:rgba(255,255,255,.35);}
+
+/* ── COMPARE ── */
+.cmpw{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2.8vw,28px);margin:8px 0 13px;}
+.cmpn{font-family:'Fredoka One',cursive;font-size:clamp(3.2rem,8.5vw,6.5rem);color:#fff;text-shadow:0 0 22px rgba(52,152,219,.55);}
+.cmpmid{font-family:'Fredoka One',cursive;font-size:clamp(2.8rem,7vw,5rem);color:rgba(255,255,255,.28);}
+
+/* ── TIMER ── */
+.tmr{position:relative;width:74px;height:74px;flex-shrink:0;}
+.tmr svg{transform:rotate(-90deg);}
+.tmr circle{fill:none;stroke-width:6;}
+.tmr .tbg{stroke:rgba(255,255,255,.14);}
+.tmr .tfg{stroke:var(--orange);stroke-dasharray:204;stroke-linecap:round;transition:stroke-dashoffset .9s linear;}
+.tmr .ttxt{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'Fredoka One',cursive;font-size:1.55rem;color:#fff;}
+.tmr.red .tfg{stroke:var(--red);}
+
+/* ── GALAXY MAP ── */
+#galaxy-wrap{position:relative;width:100%;max-width:680px;height:min(68vh,560px);margin:8px auto 0;overflow:visible;}
+#gal-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.pnode{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;transform:translate(-50%,-50%);transition:all .3s;overflow:visible;}
+.pnode:active{transform:translate(-50%,-50%)scale(.9);}
+.pcirc{width:clamp(58px,8.5vw,82px);height:clamp(58px,8.5vw,82px);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:clamp(1.9rem,4.2vw,3rem);border:3px solid rgba(255,255,255,.2);transition:all .3s;}
+.pnode.done .pcirc{border-color:var(--yellow);box-shadow:0 0 18px rgba(255,215,0,.48);animation:ppulse 3s ease-in-out infinite;}
+.pnode.cur .pcirc{border-color:var(--teal);box-shadow:0 0 22px rgba(26,188,156,.55);animation:ppulse 1.6s ease-in-out infinite;}
+.pnode.lck .pcirc{filter:grayscale(.85)brightness(.38);cursor:default;}
+@keyframes ppulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+.pname{font-family:'Fredoka One',cursive;font-size:clamp(.7rem,1.6vw,1rem);color:rgba(255,255,255,.8);text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.85);white-space:nowrap;}
+.pstars{font-size:clamp(.6rem,1.3vw,.9rem);color:var(--yellow);}
+
+/* ── CELEBRATION ── */
+#cel{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.88);align-items:center;justify-content:center;flex-direction:column;gap:10px;}
+#cel.on{display:flex;animation:scIn .4s ease;}
+.celem{font-size:clamp(4.5rem,13vw,9rem);animation:cbounce .5s ease infinite alternate;}
+@keyframes cbounce{from{transform:scale(1)rotate(-5deg)}to{transform:scale(1.18)rotate(5deg)}}
+.celtit{font-family:'Fredoka One',cursive;font-size:clamp(2.2rem,6.5vw,4.5rem);color:var(--yellow);text-shadow:0 0 32px rgba(255,215,0,.6);text-align:center;padding:0 18px;}
+.celsub{font-size:clamp(.95rem,2.4vw,1.5rem);color:rgba(255,255,255,.85);text-align:center;padding:0 20px;}
+.celstr{font-size:clamp(1.9rem,3.8vw,2.8rem);letter-spacing:4px;}
+.celsco{font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,3vw,2rem);color:rgba(255,255,255,.72);}
+
+/* ── MEDALS ── */
+.medal{background:linear-gradient(145deg,rgba(18,18,65,.92),rgba(9,9,38,.92));border:2px solid rgba(255,255,255,.1);border-radius:18px;padding:clamp(12px,2.2vw,20px);text-align:center;display:flex;flex-direction:column;align-items:center;gap:7px;transition:all .3s;}
+.medal.on{border-color:var(--yellow);box-shadow:0 0 18px rgba(255,215,0,.22);}
+.medal.off{opacity:.38;filter:grayscale(.75);}
+.mem{font-size:clamp(2rem,4.7vw,3.2rem);}
+.mnm{font-family:'Fredoka One',cursive;font-size:clamp(.85rem,1.9vw,1.2rem);color:#fff;}
+.mds{font-size:clamp(.72rem,1.5vw,.95rem);color:rgba(255,255,255,.58);line-height:1.4;}
+
+/* ── PROFILE ── */
+.suit-row{display:flex;gap:clamp(9px,1.8vw,16px);justify-content:center;flex-wrap:wrap;margin:14px 0;}
+.suitbtn{touch-action:manipulation;width:clamp(52px,8.5vw,76px);height:clamp(52px,8.5vw,76px);border-radius:50%;border:4px solid rgba(255,255,255,.2);cursor:pointer;font-size:clamp(1.7rem,3.5vw,2.6rem);display:flex;align-items:center;justify-content:center;transition:all .22s;}
+.suitbtn.sel{border-color:var(--yellow);box-shadow:0 0 18px rgba(255,215,0,.48);transform:scale(1.1);}
+.suitbtn:active{transform:scale(.92);}
+.ninput{background:rgba(255,255,255,.1);border:3px solid rgba(255,255,255,.22);border-radius:18px;padding:clamp(12px,2.2vw,18px) clamp(18px,3vw,28px);font-family:'Fredoka One',cursive;font-size:clamp(1.4rem,3.2vw,2rem);color:#fff;text-align:center;width:min(360px,85vw);outline:none;transition:border-color .2s;}
+.ninput:focus{border-color:var(--yellow);}
+.ninput::placeholder{color:rgba(255,255,255,.3);}
+.prcard{background:linear-gradient(145deg,#0f0f48,#19196a);border:3px solid rgba(255,255,255,.14);border-radius:24px;padding:clamp(18px,3.2vw,38px) clamp(12px,2.2vw,24px);cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:11px;box-shadow:0 10px 32px rgba(0,0,0,.44);transition:all .3s;}
+.prcard:hover{border-color:var(--yellow);transform:translateY(-5px);}
+.prcard:active{transform:scale(.94);}
+.avtr{width:clamp(65px,10vw,90px);height:clamp(65px,10vw,90px);border-radius:50%;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+
+/* ── LEARN FIRST ── */
+.lfem{font-size:clamp(5rem,13vw,9rem);display:block;text-align:center;animation:rfloat 2.5s ease-in-out infinite;}
+@keyframes rfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+
+/* ── SETTINGS ── */
+
+.setgrid{display:grid;gap:14px;width:100%;max-width:760px;margin-top:10px;}
+.setcard{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+.setmeta{display:flex;flex-direction:column;gap:4px;min-width:220px;}
+.settit{font-family:'Fredoka One',cursive;font-size:clamp(1.05rem,2.3vw,1.35rem);color:#fff;}
+.setsub{font-size:clamp(.88rem,1.8vw,1rem);color:rgba(255,255,255,.68);line-height:1.45;max-width:460px;}
+.setactions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;}
+.setpill{border:none;border-radius:999px;padding:12px 18px;cursor:pointer;font-family:'Fredoka One',cursive;font-size:clamp(.95rem,2vw,1.05rem);background:rgba(255,255,255,.12);color:#fff;border:2px solid rgba(255,255,255,.18);min-width:132px;}
+.setpill.on{background:linear-gradient(135deg,var(--green),#27AE60);border-color:rgba(46,204,113,.8);color:#fff;}
+.setpill.warn{background:linear-gradient(135deg,#8E3B1F,#C0392B);border-color:rgba(231,76,60,.8);}
+.setpill.ghost{background:rgba(255,255,255,.08);}
+.modebadge{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.12);font-family:'Fredoka One',cursive;color:#fff;font-size:clamp(.9rem,1.8vw,1rem);}
+.helper-note{font-size:clamp(.85rem,1.8vw,.98rem);color:rgba(255,255,255,.68);text-align:center;line-height:1.5;max-width:760px;margin-top:12px;}
+
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%)translateY(110px);background:rgba(28,28,78,.96);border:2px solid rgba(255,215,0,.4);border-radius:18px;padding:13px 26px;z-index:2000;font-family:'Fredoka One',cursive;font-size:clamp(.95rem,2.3vw,1.4rem);color:#fff;transition:transform .38s ease;white-space:nowrap;text-align:center;max-width:90vw;white-space:normal;}
+#toast.on{transform:translateX(-50%)translateY(0);}
+
+/* ── WORLD TABS ── */
+.wtabs{display:flex;gap:10px;margin-bottom:14px;}
+.wtab{flex:1;padding:11px;text-align:center;font-family:'Fredoka One',cursive;font-size:clamp(1rem,2.5vw,1.5rem);border-radius:18px;cursor:pointer;border:2px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);transition:all .2s;}
+.wtab.on{color:#fff;border-color:transparent;}
+.wtab.num-tab.on{background:linear-gradient(135deg,#0b3260,#1a5276);border-color:rgba(52,152,219,.6);}
+.wtab.let-tab.on{background:linear-gradient(135deg,#4a1060,#7d3c98);border-color:rgba(155,89,182,.6);}
+.wtab.log-tab.on{background:linear-gradient(135deg,#145a32,#1abc9c);border-color:rgba(26,188,156,.7);}
+
+/* ── MEDAL POPUP ── */
+#medal-pop{display:none;position:fixed;top:24px;right:24px;z-index:1500;background:linear-gradient(135deg,rgba(255,215,0,.2),rgba(255,165,0,.1));border:2px solid rgba(255,215,0,.5);border-radius:20px;padding:14px 20px;animation:mpop .5s ease;max-width:260px;}
+#medal-pop.on{display:flex;align-items:center;gap:12px;}
+@keyframes mpop{from{opacity:0;transform:translateX(80px)}to{opacity:1;transform:translateX(0)}}
+.mpem{font-size:2.4rem;}
+.mptxt{font-family:'Fredoka One',cursive;font-size:1.1rem;color:#fff;}
+.mpsub{font-size:.85rem;color:rgba(255,255,255,.65);}
+
+/* ── WHICH-MORE ── */
+.wmwrap{display:flex;gap:clamp(14px,3vw,30px);justify-content:center;align-items:stretch;margin:8px 0 13px;flex-wrap:wrap;}
+.wmgrp{flex:1;min-width:120px;max-width:200px;background:rgba(255,255,255,.07);border:3px solid rgba(255,255,255,.18);border-radius:20px;padding:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:all .22s;}
+.wmgrp:hover{border-color:var(--yellow);background:rgba(255,215,0,.12);}
+.wmgrp:active{transform:scale(.94);}
+.wmgrp.ok{border-color:var(--green);background:rgba(46,204,113,.25);}
+.wmgrp.err{border-color:var(--red);background:rgba(231,76,60,.25);animation:shake .38s ease;}
+.wmgrp.rev{border-color:var(--green);background:rgba(46,204,113,.15);animation:rglow 1s ease infinite alternate;}
+.wmobjs{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;}
+
+/* VOWEL CARD */
+.vcard{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;margin:8px 0 14px;}
+.vbig{font-family:'Fredoka One',cursive;font-size:clamp(6rem,16vw,11rem);color:#fff;line-height:1;text-shadow:0 0 45px rgba(255,215,0,.55);animation:lglow 2s ease-in-out infinite;}
+.logic-strip{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:12px 0 18px;}
+.logic-chip{min-width:74px;min-height:74px;padding:10px 14px;border-radius:18px;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,4.8vw,3rem);box-shadow:0 6px 18px rgba(0,0,0,.22);}
+.logic-seq-btn{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.cur-card{background:rgba(26,188,156,.12);border:2px solid rgba(26,188,156,.3);border-radius:20px;padding:18px;max-width:760px;width:100%;box-shadow:0 18px 55px rgba(0,0,0,.42);}
+.cur-visual{font-size:clamp(3.6rem,10vw,6rem);text-align:center;margin:10px 0 16px;}
+.cur-explain{font-size:clamp(.95rem,2vw,1.18rem);color:rgba(255,255,255,.9);line-height:1.55;font-weight:800;text-align:center;max-width:620px;margin:10px auto 0;}
+.cur-tag{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.12);font-family:'Fredoka One',cursive;font-size:clamp(.86rem,1.9vw,1rem);color:#fff;}
+
+
+/* ── RESPONSIVE / ORIENTATION ── */
+.qcard{max-height:calc(100dvh - 120px);overflow-y:auto;}
+@media (max-width: 820px){
+  .g2{grid-template-columns:1fr;}
+  .ghdr{max-width:100%;}
+  .qcard{max-width:100%;}
+  .opts.c3{grid-template-columns:repeat(2,1fr);}
+  .wtabs{width:100%;}
+  #galaxy-wrap{height:min(60dvh,500px);}
+}
+@media (max-width: 480px){
+  .ibar{align-items:flex-start;}
+  .btn-hear{width:54px;height:54px;}
+  .opts.c2,.opts.c3{grid-template-columns:1fr 1fr;}
+  .setactions{justify-content:flex-start;}
+  .wmgrp{min-width:calc(50% - 10px);}
+  .letter-forms{grid-template-columns:1fr;}
+  .logic-chip{min-width:60px;min-height:60px;}
+}
+@media (orientation: landscape) and (max-height: 560px){
+  .sc{justify-content:flex-start;padding-top:max(10px,env(safe-area-inset-top));}
+  .ghdr{margin-bottom:8px;}
+  .qcard{max-height:calc(100dvh - 96px);}
+  #galaxy-wrap{height:min(54dvh,380px);}
+  .t-xl{font-size:clamp(2.6rem,7vw,5.2rem);}
+  .t-lg{font-size:clamp(1.5rem,4vw,2.5rem);}
+}
+
+
+/* Buraco negro */
+@keyframes bhSpin{to{transform:rotate(360deg);}}
+@keyframes pulsHint{0%,100%{box-shadow:0 0 0 0 rgba(80,220,130,.5);}50%{box-shadow:0 0 0 14px rgba(80,220,130,0);}}
+.pnode.pulse-hint .pcirc{animation:pulsHint 2s ease-in-out infinite;}
+@keyframes bhPulse{0%,100%{opacity:.72;transform:scale(1);}50%{opacity:1;transform:scale(1.1);}}
+.bh-wrap{position:absolute;bottom:-28px;left:50%;transform:translateX(-50%);z-index:10;}
+.bh-btn{background:none;border:none;cursor:pointer;touch-action:manipulation;width:44px;height:44px;padding:4px;display:flex;align-items:center;justify-content:center;animation:bhPulse 2.2s ease-in-out infinite;filter:drop-shadow(0 0 10px rgba(140,60,255,.85));}
+.bh-btn:active{transform:scale(.88);}
+.bh-btn.unavail{filter:grayscale(1) opacity(.3);animation:none;cursor:default;}
+
+#bh-overlay{position:fixed;inset:0;background:rgba(5,5,20,.88);z-index:900;display:none;flex-direction:column;align-items:center;justify-content:center;padding:20px;gap:16px;}
+#bh-overlay.on{display:flex;}
+.bh-modal{background:linear-gradient(145deg,#1a0a3a,#0a1040);border:2px solid rgba(120,50,255,.5);border-radius:24px;padding:clamp(18px,4vw,32px);max-width:540px;width:100%;text-align:center;box-shadow:0 0 48px rgba(80,30,200,.4);}
+.bh-modal .bh-title{font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,4vw,2rem);color:#c8a0ff;margin-bottom:6px;}
+.bh-modal .bh-sub{font-size:.95rem;color:rgba(255,255,255,.6);margin-bottom:18px;}
+.bh-prog{display:flex;gap:10px;justify-content:center;margin:12px 0;}
+.bh-dot{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);transition:all .3s;}
+.bh-dot.ok{background:#50dd90;border-color:#50dd90;box-shadow:0 0 8px #50dd90;}
+.bh-dot.err{background:#f85858;border-color:#f85858;}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<canvas id="cnf"></canvas>
+<div id="toast"></div>
+<div id="medal-pop"></div>
+
+<!-- ══ SPLASH ══ -->
+<div class="sc on" id="s-splash">
+  <span style="font-size:clamp(7rem,16vw,11rem);animation:rfloat 2.5s ease-in-out infinite;display:block;text-align:center;">🚀</span>
+  <div class="t-xl" style="margin:10px 0 6px">Aventura<br>Espacial</div>
+  <div class="t-sm" style="margin-bottom:36px">Aprender é uma grande aventura!</div>
+  <button class="btn-y" onclick="goProfiles()">▶ &nbsp;Jogar!</button>
+</div>
+
+<!-- ══ PROFILE SELECT ══ -->
+<div class="sc" id="s-profiles">
+  <div class="t-lg" style="margin-bottom:8px">👨‍🚀 Quem está a jogar?</div>
+  <div class="t-sm" style="margin-bottom:28px">Toca no teu nome!</div>
+  <div class="g2" id="profile-list" style="max-width:700px;width:100%;"></div>
+  <div style="display:flex;gap:14px;margin-top:22px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn-y" onclick="goCreate()">➕ &nbsp;Novo Astronauta</button>
+    <button class="btn-g" onclick="show('s-splash')">← Voltar</button>
+  </div>
+</div>
+
+<!-- ══ CREATE PROFILE ══ -->
+<div class="sc" id="s-create">
+  <div class="t-lg" style="margin-bottom:8px">🧑‍🚀 Cria o teu Astronauta</div>
+  <div style="display:flex;align-items:flex-start;gap:clamp(12px,4vw,28px);width:100%;max-width:660px;flex-wrap:wrap;justify-content:center;">
+    <!-- Preview ao vivo -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;flex-shrink:0;">
+      <div id="avatar-preview" style="width:96px;height:96px;filter:drop-shadow(0 0 18px rgba(100,160,255,.45));"></div>
+      <div id="avatar-name-preview" style="font-family:'Fredoka One',cursive;font-size:1.1rem;color:rgba(255,255,255,.6);min-height:1.4em;"></div>
+    </div>
+    <!-- Formulário -->
+    <div style="flex:1;min-width:220px;">
+      <div class="t-sm" style="margin-bottom:6px">O teu nome:</div>
+      <input class="ninput" id="name-inp" type="text" maxlength="12" placeholder="O teu nome..." autocomplete="off" autocorrect="off" spellcheck="false" oninput="document.getElementById('avatar-name-preview').textContent=this.value">
+      <div class="t-sm" style="margin:14px 0 5px">🪐 Capacete:</div>
+      <div class="suit-row" id="helmet-row"></div>
+      <div class="t-sm" style="margin:12px 0 5px">🚀 Fato:</div>
+      <div class="suit-row" id="suit-row"></div>
+      <div class="t-sm" style="margin:12px 0 5px">✨ Viseira:</div>
+      <div class="suit-row" id="visor-row"></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:14px;margin-top:22px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn-y" onclick="saveProfile()">🚀 &nbsp;Pronto!</button>
+    <button class="btn-g" onclick="show('s-profiles')">← Voltar</button>
+  </div>
+</div>
+
+<!-- ══ GALAXY ══ -->
+<div class="sc" id="s-galaxy">
+  <div style="display:flex;align-items:center;gap:14px;width:100%;max-width:700px;margin-bottom:10px;">
+    <button class="btn-rnd" onclick="show('s-profiles')">←</button>
+    <div>
+      <div class="t-md" id="gal-hello">Olá, Astronauta!</div>
+      <div class="t-sm" id="gal-sub">Escolhe um mundo para explorar</div>
+    <div id="gal-hint" style="font-size:.75rem;color:rgba(180,120,255,.75);margin-top:2px;display:none;">🌑 Toca nos buracos negros para desbloquear</div>
+    </div>
+    <div class="spill" style="margin-left:auto;flex-shrink:0;">⭐ <span id="gal-stars">0</span></div>
+    <button class="btn-rnd" onclick="goMedals()" title="Medalhas">🏅</button>
+    <button class="btn-rnd" onclick="goSettings()" title="Definições">⚙️</button>
+  </div>
+  <div class="wtabs" style="width:100%;max-width:760px;">
+    <div class="wtab num-tab on" id="tab-num" onclick="switchWorld('numbers')">🔢 Números</div>
+    <div class="wtab let-tab" id="tab-let" onclick="switchWorld('letters')">🔤 Letras</div>
+    <div class="wtab log-tab" id="tab-log" onclick="switchWorld('logic')">🧠 Lógica</div>
+  </div>
+  <div id="galaxy-wrap">
+    <svg id="gal-svg"></svg>
+    <div id="planet-nodes"></div>
+  </div>
+</div>
+
+</div>
+
+<!-- ══ SETTINGS ══ -->
+<div class="sc" id="s-settings">
+  <div style="display:flex;align-items:center;gap:12px;width:100%;max-width:760px;margin-bottom:12px;flex-wrap:wrap;">
+    <button class="btn-rnd" onclick="closeSettings()">←</button>
+    <div>
+      <div class="t-lg">⚙️ Centro de Controlo</div>
+      <div class="t-sm">Ajusta a experiência para cada criança</div>
+    </div>
+    <div class="modebadge" style="margin-left:auto;">🧑‍🚀 <span id="set-child-name">Astronauta</span></div>
+  </div>
+  <div class="setgrid">
+    <div class="setcard">
+      <div class="setmeta">
+        <div class="settit">Áudio</div>
+        <div class="setsub">Liga ou desliga a voz do jogo. Mantive a voz do browser por defeito, mais segura e mais simples.</div>
+      </div>
+      <div class="setactions">
+        <button class="setpill" id="btn-audio" onclick="toggleAudio()">Ligado</button>
+      </div>
+    </div>
+    <div class="setcard">
+      <div class="setmeta">
+        <div class="settit">Modo de jogo</div>
+        <div class="setsub">Ensinar mostra mais pistas. Testar esconde apoios visuais para perceber se a criança já consegue sozinha.</div>
+      </div>
+      <div class="setactions">
+        <button class="setpill" id="btn-mode" onclick="cycleMode()">Ensinar</button>
+      </div>
+    </div>
+    <div class="setcard">
+      <div class="setmeta">
+        <div class="settit">Dificuldade</div>
+        <div class="setsub">Automática adapta pelo progresso. Fácil força o nível inicial. Avançada força os desafios mais puxados.</div>
+      </div>
+      <div class="setactions">
+        <button class="setpill" id="btn-difficulty" onclick="cycleDifficulty()">Automática</button>
+      </div>
+    </div>
+    <div class="setcard">
+      <div class="setmeta">
+        <div class="settit">Progresso do astronauta</div>
+        <div class="setsub">Útil quando queres recomeçar a aventura sem apagar o perfil todo.</div>
+      </div>
+      <div class="setactions">
+        <button class="setpill ghost" onclick="resetCurrentProgress()">Reiniciar progresso</button>
+        <button class="setpill warn" onclick="deleteCurrentProfile()">Apagar perfil</button>
+      </div>
+    </div>
+  </div>
+  <div class="helper-note">As respostas e medalhas continuam guardadas neste browser. Se limpares os dados do navegador, o progresso desaparece.</div>
+  <div style="display:flex;gap:14px;margin-top:18px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn-g" onclick="closeSettings()">← Voltar ao mapa</button>
+  </div>
+</div>
+
+<!-- ══ LEARN FIRST ══ -->
+<div class="sc" id="s-learn">
+  <span class="lfem" id="lf-em">🔢</span>
+  <div class="t-lg" id="lf-title" style="margin:12px 0 8px">Vamos Aprender!</div>
+  <div class="card" style="max-width:600px;width:100%;margin:10px 0;">
+    <div id="lf-text" style="font-size:clamp(1.05rem,2.5vw,1.5rem);color:rgba(255,255,255,.9);font-weight:800;text-align:center;line-height:1.7;"></div>
+  </div>
+  <button class="btn-y" style="margin-top:18px;" onclick="startGame()">Vamos lá! 🚀</button>
+</div>
+
+<!-- ══ GAME ══ -->
+<div class="sc" id="s-game">
+  <div class="ghdr">
+    <button class="btn-rnd" onclick="exitGame()">←</button>
+    <div id="hud-avatar" style="width:32px;height:32px;flex-shrink:0;opacity:.72;border-radius:50%;overflow:hidden;"></div>
+    <div class="pbar-w" title="" id="pbar-planet"><div class="pbar" id="pbar" style="width:0%"></div></div>
+    <div class="spill" style="margin-bottom:0;padding:7px 14px;">⭐<span id="g-stars" style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:var(--yellow);margin-left:6px;">0</span></div>
+    <div class="tmr" id="tmr" style="display:none;">
+      <svg viewBox="0 0 74 74" width="74" height="74"><circle class="tbg" cx="37" cy="37" r="31"/><circle class="tfg" id="tmr-ring" cx="37" cy="37" r="31"/></svg>
+      <div class="ttxt" id="tmr-txt">15</div>
+    </div>
+  </div>
+  <div class="card qcard" id="qcard"></div>
+</div>
+
+
+<!-- ══ MISSÃO CURIOSA ══ -->
+<div class="sc" id="s-curiosity">
+  <div class="cur-card">
+    <div style="display:flex;justify-content:center;margin-bottom:10px;"><span class="cur-tag">🎁 Missão Curiosa</span></div>
+    <div class="t-lg" id="cur-title" style="margin-bottom:8px">Curiosidade Rápida</div>
+    <div class="cur-visual" id="cur-visual">🌍</div>
+    <div class="qinstr" id="cur-question" style="text-align:center;margin-bottom:16px;">Pergunta curiosa</div>
+    <div class="opts c3" id="cur-options"></div>
+    <div class="fb" id="cur-fb"></div>
+    <div class="cur-explain" id="cur-explain" style="display:none"></div>
+    <div style="display:flex;justify-content:center;margin-top:18px;">
+      <button class="btn-g" id="cur-next" onclick="finishCuriosityReward()" style="display:none">Continuar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ RESULTS ══ -->
+<div class="sc" id="s-results">
+  <div style="display:flex;align-items:center;justify-content:center;gap:12px;"><div id="res-avatar" style="width:56px;height:56px;opacity:.85;"></div><div class="celem" id="res-em">🎉</div></div>
+  <div class="celtit" id="res-title">Parabéns!</div>
+  <div class="celstr" id="res-stars">⭐⭐⭐</div>
+  <div class="celsco" id="res-score">5 / 5</div>
+  <div class="celsub" id="res-sub">Incrível!</div>
+  <div style="display:flex;gap:14px;margin-top:24px;flex-wrap:wrap;justify-content:center;">
+    <button class="btn-y" onclick="show('s-galaxy');renderGalaxy()">🗺️ Mapa</button>
+    <button class="btn-g" onclick="replayPlanet()">🔄 Repetir</button>
+  </div>
+</div>
+
+<!-- ══ MEDALS ══ -->
+<div class="sc" id="s-medals">
+  <div style="display:flex;align-items:center;gap:12px;width:100%;max-width:700px;margin-bottom:18px;">
+    <button class="btn-rnd" onclick="closeSettings()">←</button>
+    <div class="t-lg">🏅 As Minhas Medalhas</div>
+  </div>
+  <div id="medals-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(160px,43vw),1fr));gap:clamp(10px,2vw,18px);width:100%;max-width:700px;overflow-y:auto;max-height:72vh;padding-right:4px;"></div>
+</div>
+
+
+<!-- ══ CELEBRATION ══ -->
+<div id="cel">
+  <div class="celem" id="cel-em">🎉</div>
+  <div class="celtit" id="cel-title"></div>
+  <div class="celstr" id="cel-stars"></div>
+  <div class="celsco" id="cel-score"></div>
+  <div class="celsub" id="cel-sub"></div>
+  <button class="btn-y" style="margin-top:26px;" onclick="celNext()">Continuar 🚀</button>
+</div>
+
+<script>
+'use strict';
+
+// ═══════════════════════════════════════════════
+// CONSTANTS & DATA
+// ═══════════════════════════════════════════════
+// Cores do fato (corpo)
+const SUITS=[
+  {col:'#1e50a0',label:'Azul',em:'🔵'},
+  {col:'#9a2020',label:'Vermelho',em:'🔴'},
+  {col:'#1a7030',label:'Verde',em:'🟢'},
+  {col:'#887000',label:'Amarelo',em:'🟡'},
+  {col:'#602090',label:'Roxo',em:'🟣'},
+  {col:'#904010',label:'Laranja',em:'🟠'},
+  {col:'#207878',label:'Ciano',em:'🩵'},
+  {col:'#404040',label:'Cinza',em:'🩶'},
+];
+// Cores do capacete
+const HELMETS=[
+  {col:'#c8d0dc',label:'Prata',em:'⚪'},
+  {col:'#f0c832',label:'Dourado',em:'🌟'},
+  {col:'#e8e8f0',label:'Branco',em:'🤍'},
+  {col:'#222232',label:'Preto',em:'🖤'},
+  {col:'#d06428',label:'Ferrugem',em:'🟠'},
+  {col:'#48a848',label:'Lima',em:'💚'},
+];
+// Cores da viseira
+const VISORS=[
+  {col:'#38b0f8',label:'Azul',em:'🩵'},
+  {col:'#f0a818',label:'Âmbar',em:'🌅'},
+  {col:'#38d888',label:'Esmeralda',em:'💚'},
+  {col:'#f85858',label:'Rubi',em:'❤️'},
+  {col:'#c868ff',label:'Violeta',em:'💜'},
+  {col:'#b8e8ff',label:'Gelo',em:'❄️'},
+];
+
+// ── AVATAR SVG ───────────────────────────────────────────────────────
+// Astronauta vectorial com capacete, fato e viseira configuráveis
+function avatarSVG(hCol, sCol, vCol, sz){
+  sz=sz||80;
+  // Lighten para detalhe
+  const sLight=sCol+'cc';
+  const hLight=hCol+'cc';
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" viewBox="0 0 80 80">
+    <!-- Corpo/Fato -->
+    <ellipse cx="40" cy="57" rx="17" ry="15" fill="${sCol}"/>
+    <!-- Cintura/detalhe -->
+    <ellipse cx="40" cy="54" rx="17" ry="5" fill="${sLight}" opacity=".4"/>
+    <!-- Ombros -->
+    <ellipse cx="25" cy="50" rx="7" ry="5.5" fill="${sCol}"/>
+    <ellipse cx="55" cy="50" rx="7" ry="5.5" fill="${sCol}"/>
+    <!-- Braços -->
+    <rect x="15" y="50" width="8" height="13" rx="4" fill="${sCol}"/>
+    <rect x="57" y="50" width="8" height="13" rx="4" fill="${sCol}"/>
+    <!-- Luvas (mesmo tom do capacete) -->
+    <ellipse cx="19" cy="64" rx="5.5" ry="4" fill="${hCol}"/>
+    <ellipse cx="61" cy="64" rx="5.5" ry="4" fill="${hCol}"/>
+    <!-- Pernas -->
+    <rect x="30" y="70" width="8" height="6" rx="3" fill="${sCol}"/>
+    <rect x="42" y="70" width="8" height="6" rx="3" fill="${sCol}"/>
+    <!-- Botas -->
+    <ellipse cx="34" cy="76" rx="8" ry="3.5" fill="${hCol}"/>
+    <ellipse cx="46" cy="76" rx="8" ry="3.5" fill="${hCol}"/>
+    <!-- Capacete (casca exterior) -->
+    <ellipse cx="40" cy="32" rx="20" ry="22" fill="${hCol}"/>
+    <!-- Viseira -->
+    <ellipse cx="40" cy="33" rx="14" ry="15" fill="${vCol}" opacity=".9"/>
+    <!-- Reflexo da viseira -->
+    <ellipse cx="33" cy="26" rx="4.5" ry="3" fill="white" opacity=".28"/>
+    <ellipse cx="44" cy="24" rx="2" ry="1.5" fill="white" opacity=".18"/>
+    <!-- Selo no peito -->
+    <circle cx="40" cy="54" r="4.5" fill="${vCol}" opacity=".6"/>
+    <circle cx="40" cy="54" r="2.5" fill="white" opacity=".35"/>
+  </svg>`;
+}
+
+// Versão mini para o HUD (sem braços/pernas)
+function avatarSVGMini(hCol, sCol, vCol, sz){
+  sz=sz||36;
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="${sz}" height="${sz}" viewBox="0 0 80 80">
+    <ellipse cx="40" cy="60" rx="16" ry="13" fill="${sCol}"/>
+    <ellipse cx="40" cy="32" rx="20" ry="22" fill="${hCol}"/>
+    <ellipse cx="40" cy="33" rx="14" ry="15" fill="${vCol}" opacity=".9"/>
+    <ellipse cx="33" cy="26" rx="4" ry="2.8" fill="white" opacity=".25"/>
+  </svg>`;
+}
+
+function getAC(profile){
+  // Retorna as 3 cores do avatar: h=helmet s=suit v=visor
+  return {
+    h: (HELMETS[profile.helmet]||HELMETS[0]).col,
+    s: (SUITS[profile.suit]||SUITS[0]).col,
+    v: (VISORS[profile.visor]||VISORS[0]).col
+  };
+}
+
+// Space objects with gender for correct Portuguese agreement
+const OBJS=[
+  {em:'🚀',name:'foguetão',names:'foguetões',gen:'m'},
+  {em:'⭐',name:'estrela',names:'estrelas',gen:'f'},
+  {em:'🪐',name:'planeta',names:'planetas',gen:'m'},
+  {em:'🌙',name:'lua',names:'luas',gen:'f'},
+  {em:'☄️',name:'cometa',names:'cometas',gen:'m'},
+  {em:'🛸',name:'nave',names:'naves',gen:'f'},
+  {em:'👾',name:'alien',names:'aliens',gen:'m'},
+  {em:'🌠',name:'meteoro',names:'meteoros',gen:'m'},
+  {em:'🛰️',name:'satélite',names:'satélites',gen:'m'},
+];
+
+const NUMS=['zero','um','dois','três','quatro','cinco','seis','sete','oito','nove',
+  'dez','onze','doze','treze','catorze','quinze','dezasseis','dezassete','dezoito','dezanove','vinte'];
+
+// Words with syllables for letters world
+const WORDS=[
+  {w:'LUA',em:'🌙',fl:'L',syls:['LU','A'],nSyl:2},
+  {w:'SOL',em:'☀️',fl:'S',syls:['SOL'],nSyl:1},
+  {w:'NAVE',em:'🚀',fl:'N',syls:['NA','VE'],nSyl:2},
+  {w:'TERRA',em:'🌍',fl:'T',syls:['TER','RA'],nSyl:2},
+  {w:'ROBÔ',em:'🤖',fl:'R',syls:['RO','BÔ'],nSyl:2},
+  {w:'ESTRELA',em:'⭐',fl:'E',syls:['ES','TRE','LA'],nSyl:3},
+  {w:'PLANETA',em:'🪐',fl:'P',syls:['PLA','NE','TA'],nSyl:3},
+  {w:'COMETA',em:'☄️',fl:'C',syls:['CO','ME','TA'],nSyl:3},
+  {w:'FOGUETÃO',em:'🚀',fl:'F',syls:['FO','GUE','TÃO'],nSyl:3},
+  {w:'GALÁXIA',em:'🌌',fl:'G',syls:['GA','LÁ','XI','A'],nSyl:4},
+  {w:'ASTRONAUTA',em:'👨‍🚀',fl:'A',syls:['AS','TRO','NAU','TA'],nSyl:4},
+  {w:'UNIVERSO',em:'🌐',fl:'U',syls:['U','NI','VER','SO'],nSyl:4},
+  {w:'SATÉLITE',em:'🛰️',fl:'S',syls:['SA','TÉ','LI','TE'],nSyl:4},
+  {w:'METEORITO',em:'🪨',fl:'M',syls:['ME','TE','O','RI','TO'],nSyl:5},
+];
+
+const READING_WORDS=[
+  {w:'LUA',em:'🌙',fl:'L',syls:['LU','A'],nSyl:2},
+  {w:'RUA',em:'🛣️',fl:'R',syls:['RU','A'],nSyl:2},
+  {w:'SAPO',em:'🐸',fl:'S',syls:['SA','PO'],nSyl:2},
+  {w:'SACO',em:'👜',fl:'S',syls:['SA','CO'],nSyl:2},
+  {w:'GATO',em:'🐱',fl:'G',syls:['GA','TO'],nSyl:2},
+  {w:'PATO',em:'🦆',fl:'P',syls:['PA','TO'],nSyl:2},
+  {w:'MALA',em:'🧳',fl:'M',syls:['MA','LA'],nSyl:2},
+  {w:'BALA',em:'🍬',fl:'B',syls:['BA','LA'],nSyl:2},
+  {w:'BOLA',em:'⚽',fl:'B',syls:['BO','LA'],nSyl:2},
+  {w:'CASA',em:'🏠',fl:'C',syls:['CA','SA'],nSyl:2},
+  {w:'MESA',em:'🪑',fl:'M',syls:['ME','SA'],nSyl:2},
+  {w:'DADO',em:'🎲',fl:'D',syls:['DA','DO'],nSyl:2},
+  {w:'FADA',em:'🧚',fl:'F',syls:['FA','DA'],nSyl:2},
+  {w:'VELA',em:'🕯️',fl:'V',syls:['VE','LA'],nSyl:2},
+  {w:'VACA',em:'🐄',fl:'V',syls:['VA','CA'],nSyl:2},
+  {w:'RATO',em:'🐭',fl:'R',syls:['RA','TO'],nSyl:2},
+  {w:'DEDO',em:'👆',fl:'D',syls:['DE','DO'],nSyl:2},
+  {w:'DOCE',em:'🍬',fl:'D',syls:['DO','CE'],nSyl:2},
+  {w:'ELMO',em:'⛑️',fl:'E',syls:['EL','MO'],nSyl:2},
+  {w:'ANEL',em:'💍',fl:'A',syls:['A','NEL'],nSyl:2},
+  {w:'NAVIO',em:'⛵',fl:'N',syls:['NA','VI','O'],nSyl:3},
+  {w:'TIGRE',em:'🐯',fl:'T',syls:['TI','GRE'],nSyl:2},
+  {w:'UVA',em:'🍇',fl:'U',syls:['U','VA'],nSyl:2},
+];
+
+const RHYME_SETS=[
+  {base:'LUA',baseEm:'🌙',correct:{w:'RUA',em:'🛣️'},opts:[{w:'RUA',em:'🛣️'},{w:'BOLA',em:'⚽'},{w:'MESA',em:'🪑'}],explain:'LUA e RUA acabam com o mesmo som: UA.'},
+  {base:'GATO',baseEm:'🐱',correct:{w:'PATO',em:'🦆'},opts:[{w:'PATO',em:'🦆'},{w:'CASA',em:'🏠'},{w:'VELA',em:'🕯️'}],explain:'GATO e PATO rimam porque acabam com o som ATO.'},
+  {base:'MALA',baseEm:'🧳',correct:{w:'BALA',em:'🍬'},opts:[{w:'BALA',em:'🍬'},{w:'SAPO',em:'🐸'},{w:'RATO',em:'🐭'}],explain:'MALA e BALA rimam porque acabam com o som ALA.'},
+  {base:'BOLA',baseEm:'⚽',correct:{w:'COLA',em:'🖊️'},opts:[{w:'COLA',em:'🖊️'},{w:'MESA',em:'🪑'},{w:'FADA',em:'🧚'}],explain:'BOLA e COLA acabam com o mesmo som: OLA.'},
+  {base:'VELA',baseEm:'🕯️',correct:{w:'BELA',em:'👸'},opts:[{w:'BELA',em:'👸'},{w:'GATO',em:'🐱'},{w:'BOLA',em:'⚽'}],explain:'VELA e BELA acabam com o mesmo som: ELA.'},
+  {base:'DADO',baseEm:'🎲',correct:{w:'FADO',em:'🎵'},opts:[{w:'FADO',em:'🎵'},{w:'CASA',em:'🏠'},{w:'LUA',em:'🌙'}],explain:'DADO e FADO rimam porque acabam com o som ADO.'},
+  {base:'SAPO',baseEm:'🐸',correct:{w:'PAPO',em:'🐦'},opts:[{w:'PAPO',em:'🐦'},{w:'GATO',em:'🐱'},{w:'BOLA',em:'⚽'}],explain:'SAPO e PAPO rimam porque acabam com o som APO.'},
+  {base:'CAMA',baseEm:'🛏️',correct:{w:'FAMA',em:'🌟'},opts:[{w:'FAMA',em:'🌟'},{w:'RATO',em:'🐭'},{w:'DADO',em:'🎲'}],explain:'CAMA e FAMA rimam porque acabam com o som AMA.'},
+];
+
+const LETTER_NAMES={A:'á',B:'bê',C:'cê',D:'dê',E:'é',F:'efe',G:'gê',H:'agá',I:'i',J:'jota',K:'capa',L:'ele',M:'eme',N:'ene',O:'ó',P:'pê',Q:'quê',R:'erre',S:'ésse',T:'tê',U:'u',V:'vê',W:'dáblio',X:'xis',Y:'ípsilon',Z:'zê'};
+const VOWELS=['A','E','I','O','U'];
+const CONSONANTS=['B','C','D','F','G','H','J','K','L','M','N','P','Q','R','S','T','V','W','X','Y','Z'];
+const ALL_LETTERS=[...'ABCDEFGHIJKLMNOPQRSTUVWXYZ'].sort();
+
+const CURIOSITIES=[
+  {id:'planet',title:'Planeta Terra',visual:'🌍',question:'Em que planeta vivemos?',options:[{label:'Terra',visual:'🌍'},{label:'Lua',visual:'🌙'},{label:'Marte',visual:'🔴'}],correct:'Terra',explain:'Vivemos na Terra. É aqui que há pessoas, oceanos, plantas e animais.'},
+  {id:'ears',title:'Ouvir',visual:'👂',question:'Com que parte do corpo ouvimos?',options:[{label:'Ouvido',visual:'👂'},{label:'Pé',visual:'🦶'},{label:'Mão',visual:'✋'}],correct:'Ouvido',explain:'Ouvimos com os ouvidos. Eles ajudam-nos a perceber os sons à nossa volta.'},
+  {id:'plant',title:'Plantas',visual:'🪴',question:'O que precisa uma planta para crescer?',options:[{label:'Água e luz',visual:'💧☀️'},{label:'Uma almofada',visual:'🛏️'},{label:'Um chapéu',visual:'🧢'}],correct:'Água e luz',explain:'As plantas precisam de água e de luz para crescerem fortes.'},
+  {id:'fish',title:'Animais',visual:'🐟',question:'Qual destes animais vive na água?',options:[{label:'Peixe',visual:'🐟'},{label:'Galo',visual:'🐓'},{label:'Coelho',visual:'🐇'}],correct:'Peixe',explain:'O peixe vive na água. É por isso que gosta tanto de nadar.'},
+  {id:'teeth',title:'Higiene',visual:'🪥',question:'Porque lavamos os dentes?',options:[{label:'Para ficarem limpos',visual:'😁'},{label:'Para dormirem',visual:'😴'},{label:'Para voarem',visual:'🪽'}],correct:'Para ficarem limpos',explain:'Lavamos os dentes para os manter limpos e fortes.'},
+  {id:'rain',title:'Tempo',visual:'🌧️',question:'O que usamos quando chove?',options:[{label:'Guarda-chuva',visual:'☂️'},{label:'Colher',visual:'🥄'},{label:'Almofada',visual:'🛏️'}],correct:'Guarda-chuva',explain:'O guarda-chuva ajuda a não ficar molhado quando está a chover.'},
+];
+
+const LOGIC_RULES=[
+  {prompt:'Qual destes serve para voar?',explain:'O foguetão voa. Os outros não voam no céu.',options:[{label:'Foguetão',visual:'🚀',group:'fly'},{label:'Mesa',visual:'🪑',group:'other'},{label:'Bola',visual:'⚽',group:'other'}],correct:'Foguetão'},
+  {prompt:'Qual destes é redondo?',explain:'A bola é redonda. As outras coisas não têm esta forma.',options:[{label:'Bola',visual:'⚽',group:'round'},{label:'Livro',visual:'📘',group:'other'},{label:'Lápis',visual:'✏️',group:'other'}],correct:'Bola'},
+  {prompt:'Qual destes vive na água?',explain:'O peixe vive na água. Os outros vivem em terra.',options:[{label:'Peixe',visual:'🐟',group:'water'},{label:'Gato',visual:'🐱',group:'other'},{label:'Pássaro',visual:'🐦',group:'other'}],correct:'Peixe'},
+  {prompt:'Qual destes usamos para contar as horas?',explain:'O relógio ajuda-nos a saber as horas.',options:[{label:'Relógio',visual:'⏰',group:'time'},{label:'Banana',visual:'🍌',group:'other'},{label:'Nuvem',visual:'☁️',group:'other'}],correct:'Relógio'},
+  {prompt:'Qual destes é um animal?',explain:'O gato é um animal. Os outros são objetos.',options:[{label:'Gato',visual:'🐱',group:'animal'},{label:'Livro',visual:'📚',group:'other'},{label:'Carro',visual:'🚗',group:'other'}],correct:'Gato'},
+  {prompt:'Qual destes serve para escrever?',explain:'O lápis serve para escrever. Os outros não servem.',options:[{label:'Lápis',visual:'✏️',group:'write'},{label:'Sapato',visual:'👟',group:'other'},{label:'Maçã',visual:'🍎',group:'other'}],correct:'Lápis'},
+  {prompt:'Qual destes é uma fruta?',explain:'A maçã é uma fruta. Os outros não são frutas.',options:[{label:'Maçã',visual:'🍎',group:'fruit'},{label:'Carro',visual:'🚗',group:'other'},{label:'Mesa',visual:'🪑',group:'other'}],correct:'Maçã'},
+  {prompt:'Qual destes está no céu?',explain:'A lua está no céu. Os outros não estão no céu.',options:[{label:'Lua',visual:'🌙',group:'sky'},{label:'Peixe',visual:'🐟',group:'other'},{label:'Flores',visual:'🌸',group:'other'}],correct:'Lua'},
+  {prompt:'Qual destes usamos para comer?',explain:'O garfo serve para comer. Os outros não servem para comer.',options:[{label:'Garfo',visual:'🍴',group:'eat'},{label:'Balão',visual:'🎈',group:'other'},{label:'Chapéu',visual:'🧢',group:'other'}],correct:'Garfo'},
+  {prompt:'Qual destes é um veículo?',explain:'O autocarro é um veículo. Os outros não são veículos.',options:[{label:'Autocarro',visual:'🚌',group:'vehicle'},{label:'Árvore',visual:'🌳',group:'other'},{label:'Livro',visual:'📚',group:'other'}],correct:'Autocarro'},
+];
+
+const PATTERN_SETS=[
+  {items:['⭐','🌙','⭐'],correct:'🌙',opts:['🌙','☀️','🚀']},
+  {items:['🪐','🚀','🪐'],correct:'🚀',opts:['🚀','⭐','🌍']},
+  {items:['🔴','🔵','🔴','🔵'],correct:'🔴',opts:['🔴','🟢','🟡']},
+  {items:['🌞','☁️','🌞'],correct:'☁️',opts:['☁️','🌙','⭐']},
+  {items:['🐱','🐶','🐱','🐶'],correct:'🐱',opts:['🐱','🐠','🐸']},
+  {items:['🍎','🍌','🍎'],correct:'🍌',opts:['🍌','🍊','🍇']},
+  {items:['🚀','🌍','🚀','🌍'],correct:'🚀',opts:['🚀','⭐','🌙']},
+  {items:['🟢','🟡','🟢'],correct:'🟡',opts:['🟡','🔴','🔵']},
+  {items:['🎵','🎶','🎵'],correct:'🎶',opts:['🎶','🎸','🎹']},
+  {items:['🌸','🌺','🌸','🌺'],correct:'🌸',opts:['🌸','🌻','🌹']},
+];
+
+const ODD_SETS=[
+  {items:[{v:'🚀',g:'fly'},{v:'🛸',g:'fly'},{v:'✈️',g:'fly'},{v:'⚽',g:'play'}],correct:'⚽',explain:'Os três primeiros voam. A bola é a diferente.'},
+  {items:[{v:'🐟',g:'water'},{v:'🐬',g:'water'},{v:'🦈',g:'water'},{v:'🐶',g:'land'}],correct:'🐶',explain:'Os três primeiros vivem na água. O cão é o diferente.'},
+  {items:[{v:'🍎',g:'food'},{v:'🍌',g:'food'},{v:'🍐',g:'food'},{v:'🚗',g:'transport'}],correct:'🚗',explain:'Os três primeiros são frutas. O carro é o diferente.'},
+  {items:[{v:'🐱',g:'animal'},{v:'🐶',g:'animal'},{v:'🐇',g:'animal'},{v:'🍌',g:'food'}],correct:'🍌',explain:'Os três primeiros são animais. A banana é a diferente.'},
+  {items:[{v:'🚗',g:'vehicle'},{v:'🚌',g:'vehicle'},{v:'🚲',g:'vehicle'},{v:'🏠',g:'place'}],correct:'🏠',explain:'Os três primeiros são veículos. A casa é a diferente.'},
+  {items:[{v:'☀️',g:'sky'},{v:'🌙',g:'sky'},{v:'⭐',g:'sky'},{v:'🌊',g:'water'}],correct:'🌊',explain:'Os três primeiros estão no céu. A onda é a diferente.'},
+  {items:[{v:'✏️',g:'school'},{v:'📏',g:'school'},{v:'📚',g:'school'},{v:'🍕',g:'food'}],correct:'🍕',explain:'Os três primeiros são material escolar. A pizza é a diferente.'},
+  {items:[{v:'🔴',g:'color'},{v:'🟢',g:'color'},{v:'🔵',g:'color'},{v:'🐱',g:'animal'}],correct:'🐱',explain:'Os três primeiros são círculos coloridos. O gato é o diferente.'},
+];
+
+const MEMORY_SETS=[
+  {seq:['🌙','⭐','🚀'],opts:[['🌙','⭐','🚀'],['⭐','🌙','🚀'],['🌙','🚀','⭐']]},
+  {seq:['🐟','🌍','☀️'],opts:[['🐟','🌍','☀️'],['🌍','🐟','☀️'],['🐟','☀️','🌍']]},
+  {seq:['🟢','🟡','🔴'],opts:[['🟢','🟡','🔴'],['🔴','🟡','🟢'],['🟢','🔴','🟡']]},
+  {seq:['🚀','🪐','⭐'],opts:[['🚀','🪐','⭐'],['🪐','🚀','⭐'],['🚀','⭐','🪐']]},
+  {seq:['🐱','🐶','🐟'],opts:[['🐱','🐶','🐟'],['🐶','🐱','🐟'],['🐱','🐟','🐶']]},
+  {seq:['🍎','🍌','🍊'],opts:[['🍎','🍌','🍊'],['🍌','🍎','🍊'],['🍎','🍊','🍌']]},
+  {seq:['🔴','🟢','🔵'],opts:[['🔴','🟢','🔵'],['🟢','🔴','🔵'],['🔴','🔵','🟢']]},
+  {seq:['☀️','🌧️','⛅'],opts:[['☀️','🌧️','⛅'],['🌧️','☀️','⛅'],['☀️','⛅','🌧️']]},
+];
+
+// Galaxy planet definitions per world
+const PLANETS={
+  numbers:[
+    {id:0,name:'Planeta Eco',em:'🟢',bg:'#1a5c30',
+     vasco:{types:['count'],maxN:5,nQ:5},bernardo:{types:['count','add'],maxN:8,nQ:5}},
+    {id:1,name:'Lua Prateada',em:'🌙',bg:'#3a3a6a',
+     vasco:{types:['count','which-more'],maxN:10,nQ:5},bernardo:{types:['add'],maxN:12,nQ:5}},
+    {id:2,name:'Asteroide',em:'☄️',bg:'#6a3a0a',
+     vasco:{types:['which-more','sequence'],maxN:10,nQ:6},bernardo:{types:['subtract'],maxN:12,nQ:6}},
+    {id:3,name:'Terra Azul',em:'🌍',bg:'#0a3a6a',
+     vasco:{types:['count','sequence'],maxN:10,nQ:6},bernardo:{types:['add','subtract'],maxN:15,nQ:6}},
+    {id:4,name:'Planeta Roxo',em:'🟣',bg:'#4a1a7a',
+     vasco:{types:['which-more','count'],maxN:10,nQ:7},bernardo:{types:['missing-addend','compare'],maxN:15,nQ:7}},
+    {id:5,name:'Nebulosa',em:'🌌',bg:'#2a0a5a',
+     vasco:{types:['sequence','which-more'],maxN:10,nQ:7},bernardo:{types:['missing-addend','compare','subtract'],maxN:20,nQ:7}},
+    {id:6,name:'Estrela Dourada',em:'⭐',bg:'#5a4a00',
+     vasco:{types:['count','which-more','sequence'],maxN:10,nQ:8},bernardo:{types:['add','subtract','compare','lightning'],maxN:20,nQ:8}},
+  ],
+  letters:[
+    {id:0,name:'Planeta Vocal',em:'🔴',bg:'#6a0a0a',
+     vasco:{types:['letter-tap'],letters:VOWELS,nQ:5},bernardo:{types:['first-letter'],wordSet:'easy',nQ:5}},
+    {id:1,name:'Lua das Letras',em:'🌙',bg:'#3a1a5a',
+     vasco:{types:['letter-tap','vowel-sort'],letters:[...'ABCDEFG'],nQ:5},bernardo:{types:['first-letter','complete-word'],wordSet:'easy',nQ:5}},
+    {id:2,name:'Nuvem Cósmica',em:'🌫️',bg:'#1a3a5a',
+     vasco:{types:['letter-tap','vowel-sort'],letters:[...'HIJLMNO'],nQ:6},bernardo:{types:['complete-word','syllable-count'],wordSet:'medium',nQ:6}},
+    {id:3,name:'Planeta Verde',em:'🟢',bg:'#0a4a1a',
+     vasco:{types:['missing-letter','image-first'],nQ:6},bernardo:{types:['complete-word','syllable-count'],wordSet:'medium',nQ:6}},
+    {id:4,name:'Sol Dourado',em:'☀️',bg:'#5a3a00',
+     vasco:{types:['missing-letter','letter-tap','initial-sound'],letters:[...'PQRSTUVXZ'],nQ:7},bernardo:{types:['syllable-count','complete-word','rhyme'],wordSet:'hard',nQ:7}},
+    {id:5,name:'Galáxia Rosa',em:'🌸',bg:'#5a0a3a',
+     vasco:{types:['image-first','missing-letter','build-syllable'],nQ:7},bernardo:{types:['syllable-count','which-word','initial-sound'],wordSet:'hard',nQ:7}},
+    {id:6,name:'Estrela Sábia',em:'⭐',bg:'#5a4a00',
+     vasco:{types:['letter-tap','vowel-sort','missing-letter','image-first','build-syllable'],nQ:8},bernardo:{types:['complete-word','syllable-count','which-word','first-letter','rhyme','initial-sound'],wordSet:'all',nQ:8}},
+  ],
+  logic:[
+    {id:0,name:'Pista dos Padrões',em:'🟦',bg:'#0f4c81',
+     vasco:{types:['pattern-next'],nQ:5},bernardo:{types:['pattern-next','rule-pick'],nQ:5}},
+    {id:1,name:'Vale do Intruso',em:'🟠',bg:'#7b3f00',
+     vasco:{types:['odd-one-out'],nQ:5},bernardo:{types:['odd-one-out','pattern-next'],nQ:5}},
+    {id:2,name:'Memória Lunar',em:'🌙',bg:'#324376',
+     vasco:{types:['memory-seq'],nQ:5},bernardo:{types:['memory-seq','rule-pick'],nQ:5}},
+    {id:3,name:'Estação das Regras',em:'📡',bg:'#145a32',
+     vasco:{types:['rule-pick'],nQ:6},bernardo:{types:['rule-pick','odd-one-out'],nQ:6}},
+    {id:4,name:'Orbita Curiosa',em:'🌍',bg:'#1565c0',
+     vasco:{types:['curiosity-quiz','pattern-next'],nQ:6},bernardo:{types:['curiosity-quiz','memory-seq'],nQ:6}},
+    {id:5,name:'Nebulosa Sábia',em:'💡',bg:'#6c3483',
+     vasco:{types:['curiosity-quiz','rule-pick'],nQ:7},bernardo:{types:['curiosity-quiz','odd-one-out','memory-seq'],nQ:7}},
+    {id:6,name:'Missão Final',em:'🏆',bg:'#8a6d1d',
+     vasco:{types:['pattern-next','odd-one-out','memory-seq','rule-pick'],nQ:8},bernardo:{types:['pattern-next','odd-one-out','memory-seq','rule-pick','curiosity-quiz'],nQ:8}},
+  ]
+};
+
+const PLANET_POS=[
+  [14,84],[36,72],[64,80],[82,56],[60,34],[32,22],[53,8]
+];
+
+// Learn-first content per game type
+const LEARN={
+  'count':{em:'🔢',title:'Vamos Contar!',text:'Olha para os objetos, conta todos com cuidado e toca no número certo.'},
+  'which-more':{em:'⚖️',title:'Qual tem MAIS?',text:'Vês dois grupos. Conta cada grupo e toca naquele que tem mais.'},
+  'sequence':{em:'🔢',title:'Sequências!',text:'Os números seguem uma ordem. Descobre o número que está em falta.'},
+  'add':{em:'➕',title:'Vamos Somar!',text:'Junta os dois grupos, conta tudo e toca no resultado.'},
+  'subtract':{em:'➖',title:'Vamos Subtrair!',text:'Começas com um grupo, tiras alguns e contas quantos ficam.'},
+  'missing-addend':{em:'🔍',title:'O Número Escondido!',text:'Há um número escondido na conta. Pensa bem e descobre qual é.'},
+  'compare':{em:'⚖️',title:'Maior ou Menor?',text:'Olha para os dois números e escolhe o símbolo certo.'},
+  'lightning':{em:'⚡',title:'Desafio Relâmpago!',text:'Tens pouco tempo. Pensa depressa, mas com cuidado.'},
+  'letter-tap':{em:'🔤',title:'Reconhece a Letra!',text:'Ouve bem a letra e toca na opção certa.'},
+  'vowel-sort':{em:'🔡',title:'Vogal ou Consoante?',text:'As vogais são A, E, I, O e U. As outras letras são consoantes.'},
+  'image-first':{em:'🖼️',title:'Primeira Letra!',text:'Olha para a imagem, diz a palavra e escolhe a letra com que começa.'},
+  'missing-letter':{em:'🔍',title:'A Letra em Falta!',text:'Há uma letra em falta na palavra. Descobre qual é.'},
+  'first-letter':{em:'🔤',title:'Primeira Letra!',text:'Ouve a palavra e escolhe a letra com que começa.'},
+  'complete-word':{em:'✏️',title:'Completa a Palavra!',text:'Há uma letra escondida na palavra. Toca na letra certa.'},
+  'syllable-count':{em:'🎵',title:'Conta as Sílabas!',text:'As sílabas são os bocadinhos da palavra. Conta esses bocadinhos.'},
+  'which-word':{em:'👂',title:'Que Palavra É?',text:'Ouve a palavra e toca na imagem certa.'},
+  'rhyme':{em:'🎶',title:'Palavras que Rimam!',text:'Duas palavras rimam quando acabam com um som parecido. Escolhe a que rima.'},
+  'initial-sound':{em:'👂',title:'Som Inicial!',text:'Escuta o primeiro som e escolhe a palavra que começa da mesma maneira.'},
+  'build-syllable':{em:'🧩',title:'Constrói a Palavra!',text:'As sílabas juntam-se para formar palavras. Escolhe a sílaba que falta.'},
+  'pattern-next':{em:'🧠',title:'Descobre o Padrão!',text:'Olha para a sequência e repara no que se repete. Depois escolhe o que vem a seguir.'},
+  'odd-one-out':{em:'🔎',title:'O Intruso!',text:'Há um que não pertence ao grupo. Descobre qual é o diferente.'},
+  'memory-seq':{em:'🛰️',title:'Memória Espacial!',text:'Olha bem para a sequência, guarda-a na cabeça e escolhe a igual.'},
+  'rule-pick':{em:'📐',title:'Segue a Regra!',text:'Lê a regra com atenção e escolhe a opção certa.'},
+  'curiosity-quiz':{em:'🌍',title:'Missão Curiosa!',text:'Uma pergunta rápida sobre o mundo. Responde e aprende algo novo.'},
+};
+
+// Medals
+const MEDAL_DEF=[
+  {id:'first-ok',em:'🌟',name:'Primeira Estrela',desc:'Acertaste pela primeira vez!'},
+  {id:'streak5',em:'🔥',name:'5 Seguidas!',desc:'5 respostas certas sem errar'},
+  {id:'perfect',em:'💯',name:'Planeta Perfeito',desc:'Completaste um planeta sem erros'},
+  {id:'first-planet',em:'🪐',name:'Primeiro Planeta',desc:'Completaste o teu primeiro planeta'},
+  {id:'world-num',em:'🔢',name:'Mestre dos Números',desc:'Completaste o mundo dos números'},
+  {id:'world-let',em:'🔤',name:'Mestre das Letras',desc:'Completaste o mundo das letras'},
+  {id:'world-logic',em:'🧠',name:'Mestre da Lógica',desc:'Completaste o mundo da lógica'},
+  {id:'lightning',em:'⚡',name:'Relâmpago!',desc:'Completaste o Desafio Relâmpago'},
+  {id:'comeback',em:'💪',name:'Nunca Desisto',desc:'Erraste, aprendeste e acertaste a seguir'},
+  {id:'curious',em:'🎁',name:'Explorador Curioso',desc:'Concluíste uma missão curiosa'},
+];
+
+// ═══════════════════════════════════════════════
+// PORTUGUESE GRAMMAR
+// ═══════════════════════════════════════════════
+function nw(n,gen='m'){
+  if(n===1) return gen==='f'?'uma':'um';
+  if(n===2) return gen==='f'?'duas':'dois';
+  return NUMS[n]||String(n);
+}
+function objStr(n,obj){return nw(n,obj.gen)+' '+(n===1?obj.name:obj.names);}
+function verbFicar(n,obj){
+  // "fica um foguetão" vs "ficam duas estrelas"
+  return n===1?`fica ${objStr(n,obj)}`:`ficam ${objStr(n,obj)}`;
+}
+function quantosAs(obj){return obj&&obj.gen==='f'?'Quantas':'Quantos';}
+function letterName(l){return LETTER_NAMES[(l||'').toUpperCase()]||String(l||'');}
+function _lform(){return(CUR.qIdx||0)%3;}
+function letterFormsHTML(l){
+  const f=_lform(),up=String(l||'').toUpperCase(),low=String(l||'').toLowerCase();
+  const labels=['Maiúscula','Minúscula','Manuscrita'];
+  const glyph=f===0?up:low;
+  const fam=f===2?"'Patrick Hand',cursive":"'Fredoka One',cursive";
+  return `<div style="text-align:center;margin:8px 0 4px"><span style="font-family:${fam};font-size:clamp(5rem,14vw,9rem);color:#fff;text-shadow:0 0 40px rgba(155,89,182,.7)">${glyph}</span><div style="font-size:.85rem;color:rgba(255,255,255,.5);font-weight:700;margin-top:-4px">${labels[f]}</div></div>`;
+}
+function letterOptionHTML(l){
+  const f=_lform(),up=String(l||'').toUpperCase(),low=String(l||'').toLowerCase();
+  const glyph=f===0?up:low;
+  const fam=f===2?"'Patrick Hand',cursive":"'Fredoka One',cursive";
+  return `<span style="font-family:${fam};font-size:clamp(2rem,5vw,3rem)">${glyph}</span>`;
+}
+
+// ═══════════════════════════════════════════════
+// STORAGE
+// ═══════════════════════════════════════════════
+const LS={
+  key:'aventura_v6',
+  get(){try{return JSON.parse(localStorage.getItem(this.key))||this.def();}catch{return this.def();}},
+  set(d){try{localStorage.setItem(this.key,JSON.stringify(d));}catch{}},
+  def(){return{profiles:[],settings:{}}},
+};
+function getProfiles(){return LS.get().profiles;}
+function saveProfiles(ps){const d=LS.get();d.profiles=ps;LS.set(d);}
+function getSettings(){const s=LS.get().settings||{};return{audio:s.audio!==false,mode:s.mode||'learn',difficulty:s.difficulty||'auto',apiKey:s.apiKey||'',voiceId:s.voiceId||''};}
+function saveSettings(settings){const d=LS.get();d.settings={...getSettings(),...settings};LS.set(d);}
+function isLearnMode(){return getSettings().mode!=='test';}
+function questionKey(q){if(q&&q.reviewKey)return q.reviewKey;const clone=JSON.parse(JSON.stringify(q||{}));delete clone.isReview;delete clone.reviewKey;delete clone.say;return JSON.stringify(clone);}
+function addWrongQuestion(q){if(!q||q.isReview)return;const wrongQ=Array.isArray(CUR.profile.wrongQ)?CUR.profile.wrongQ:[];const key=questionKey(q);if(wrongQ.some(w=>questionKey(w)===key))return;wrongQ.unshift({...JSON.parse(JSON.stringify(q)),reviewKey:key});CUR.profile.wrongQ=wrongQ.slice(0,15);}
+function removeWrongQuestion(q){const key=questionKey(q);CUR.profile.wrongQ=(CUR.profile.wrongQ||[]).filter(w=>questionKey(w)!==key);}
+function sanitizeProfile(p){if(!p)return p;p.progress=p.progress||{numbers:{},letters:{},logic:{}};if(!p.progress.logic)p.progress.logic={};p.medals=Array.isArray(p.medals)?p.medals:[];p.seenTypes=Array.isArray(p.seenTypes)?p.seenTypes:[];p.wrongQ=Array.isArray(p.wrongQ)?p.wrongQ:[];p.streak=p.streak||0;p.totalCorrect=p.totalCorrect||0;return p;}
+function getProfile(id){const p=getProfiles().find(p=>p.id===id);return p?sanitizeProfile(p):p;}
+function updateProfile(prof){
+  const ps=getProfiles();
+  const i=ps.findIndex(p=>p.id===prof.id);
+  prof=sanitizeProfile(prof);
+  if(i>=0)ps[i]=prof; else ps.push(prof);
+  saveProfiles(ps);
+}
+function newProfile(name,suit,helmet,visor){
+  return{
+    id:'p_'+Date.now(),name,suit,helmet:helmet||0,visor:visor||0,
+    stars:0,
+    progress:{numbers:{},letters:{},logic:{}},
+    medals:[],
+    seenTypes:[],
+    wrongQ:[],
+    streak:0,
+    totalCorrect:0,
+    level:'auto',
+    challengeUnlocked:{},
+    planetFailStreak:{},
+  };
+}
+
+// ═══════════════════════════════════════════════
+// VOICE (ElevenLabs + Web Speech fallback)
+// ═══════════════════════════════════════════════
+const SS=(typeof speechSynthesis!=='undefined')?speechSynthesis:null;
+
+const V={
+  cache:new Map(),
+  current:null,
+  _seqAbort:false,
+
+  stop(){
+    this._seqAbort=true;
+    SS?.cancel();
+    if(this.current){this.current.pause();try{this.current.src='';}catch(e){}this.current=null;}
+  },
+
+  async say(text,onDone=null){
+    // Stop everything — ElevenLabs AND Web Speech — before starting
+    this.stop();
+    this._seqAbort=false;
+    await this._sayNoStop(text,onDone);
+  },
+
+  async _sayNoStop(text,onDone=null){
+    if(this._seqAbort)return;
+    const s=getSettings();
+    if(!s.audio){if(onDone)setTimeout(onDone,20);return;}
+    if(!s.apiKey||!s.voiceId){this._fb(text,onDone);return;}
+    if(this.cache.has(text)){this._play(this.cache.get(text),onDone);return;}
+    try{
+      const r=await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${s.voiceId}`,{
+        method:'POST',
+        headers:{'Content-Type':'application/json','xi-api-key':s.apiKey},
+        body:JSON.stringify({
+          text,
+          model_id:'eleven_multilingual_v2',
+          voice_settings:{stability:.72,similarity_boost:.85,style:.15,use_speaker_boost:true}
+        })
+      });
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const blob=await r.blob();
+      const url=URL.createObjectURL(blob);
+      this.cache.set(text,url);
+      if(this._seqAbort)return;
+      this._play(url,onDone);
+    }catch(e){
+      console.warn('ElevenLabs:',e.message);
+      if(!this._seqAbort)this._fb(text,onDone);
+    }
+  },
+
+  _play(url,onDone){
+    SS?.cancel();
+    if(this.current){this.current.pause();try{this.current.src='';}catch(e){}this.current=null;}
+    const a=new Audio(url);
+    this.current=a;
+    a.onended=()=>{this.current=null;if(onDone&&!this._seqAbort)onDone();};
+    a.onerror=()=>{this.current=null;if(onDone&&!this._seqAbort)onDone();};
+    a.play().catch(()=>{this.current=null;if(onDone&&!this._seqAbort)onDone();});
+  },
+
+  _fb(text,onDone){
+    if(!getSettings().audio){if(onDone)setTimeout(onDone,20);return;}
+    if(!SS){if(onDone)setTimeout(onDone,50);return;}
+    SS.cancel();
+    const vs=SS.getVoices()||[];
+    const ptv=vs.find(v=>v.lang==='pt-PT')||vs.find(v=>v.lang==='pt-BR')||vs.find(v=>v.lang.startsWith('pt'))||vs[0]||null;
+    const u=new SpeechSynthesisUtterance(text);
+    if(ptv)u.voice=ptv;
+    u.lang='pt-PT';u.rate=.72;u.pitch=1.12;u.volume=1;
+    if(onDone)u.onend=()=>{if(!this._seqAbort)onDone();};
+    SS.speak(u);
+  },
+
+  // Sequence: speaks parts one by one with pauses — never overlaps
+  seq(parts,onDone){
+    this.stop();
+    this._seqAbort=false;
+    let i=0;
+    const next=()=>{
+      if(this._seqAbort)return;
+      if(i>=parts.length){if(onDone)onDone();return;}
+      const p=parts[i++];
+      const txt=typeof p==='string'?p:p.text;
+      const pause=typeof p==='string'?600:(p.pause||600);
+      this._sayNoStop(txt,()=>setTimeout(next,pause));
+    };
+    next();
+  },
+
+  countSeq(n,obj,onDone){
+    const parts=[{text:'Vamos contar juntos!',pause:700}];
+    for(let i=1;i<=n;i++) parts.push({text:NUMS[i]+'..',pause:380});
+    parts.push({text:`São ${objStr(n,obj)}!`,pause:200});
+    this.seq(parts,onDone);
+  },
+};
+if(SS)SS.onvoiceschanged=()=>{};
+addEventListener('resize',()=>{if(document.getElementById('s-galaxy').classList.contains('on'))renderGalaxy();});
+addEventListener('orientationchange',()=>{setTimeout(()=>{if(document.getElementById('s-galaxy').classList.contains('on'))renderGalaxy();},120);});
+(()=>{const ps=getProfiles().map(sanitizeProfile);saveProfiles(ps);})();
+
+// ═══════════════════════════════════════════════
+// CANVAS ANIMATIONS
+// ═══════════════════════════════════════════════
+const BG=(()=>{
+  const c=document.getElementById('bg'),ctx=c.getContext('2d');
+  let W,H,stars=[],meteors=[],planets=[];
+  function resize(){W=c.width=innerWidth;H=c.height=innerHeight;initStars();}
+  function initStars(){
+    stars=[];
+    for(let i=0;i<180;i++) stars.push({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.8+.3,a:Math.random(),da:(Math.random()*.012+.004)*(Math.random()<.5?1:-1)});
+  }
+  function spawnMeteor(){
+    meteors.push({x:-60,y:Math.random()*H*.4,vx:W/200+2,vy:H/400+1,life:1});
+  }
+  // Floating space blobs
+  const blobs=[
+    {x:.15,y:.3,r:.18,c:'rgba(100,20,180,.06)'},
+    {x:.8,y:.6,r:.22,c:'rgba(20,100,180,.07)'},
+    {x:.5,y:.8,r:.16,c:'rgba(180,40,100,.05)'},
+  ];
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // nebula blobs
+    blobs.forEach(b=>{
+      const g=ctx.createRadialGradient(b.x*W,b.y*H,0,b.x*W,b.y*H,b.r*W);
+      g.addColorStop(0,b.c);g.addColorStop(1,'transparent');
+      ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+    });
+    // stars
+    stars.forEach(s=>{
+      s.a+=s.da;
+      if(s.a>1||s.a<0)s.da*=-1;
+      ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${Math.max(0,Math.min(1,s.a))})`;ctx.fill();
+    });
+    // meteors
+    meteors=meteors.filter(m=>{
+      m.x+=m.vx;m.y+=m.vy;m.life-=.008;
+      if(m.life<0||m.x>W+80)return false;
+      ctx.save();ctx.globalAlpha=m.life*.8;
+      ctx.strokeStyle='rgba(255,255,200,.9)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(m.x,m.y);ctx.lineTo(m.x-m.vx*18,m.y-m.vy*18);ctx.stroke();
+      ctx.restore();return true;
+    });
+    frame++;
+    if(frame%360===0) spawnMeteor();
+    requestAnimationFrame(draw);
+  }
+  addEventListener('resize',resize);resize();draw();
+  return{spawnMeteor};
+})();
+
+// Confetti
+const CNF=(()=>{
+  const c=document.getElementById('cnf'),ctx=c.getContext('2d');
+  let pieces=[];
+  function resize(){c.width=innerWidth;c.height=innerHeight;}
+  resize();addEventListener('resize',resize);
+  function boom(){
+    const cols=['#FFD700','#FF6B35','#9B59B6','#1ABC9C','#3498DB','#FF69B4','#E74C3C','#2ECC71'];
+    for(let i=0;i<160;i++) pieces.push({x:Math.random()*c.width,y:-12,w:Math.random()*13+5,h:Math.random()*7+3,c:cols[Math.random()*cols.length|0],vx:(Math.random()-.5)*4.5,vy:Math.random()*5+2.5,r:Math.random()*360,rs:(Math.random()-.5)*9});
+    animate();
+  }
+  function animate(){
+    ctx.clearRect(0,0,c.width,c.height);
+    pieces.forEach(p=>{p.y+=p.vy;p.x+=p.vx;p.r+=p.rs;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.r*Math.PI/180);ctx.fillStyle=p.c;ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);ctx.restore();});
+    pieces=pieces.filter(p=>p.y<c.height+40);
+    if(pieces.length)requestAnimationFrame(animate);else ctx.clearRect(0,0,c.width,c.height);
+  }
+  return{boom};
+})();
+
+// ═══════════════════════════════════════════════
+// SCREEN NAVIGATION
+// ═══════════════════════════════════════════════
+function show(id){
+  document.querySelectorAll('.sc').forEach(s=>s.classList.remove('on'));
+  const el=document.getElementById(id);
+  if(el)el.classList.add('on');
+}
+
+// ═══════════════════════════════════════════════
+// APP STATE
+// ═══════════════════════════════════════════════
+let CUR={profile:null,world:'numbers',planet:null,qs:[],qIdx:0,score:0,busy:false,explaining:false,streak:0,timerInterval:null,_opts:[]};
+
+// ═══════════════════════════════════════════════
+// PROFILE MANAGEMENT
+// ═══════════════════════════════════════════════
+let selectedSuit=0, selectedHelmet=0, selectedVisor=0;
+
+function goProfiles(){
+  const ps=getProfiles();
+  const list=document.getElementById('profile-list');
+  list.innerHTML='';
+  if(ps.length===0){goCreate();return;}
+  ps.forEach(p=>{
+    const _ac=getAC(p);
+    const div=document.createElement('div');
+    div.className='prcard';
+    const planetsDone=Object.values(p.progress.numbers||{}).filter(v=>v>=3).length + Object.values(p.progress.letters||{}).filter(v=>v>=3).length + Object.values((p.progress.logic)||{}).filter(v=>v>=3).length;
+    div.innerHTML=`<div class="avtr">${avatarSVG(_ac.h,_ac.s,_ac.v,72)}</div><div class="t-md">${p.name}</div><div class="t-sm">⭐ ${p.stars} &nbsp;|&nbsp; 🪐 ${planetsDone} planetas</div>`;
+    div.onclick=()=>pickProfile(p.id);
+    list.appendChild(div);
+  });
+  show('s-profiles');
+  if(ps.length>0) V.say('Olá! Quem está a jogar hoje? Toca no teu nome!');
+  else V.say('Bem-vindo à Aventura Espacial! Vamos criar o teu astronauta!');
+}
+
+function _buildColorRow(containerId,arr,selectedIdx,onPick){
+  const row=document.getElementById(containerId);
+  if(!row)return;
+  row.innerHTML='';
+  arr.forEach((item,i)=>{
+    const b=document.createElement('button');
+    b.className='suitbtn'+(i===selectedIdx?' sel':'');
+    b.style.background=item.col;
+    b.title=item.label;
+    b.innerHTML=`<span style="font-size:clamp(1.3rem,3vw,1.9rem);pointer-events:none">${item.em}</span>`;
+    b.onclick=()=>{
+      onPick(i);
+      row.querySelectorAll('.suitbtn').forEach((x,j)=>x.classList.toggle('sel',j===i));
+      _refreshPreview();
+    };
+    row.appendChild(b);
+  });
+}
+
+function _refreshPreview(){
+  const el=document.getElementById('avatar-preview');
+  if(!el)return;
+  el.innerHTML=avatarSVG(
+    HELMETS[selectedHelmet].col,
+    SUITS[selectedSuit].col,
+    VISORS[selectedVisor].col,
+    96
+  );
+}
+
+function goCreate(){
+  selectedSuit=0; selectedHelmet=0; selectedVisor=0;
+  document.getElementById('name-inp').value='';
+  _buildColorRow('suit-row',   SUITS,   0, i=>selectedSuit=i);
+  _buildColorRow('helmet-row', HELMETS, 0, i=>selectedHelmet=i);
+  _buildColorRow('visor-row',  VISORS,  0, i=>selectedVisor=i);
+  _refreshPreview();
+  show('s-create');
+  V.say('Como te chamas? Escreve o teu nome e escolhe o teu astronauta!');
+}
+
+function saveProfile(){
+  const name=document.getElementById('name-inp').value.trim();
+  if(!name){toast('Escreve o teu nome! 😊');V.say('Escreve o teu nome!');return;}
+  const prof=newProfile(name,selectedSuit,selectedHelmet,selectedVisor);
+  const ps=getProfiles();
+  if(ps.length>=4){toast('Máximo 4 astronautas!');return;}
+  ps.push(prof);saveProfiles(ps);
+  V.say(`Olá, ${prof.name}! O teu astronauta está pronto! Vamos começar a aventura!`);
+  pickProfile(prof.id);
+}
+
+function pickProfile(id){
+  CUR.profile=getProfile(id);
+  if(!CUR.profile)return;
+  // Actualiza avatar mini no HUD
+  const _hav=document.getElementById('hud-avatar');
+  if(_hav){const _ac2=getAC(CUR.profile);_hav.innerHTML=avatarSVGMini(_ac2.h,_ac2.s,_ac2.v,32);}
+  show('s-galaxy');
+  renderGalaxy();
+  const _p=CUR.profile;
+  const _planetsDone=Object.values(_p.progress.numbers||{}).filter(v=>v>0).length+Object.values(_p.progress.letters||{}).filter(v=>v>0).length+Object.values(_p.progress.logic||{}).filter(v=>v>0).length;
+  let _greet;
+  if(_p.stars===0) _greet=`Olá, ${_p.name}! Eu sou o teu guia espacial! Pronto para a primeira aventura? Escolhe um mundo!`;
+  else if(_planetsDone>=10) _greet=`Uáu, ${_p.name}! Já exploraste ${_planetsDone} planetas! És um verdadeiro astronauta! Para onde vamos hoje?`;
+  else _greet=`Olá, ${_p.name}! Que bom ver-te de volta! Tens ${_p.stars} estrelas! Para onde queres voar hoje?`;
+  V.say(_greet);
+}
+
+// ═══════════════════════════════════════════════
+// GALAXY MAP
+// ═══════════════════════════════════════════════
+let galWorld='numbers';
+
+function switchWorld(w){
+  galWorld=w;
+  document.getElementById('tab-num').classList.toggle('on',w==='numbers');
+  document.getElementById('tab-let').classList.toggle('on',w==='letters');
+  const tlog=document.getElementById('tab-log');if(tlog)tlog.classList.toggle('on',w==='logic');
+  renderGalaxy();
+  const nm=CUR.profile?CUR.profile.name:'';
+  if(w==='numbers') V.say(`Mundo dos Números, ${nm}! Aqui vais contar, somar e resolver desafios.`);
+  else if(w==='letters') V.say(`Mundo das Letras, ${nm}! Aqui vais brincar com letras, sons e sílabas.`);
+  else V.say(`Mundo da Lógica, ${nm}! Aqui vais treinar memória, padrões e curiosidades.`);
+}
+
+
+function renderGalaxy(){
+  const p=CUR.profile;
+  if(!p)return;
+  document.getElementById('gal-hello').textContent=`Olá, ${p.name}! 👋`;
+  document.getElementById('gal-stars').textContent=p.stars;
+  // Mostrar dica de buraco negro se ainda há planetas bloqueados
+  const _anyLocked=PLANETS[galWorld].some((_,i)=>!isPlanetUnlocked(galWorld,i));
+  const _hintEl=document.getElementById('gal-hint');
+  if(_hintEl)_hintEl.style.display=_anyLocked?'block':'none';
+
+  const planets=PLANETS[galWorld];
+  const progress=p.progress[galWorld]||{};
+  const container=document.getElementById('planet-nodes');
+  const svg=document.getElementById('gal-svg');
+  container.innerHTML='';
+
+  // Draw SVG path connecting planets
+  const W=document.getElementById('galaxy-wrap').clientWidth||680;
+  const H=document.getElementById('galaxy-wrap').clientHeight||540;
+  let pathD='';
+  PLANET_POS.forEach((pos,i)=>{
+    const x=pos[0]/100*W,y=pos[1]/100*H;
+    if(i===0)pathD+=`M${x},${y}`;
+    else{
+      const prev=PLANET_POS[i-1];
+      const px=prev[0]/100*W,py=prev[1]/100*H;
+      const cx=(px+x)/2,cy=(py+y)/2-30;
+      pathD+=` Q${cx},${cy} ${x},${y}`;
+    }
+  });
+  svg.innerHTML=`<path d="${pathD}" fill="none" stroke="rgba(255,255,255,.14)" stroke-width="3" stroke-dasharray="8,6"/>`;
+
+  planets.forEach((planet,i)=>{
+    const stars=progress[i]||0;
+    const done=stars>0;
+    const unlocked=isPlanetUnlocked(galWorld,i);
+    const isCur=!done&&unlocked;
+    const isFirst=i===0&&galWorld==='numbers'&&!done;
+
+    const div=document.createElement('div');
+    div.className='pnode'+(done?' done':isCur?' cur':' lck')+(isFirst?' pulse-hint':'');
+    div.style.left=(PLANET_POS[i][0])+'%';
+    div.style.top=(PLANET_POS[i][1])+'%';
+    div.innerHTML=`<div class="pcirc" style="background:${planet.bg}">${planet.em}</div>
+      <div class="pname">${planet.name}</div>
+      <div class="pstars">${stars>0?'⭐'.repeat(Math.min(stars,3)):''}</div>`;
+
+    if(!unlocked){
+      div.querySelector('.pcirc').textContent='🔒';
+      // Buraco negro
+      const bhWrap=document.createElement('div');
+      bhWrap.className='bh-wrap';
+      const bhBtn=document.createElement('button');
+      bhBtn.className='bh-btn';
+      bhBtn.title=`Usar buraco negro para desbloquear ${planet.name}`;
+      bhBtn.innerHTML=_bhSVG(34);
+      bhBtn.onclick=(e)=>{
+        e.stopPropagation();
+        openBlackHole(galWorld,i,false);
+      };
+      bhWrap.appendChild(bhBtn);
+      div.appendChild(bhWrap);
+    } else {
+      div.onclick=()=>selectPlanet(i);
+    }
+    container.appendChild(div);
+  });
+}
+
+// ── DESBLOQUEIO ───────────────────────────────────────────────
+function hasAnyProgress(p){
+  p=p||CUR.profile;
+  return Object.values(p.progress||{}).some(w=>Object.values(w).some(v=>v>0));
+}
+function isWorldUnlocked(world,p){
+  p=p||CUR.profile;
+  if(world==='numbers')return true;
+  const cu=p.challengeUnlocked||{};
+  if(world==='letters')return Object.values(p.progress.numbers||{}).some(v=>v>0)||!!cu['world_letters'];
+  if(world==='logic')return Object.values(p.progress.letters||{}).some(v=>v>0)||!!cu['world_logic'];
+  return true;
+}
+function isPlanetUnlocked(world,idx,p){
+  p=p||CUR.profile;
+  if(idx===0&&world==='numbers')return true;
+  // challenge unlock
+  if((p.challengeUnlocked||{})[world+'_'+idx])return true;
+  // world first planet: always unlocked
+  if(idx===0)return true;
+  // sequential
+  return (p.progress[world]||{})[idx-1]>0;
+}
+
+function selectPlanet(idx){
+  CUR.planet=idx;CUR.world=galWorld;
+  const planet=PLANETS[galWorld][idx];
+  const _prog2=(CUR.profile.progress[galWorld]||{})[idx]||0;
+  let _pSay;
+  if(_prog2===3) _pSay=`${planet.name}! Já tens três estrelas aqui! Queres melhorar ainda mais?`;
+  else if(_prog2>0) _pSay=`${planet.name}! Da última vez ficaste com ${_prog2} estrela${_prog2>1?'s':''}. Desta vez vais a tudo!`;
+  else _pSay=`${planet.name}! Nunca exploraste este planeta! Vamos lá, ${CUR.profile.name}!`;
+  V.say(_pSay); // fire-and-forget — navigation happens below regardless
+
+  // Escolha de dificuldade
+  const diff=getSettings().difficulty;
+  const useBern=diff==='advanced'?true:diff==='easy'?false:(CUR.profile.stars>=10||(CUR.profile.totalCorrect||0)>=20);
+  CUR.config=useBern?planet.bernardo:planet.vasco;
+  CUR.planetDef=planet;
+  CUR.isAdvanced=useBern;
+
+  // Check if any type is new
+  const newTypes=CUR.config.types.filter(t=>!CUR.profile.seenTypes.includes(t));
+  if(newTypes.length>0){
+    const lt=LEARN[newTypes[0]];
+    if(lt){
+      document.getElementById('lf-em').textContent=lt.em;
+      document.getElementById('lf-title').textContent=lt.title;
+      document.getElementById('lf-text').textContent=lt.text;
+      show('s-learn');
+      V.say(lt.text);
+      // Mark as seen
+      newTypes.forEach(t=>{if(!CUR.profile.seenTypes.includes(t))CUR.profile.seenTypes.push(t);});
+      updateProfile(CUR.profile);
+      return;
+    }
+  }
+  startGame();
+}
+
+function startGame(){
+  buildQuestions();
+  CUR.qIdx=0;CUR.score=0;CUR.busy=false;CUR.explaining=false;CUR.streak=0;
+  show('s-game');
+  const nm=CUR.profile.name;
+  const starts=[
+    `Pronto, ${nm}? Vamos começar! Olha bem para cada pergunta!`,
+    `Atenção, ${nm}! A missão vai começar agora! Concentra-te!`,
+    `${nm}, prepara-te! Temos ${CUR.qs.length} perguntas à tua espera! Vai ser incrível!`,
+  ];
+  V.say(starts[Math.floor(Math.random()*starts.length)]);
+  setTimeout(renderQ,400);
+}
+
+// ═══════════════════════════════════════════════
+// BURACO NEGRO — SISTEMA DE DESBLOQUEIO
+// ═══════════════════════════════════════════════
+function _bhSVG(sz){
+  sz=sz||34;
+  return `<svg width="${sz}" height="${sz}" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="18" cy="18" r="14" fill="none" stroke="rgba(140,60,255,.55)" stroke-width="2.5" stroke-dasharray="11,5" style="animation:bhSpin 3.5s linear infinite;transform-origin:18px 18px"/>
+    <circle cx="18" cy="18" r="10" fill="none" stroke="rgba(80,140,255,.4)" stroke-width="1.5" stroke-dasharray="7,4" style="animation:bhSpin 2.2s linear infinite reverse;transform-origin:18px 18px"/>
+    <radialGradient id="bhg${sz}" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#3010a0" stop-opacity=".9"/>
+      <stop offset="100%" stop-color="#050510" stop-opacity="1"/>
+    </radialGradient>
+    <circle cx="18" cy="18" r="8" fill="url(#bhg${sz})"/>
+    <circle cx="18" cy="18" r="3.5" fill="rgba(160,80,255,.5)"/>
+    <circle cx="15" cy="15" r="1.2" fill="rgba(255,255,255,.3)"/>
+  </svg>`;
+}
+
+// Estado da challenge activa
+let BH={world:null,pIdx:null,isWorldChallenge:false,qs:[],qIdx:0,score:0,busy:false,explaining:false,_opts:[]};
+
+function openBlackHole(world,pIdx,isWorldChallenge){
+  const planet=PLANETS[world][pIdx];
+  BH.world=world; BH.pIdx=pIdx; BH.isWorldChallenge=!!isWorldChallenge;
+  BH.qs=[]; BH.qIdx=0; BH.score=0; BH.busy=false; BH.explaining=false; BH._opts=[];
+
+  // Gerar 3 perguntas do planeta
+  const cfg=PLANETS[world][pIdx].vasco||PLANETS[world][pIdx].bernardo;
+  const safeCfg={...cfg,nQ:3};
+  for(let i=0;i<3;i++){
+    const t=cfg.types[i%cfg.types.length];
+    const q=genQuestion(t,safeCfg);
+    if(q)BH.qs.push(q);
+  }
+
+  // UI
+  const ov=document.getElementById('bh-overlay');
+  document.getElementById('bh-planet-em').textContent=planet.em;
+  document.getElementById('bh-title').textContent=
+    isWorldChallenge?`Desbloquear mundo ${world==='letters'?'das Letras':'da Lógica'}!`:`Buraco Negro — ${planet.name}`;
+  document.getElementById('bh-sub').textContent='Responde a 2 em 3 perguntas para desbloquear!';
+  document.getElementById('bh-result').style.display='none';
+  document.getElementById('bh-qcard').style.display='';
+  ['bh-d0','bh-d1','bh-d2'].forEach(id=>{const d=document.getElementById(id);d.className='bh-dot';});
+  ov.classList.add('on');
+  _bhRenderQ();
+  const planetName=isWorldChallenge?`o mundo ${world==='letters'?'das Letras':'da Lógica'}`:`${planet.name}`;
+  V.say(`Buraco negro! Responde a 2 em 3 perguntas para desbloquear ${planetName}!`);
+}
+
+function _bhRenderQ(){
+  BH.busy=false; BH.explaining=false; BH._opts=[];
+  const q=BH.qs[BH.qIdx];
+  if(!q)return;
+  let h=`<div style="font-size:.95rem;color:rgba(255,255,255,.7);margin-bottom:10px;text-align:center">${q.say}</div>`;
+
+  if(q.type==='which-more'){
+    const _mg2=(n)=>Array(Math.min(n,8)).fill(0).map(()=>q.obj.em).join('')+(n>8?`+${n-8}`:'');
+    h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0">
+      <button class="obtn" onclick="bhPick(this,0)" style="flex-direction:column;gap:4px;min-height:64px;font-size:1.4rem">${_mg2(q.a)}<span style="font-size:.8rem;opacity:.6">${q.a}</span></button>
+      <button class="obtn" onclick="bhPick(this,1)" style="flex-direction:column;gap:4px;min-height:64px;font-size:1.4rem">${_mg2(q.b)}<span style="font-size:.8rem;opacity:.6">${q.b}</span></button>
+    </div>`;
+    BH._opts=[{val:0,correct:q.correct},{val:1,correct:q.correct}];
+  } else {
+    let btnHTML='',nCols='c3';
+    switch(q.type){
+      // ── Numéricos: opts = números primitivos ─────────────────────
+      case 'count':{
+        BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.n)}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      case 'sequence':{
+        BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct)}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      case 'add': case 'subtract': case 'lightning':{
+        BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.ans)}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      case 'missing-addend':{
+        BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.missing)}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      case 'syllable-count':{
+        BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct)}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      case 'compare':{
+        BH._opts=q.opts.map(o=>({val:o,correct:q.correct}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      // ── Letras: opts = char primitivos ───────────────────────────
+      case 'letter-tap':{
+        BH._opts=q.opts.map(o=>({val:o,correct:q.lt}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}"><span style="font-family:'Fredoka One',cursive;font-size:1.6rem">${o}</span></button>`).join('');break;}
+      case 'missing-letter': case 'complete-word': case 'first-letter':{
+        BH._opts=q.opts.map(o=>({val:o,correct:q.correct}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}"><span style="font-family:'Fredoka One',cursive;font-size:1.6rem">${o}</span></button>`).join('');break;}
+      case 'vowel-sort':{
+        nCols='c2';
+        BH._opts=q.opts.map(o=>({val:o,correct:q.correctOpt}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      case 'build-syllable':{
+        BH._opts=q.opts.map(o=>({val:o,correct:q.correct}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
+      // ── Opções com objecto {w,em,...} ─────────────────────────────
+      case 'image-first': case 'which-word': case 'initial-sound':{
+        BH._opts=q.opts.map(o=>({val:o.w,correct:q.correct}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o.w}" style="flex-direction:column;gap:4px;min-height:60px;font-size:1.9rem">${o.em}<span style="font-size:.8rem;opacity:.75">${o.w}</span></button>`).join('');break;}
+      case 'rhyme':{
+        const correctW=q.correct&&typeof q.correct==='object'?q.correct.w:q.correct;
+        BH._opts=q.opts.map(o=>({val:o.w,correct:correctW}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o.w}" style="flex-direction:column;gap:4px;min-height:60px;font-size:1.9rem">${o.em}<span style="font-size:.8rem;opacity:.75">${o.w}</span></button>`).join('');break;}
+      // ── Lógica: opts = primitivos ─────────────────────────────────
+      case 'pattern-next': case 'odd-one-out':{
+        BH._opts=q.opts.map(o=>({val:o,correct:q.correct}));
+        btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}" style="font-size:1.6rem">${o}</button>`).join('');break;}
+      case 'memory-seq':{
+        BH._opts=q.opts.map(o=>({val:Array.isArray(o)?o.join(''):String(o),correct:q.correct}));
+        btnHTML=q.opts.map((o,i)=>{const v=Array.isArray(o)?o.join(''):String(o);return`<button class="obtn" onclick="bhPick(this,${i})" data-value="${v}" style="gap:2px">${(Array.isArray(o)?o:[v]).map(x=>`<span style="font-size:1.3rem">${x}</span>`).join('')}</button>`;}).join('');
+        nCols='c1';break;}
+      case 'rule-pick':{
+        const ropts=q.options||[];
+        BH._opts=ropts.map(o=>({val:o.label,correct:q.correct}));
+        btnHTML=ropts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o.label}" style="flex-direction:column;gap:4px;min-height:60px;font-size:1.6rem">${o.visual}<span style="font-size:.78rem;opacity:.85">${o.label}</span></button>`).join('');break;}
+      case 'curiosity-quiz':{
+        const copts=q.opts||[];
+        BH._opts=copts.map(o=>({val:o.label,correct:q.correct}));
+        btnHTML=copts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o.label}" style="flex-direction:column;gap:4px;min-height:60px;font-size:1.6rem">${o.visual}<span style="font-size:.78rem;opacity:.85">${o.label}</span></button>`).join('');break;}
+      default:{
+        const fopts=q.opts||q.options||[];
+        BH._opts=fopts.map(o=>({val:typeof o==='object'?(o.label||o.w||'?'):String(o),correct:String(q.correct||'')}));
+        btnHTML=fopts.map((o,i)=>{const lbl=typeof o==='object'?(o.label||o.w||'?'):String(o);return`<button class="obtn" onclick="bhPick(this,${i})" data-value="${lbl}">${lbl}</button>`;}).join('');break;}
+    }
+    h+=`<div class="opts ${nCols}" style="margin-top:4px">${btnHTML}</div>`;
+  }
+  h+=`<div class="fb" id="bh-fb" style="margin-top:8px;min-height:28px;text-align:center;font-size:.9rem;"></div>`;
+  document.getElementById('bh-qcard').innerHTML=h;
+  setTimeout(()=>V.say(q.say),300);
+}
+
+function bhPick(btn,idx){
+  if(BH.busy||BH.explaining)return;
+  const o=BH._opts[idx]; if(!o)return;
+  BH.busy=true;
+  const correct=String(o.correct);
+  const chosen=String(o.val);
+  const isOk=chosen===correct;
+
+  // Update progress dot
+  const dot=document.getElementById('bh-d'+BH.qIdx);
+  if(dot){dot.className='bh-dot '+(isOk?'ok':'err');}
+  btn.classList.add(isOk?'ok':'err');
+
+  // Disable other buttons
+  document.querySelectorAll('#bh-qcard .obtn').forEach(b=>b.classList.add('dis'));
+  if(!isOk){
+    const btns=[...document.querySelectorAll('#bh-qcard .obtn')];
+    const rev=btns.find(b=>String(b.getAttribute('data-value'))===correct||
+      (BH.qs[BH.qIdx].type==='which-more'&&b===document.querySelectorAll('#bh-qcard .obtn')[BH.qs[BH.qIdx].correct]));
+    if(rev)rev.classList.add('rev');
+  }
+
+  if(isOk)BH.score++;
+  try{if(navigator.vibrate)navigator.vibrate(isOk?40:[60,40,60]);}catch(e){}
+  V.say(isOk?'Certo!':'Não foi dessa!');
+
+  BH.qIdx++;
+  if(BH.qIdx>=BH.qs.length){
+    setTimeout(()=>_bhFinish(),1100);
+  } else {
+    setTimeout(()=>_bhRenderQ(),1100);
+  }
+}
+
+function _bhFinish(){
+  const passed=BH.score>=2;
+  const p=CUR.profile;
+  const key=BH.isWorldChallenge?('world_'+BH.world):(BH.world+'_'+BH.pIdx);
+
+  if(passed){
+    p.challengeUnlocked=p.challengeUnlocked||{};
+    p.challengeUnlocked[key]=true;
+    p.planetFailStreak=p.planetFailStreak||{};
+    p.planetFailStreak[BH.world+'_'+BH.pIdx]=0;
+    updateProfile(p);
+  }
+
+  document.getElementById('bh-qcard').style.display='none';
+  const res=document.getElementById('bh-result');
+  res.style.display='';
+  const planet=PLANETS[BH.world][BH.pIdx];
+
+  if(passed){
+    document.getElementById('bh-result-em').textContent='🌌✨';
+    document.getElementById('bh-result-txt').textContent=
+      BH.isWorldChallenge?`Mundo desbloqueado! Bem-vindo ao ${BH.world==='letters'?'Mundo das Letras':'Mundo da Lógica'}!`
+        :`${planet.name} desbloqueado!`;
+    document.getElementById('bh-play-btn').style.display='';
+    document.getElementById('bh-retry-btn').style.display='none';
+    V.say(passed?`Fantástico! ${BH.score} em 3! Conseguiste desbloquear o planeta!`:'');
+  } else {
+    document.getElementById('bh-result-em').textContent='💫';
+    document.getElementById('bh-result-txt').textContent=`${BH.score} em 3. Precisas de 2. Tenta de novo!`;
+    document.getElementById('bh-play-btn').style.display='none';
+    document.getElementById('bh-retry-btn').style.display='';
+    V.say(`${BH.score} de 3 perguntas certas. Faltou pouco! Podes tentar de novo!`);
+  }
+}
+
+function bhPlayUnlocked(){
+  document.getElementById('bh-overlay').classList.remove('on');
+  if(BH.isWorldChallenge){
+    switchWorld(BH.world);
+  } else {
+    selectPlanet(BH.pIdx);
+  }
+}
+function bhRetry(){openBlackHole(BH.world,BH.pIdx,BH.isWorldChallenge);}
+function bhClose(){
+  document.getElementById('bh-overlay').classList.remove('on');
+  V.stop();
+  renderGalaxy();
+}
+
+// ── SUGESTÃO PLANETA ANTERIOR ─────────────────────────────────────
+let _psSuggestData={world:null,prev:null};
+function showPrevPlanetSuggestion(world,pIdx){
+  const prevIdx=pIdx>0?pIdx-1:null;
+  if(prevIdx===null)return;
+  const prev=PLANETS[world][prevIdx];
+  const cur=PLANETS[world][pIdx];
+  _psSuggestData={world,prev:prevIdx,cur:pIdx};
+  document.getElementById('ps-title').textContent=`${cur.name} é difícil!`;
+  document.getElementById('ps-sub').textContent=
+    `Já falhaste 3 vezes seguidas aqui. Que tal treinar um pouco em ${prev.name} primeiro?`;
+  const el=document.getElementById('prev-suggest');
+  el.style.display='flex';
+  V.say(`Este planeta está difícil, ${CUR.profile.name}! Queres treinar em ${prev.name} primeiro?`);
+}
+function psSuggestGo(){
+  document.getElementById('prev-suggest').style.display='none';
+  selectPlanet(_psSuggestData.prev);
+}
+function psDismiss(){
+  document.getElementById('prev-suggest').style.display='none';
+  V.say('Muito bem! Continua a tentar!');
+}
+
+// ═══════════════════════════════════════════════
+// QUESTION GENERATORS
+// ═══════════════════════════════════════════════
+function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+function ri(min,max){return Math.floor(Math.random()*(max-min+1))+min;}
+function shuf(a){return[...a].sort(()=>Math.random()-.5);}
+function wrongNums(correct,min,max,count=2){
+  const ws=new Set();
+  let tries=0;
+  while(ws.size<count&&tries<100){
+    const v=ri(min,max);
+    if(v!==correct)ws.add(v);
+    tries++;
+  }
+  return Array.from(ws);
+}
+function wrongLetters(correct,count=2){
+  const ws=new Set();
+  let tries=0;
+  while(ws.size<count&&tries<100){
+    const v=rnd(ALL_LETTERS);
+    if(v!==correct)ws.add(v);
+    tries++;
+  }
+  return Array.from(ws);
+}
+
+function buildQuestions(){
+  const cfg=CUR.config;
+  const nQ=cfg.nQ||5;
+  CUR.qs=[];
+
+  // Distribute types evenly
+  const types=[...cfg.types];
+  for(let i=0;i<nQ;i++){
+    const t=types[i%types.length];
+    const q=genQuestion(t,cfg);
+    if(q)CUR.qs.push(q);
+  }
+
+  // Shuffle and inject up to 2 wrong-answer review questions
+  const wrongPool=(CUR.profile.wrongQ||[]).map(q=>({...q,reviewKey:questionKey(q)}));
+  if(wrongPool.length>0&&nQ>3){
+    const extras=shuf(wrongPool).slice(0,2);
+    CUR.qs.splice(2,0,...extras.map(q=>({...JSON.parse(JSON.stringify(q)),isReview:true})));
+    CUR.qs=CUR.qs.slice(0,nQ+2);
+  }
+}
+
+function genQuestion(type,cfg){
+  const obj=rnd(OBJS.filter(o=>!['🛰️','💫'].includes(o.em)));
+  switch(type){
+    case 'count':{
+      const max=cfg.maxN||10;
+      const n=ri(1,Math.min(max,10));
+      const ws=wrongNums(n,Math.max(1,n-3),Math.min(max,n+4));
+      return{type,n,obj,opts:shuf([n,...ws]),say:`${quantosAs(obj)} ${obj.names} vês? Conta com cuidado.`};
+    }
+    case 'which-more':{
+      const max=cfg.maxN||10;
+      const a=ri(1,max-1),b=ri(1,max);
+      if(a===b)return genQuestion(type,cfg);
+      const correct=a>b?0:1;
+      return{type,a,b,obj,correct,say:`Olha para os dois grupos de ${obj.names}. Qual tem mais?`};
+    }
+    case 'sequence':{
+      const max=cfg.maxN||10;
+      const start=ri(1,max-3),step=ri(1,2);
+      const seq=[start,start+step,start+step*2,start+step*3];
+      const blankIdx=ri(1,3),correct=seq[blankIdx],shown=seq.map((v,i)=>i===blankIdx?null:v);
+      const ws=wrongNums(correct,Math.max(1,correct-3),correct+4);
+      return{type,seq,shown,blankIdx,correct,opts:shuf([correct,...ws]),say:'Encontra o número que falta na sequência.'};
+    }
+    case 'add':{
+      const max=cfg.maxN||10;
+      const a=ri(1,Math.min(max-1,12)),b=ri(1,Math.min(max-a,10)),ans=a+b;
+      const ws=wrongNums(ans,Math.max(0,ans-4),ans+5);
+      return{type,a,b,op:'+',ans,obj,opts:shuf([ans,...ws]),say:`Temos ${objStr(a,obj)} e mais ${objStr(b,obj)}. ${quantosAs(obj)} ${obj.names} há ao todo?`};
+    }
+    case 'subtract':{
+      const max=cfg.maxN||10;
+      const a=ri(2,Math.min(max,14)),b=ri(1,a-1),ans=a-b;
+      const ws=wrongNums(ans,Math.max(0,ans-4),ans+5);
+      return{type,a,b,op:'-',ans,obj,opts:shuf([ans,...ws]),say:`Temos ${objStr(a,obj)}. Tiramos ${objStr(b,obj)}. ${quantosAs(obj)} ${obj.names} ficam?`};
+    }
+    case 'missing-addend':{
+      const max=cfg.maxN||15;
+      const a=ri(1,max-2),missing=ri(1,max-a),total=a+missing;
+      const ws=wrongNums(missing,Math.max(1,missing-3),missing+4);
+      return{type,a,total,missing,opts:shuf([missing,...ws]),say:`${NUMS[a]} mais qual número dá ${NUMS[total]}?`};
+    }
+    case 'compare':{
+      const max=cfg.maxN||15;
+      const a=ri(1,max),b=ri(1,max),correct=a>b?'>':a<b?'<':'=';
+      return{type,a,b,correct,opts:shuf(['>','<','=']),say:`${NUMS[a]} é maior, menor ou igual a ${NUMS[b]}?`};
+    }
+    case 'lightning':{
+      const sub=genQuestion(ri(0,1)?'add':'subtract',{...cfg,maxN:Math.min(cfg.maxN||20,15)});
+      return{...sub,type:'lightning',isLightning:true};
+    }
+    case 'letter-tap':{
+      const letters=cfg.letters||ALL_LETTERS,lt=rnd(letters),ws=wrongLetters(lt);
+      return{type,lt,opts:shuf([lt,...ws]),say:`Ouve bem. Toca na letra ${letterName(lt)}.`};
+    }
+    case 'vowel-sort':{
+      const isVowel=Math.random()<.5,lt=isVowel?rnd(VOWELS):rnd(CONSONANTS);
+      return{type,lt,correct:isVowel,opts:['Vogal','Consoante'],correctOpt:isVowel?'Vogal':'Consoante',say:`A letra ${letterName(lt)} é vogal ou consoante?`};
+    }
+    case 'image-first':{
+      const letters=cfg.letters||[...VOWELS,...CONSONANTS.slice(0,8)],lt=rnd(letters),matching=WORDS.filter(w=>w.fl===lt);
+      if(matching.length===0)return genQuestion('letter-tap',cfg);
+      const correct=rnd(matching),distractors=shuf(WORDS.filter(w=>w.fl!==lt)).slice(0,2);
+      if(distractors.length<2)return genQuestion('letter-tap',cfg);
+      const opts=shuf([correct,...distractors]);
+      return{type,lt,correct:correct.w,opts:opts.map(o=>({w:o.w,em:o.em,fl:o.fl})),say:`Qual imagem começa com a letra ${letterName(lt)}?`};
+    }
+    case 'missing-letter':{
+      const word=rnd(WORDS),blankIdx=ri(0,word.w.length-1),correct=word.w[blankIdx],ws=wrongLetters(correct),displayed=word.w.split('').map((c,i)=>i===blankIdx?'_':c).join('');
+      return{type,word,displayed,blankIdx,correct,opts:shuf([correct,...ws]),say:`Que letra falta na palavra ${word.w.toLowerCase()}?`};
+    }
+    case 'first-letter':{
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,word=rnd(wordSet),ws=wrongLetters(word.fl);
+      return{type,word,correct:word.fl,opts:shuf([word.fl,...ws]),say:`Com que letra começa a palavra ${word.w.toLowerCase()}?`};
+    }
+    case 'complete-word':{
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,word=rnd(wordSet.filter(w=>w.w.length>=3));
+      const blankIdx=ri(1,word.w.length-1),correct=word.w[blankIdx],ws=wrongLetters(correct),displayed=word.w.split('').map((c,i)=>i===blankIdx?'_':c).join('');
+      return{type,word,displayed,blankIdx,correct,opts:shuf([correct,...ws]),say:`Que letra falta na palavra ${word.w.toLowerCase()}?`};
+    }
+    case 'syllable-count':{
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,word=rnd(wordSet),correct=word.nSyl,ws=wrongNums(correct,1,5);
+      return{type,word,correct,opts:shuf([correct,...ws]),say:`Quantas sílabas tem a palavra ${word.w.toLowerCase()}?`};
+    }
+    case 'which-word':{
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,correct=rnd(wordSet),distractors=shuf(wordSet.filter(w=>w.w!==correct.w)).slice(0,2);
+      if(distractors.length<2)return genQuestion('first-letter',cfg);
+      const opts=shuf([correct,...distractors]);
+      return{type,correct:correct.w,opts:opts.map(o=>({w:o.w,em:o.em})),say:`Ouve bem e toca na imagem da palavra ${correct.w.toLowerCase()}.`};
+    }
+    case 'rhyme':{
+      const set=rnd(RHYME_SETS);return{type,...set,say:`Qual destas palavras rima com ${set.base.toLowerCase()}?`};
+    }
+    case 'initial-sound':{
+      const eligible=READING_WORDS.filter(w=>READING_WORDS.some(o=>o.fl===w.fl&&o.w!==w.w));
+      if(eligible.length===0)return genQuestion('letter-tap',cfg);
+      const ref=rnd(eligible);
+      const same=rnd(READING_WORDS.filter(w=>w.fl===ref.fl&&w.w!==ref.w));
+      const others=shuf(READING_WORDS.filter(w=>w.fl!==ref.fl)).slice(0,2);
+      if(!same||others.length<2)return genQuestion('letter-tap',cfg);
+      const opts=shuf([same,...others]);
+      return{type,ref,correct:same.w,opts:opts.map(o=>({w:o.w,em:o.em,fl:o.fl})),say:`Qual começa com o mesmo som de ${ref.w.toLowerCase()}?`};
+    }
+    case 'build-syllable':{
+      const pool=WORDS.filter(w=>w.syls.length>=2&&w.syls.length<=4),word=rnd(pool),blankIdx=ri(0,word.syls.length-1),correct=word.syls[blankIdx];
+      const others=shuf([...new Set(pool.flatMap(w=>w.syls).filter(s=>s!==correct))]).slice(0,2);
+      return{type,word,blankIdx,correct,displayedSyls:word.syls.map((s,i)=>i===blankIdx?'__':s),opts:shuf([correct,...others]),say:`Que sílaba falta para fazer a palavra ${word.w.toLowerCase()}?`};
+    }
+    case 'pattern-next':{
+      const set=rnd(PATTERN_SETS);return{type,...set,seq:[...set.items,'?'],say:'Olha para o padrão. O que vem a seguir?'};
+    }
+    case 'odd-one-out':{
+      const set=rnd(ODD_SETS),opts=shuf(set.items.map(x=>x.v));return{type,items:set.items,opts,correct:set.correct,explain:set.explain,say:'Qual é o diferente?'};
+    }
+    case 'memory-seq':{
+      const set=rnd(MEMORY_SETS);const correctIdx=0;return{type,seq:set.seq,opts:shuf(set.opts),correct:set.seq.join(''),say:'Olha bem para a sequência e depois escolhe a igual.'};
+    }
+    case 'rule-pick':{
+      const rule=rnd(LOGIC_RULES);return{type,...rule,say:rule.prompt};
+    }
+    case 'curiosity-quiz':{
+      const cur=rnd(CURIOSITIES);return{type,curiosity:cur,correct:cur.correct,opts:cur.options,say:cur.question};
+    }
+    default:return genQuestion('count',cfg);
+  }
+}
+
+// ═══════════════════════════════════════════════
+// RENDER QUESTION
+// ═══════════════════════════════════════════════
+function renderQ(){
+  CUR.busy=false;CUR.explaining=false;CUR._opts=[];
+  stopTimer();
+  const q=CUR.qs[CUR.qIdx];if(!q)return;
+  document.getElementById('pbar').style.width=((CUR.qIdx/CUR.qs.length)*100)+'%';
+  document.getElementById('g-stars').textContent=CUR.profile.stars;
+
+  const _hearSay=`Atenção. ${q.say||''}`;
+  const hearBtn=`<button class="btn-hear" onclick="speakQ()">🔊</button>`;
+
+  let h='';
+  switch(q.type){
+    case 'count':{
+      const ems=Array(q.n).fill(0).map((_,i)=>`<span class="oem" style="animation-delay:${i*.07}s">${q.obj.em}</span>`).join('');
+      CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.n),read:String(NUMS[o]||o)}));
+      h=`<div class="ibar"><div class="qinstr">${quantosAs(q.obj)} ${q.obj.names} vês?</div>${hearBtn}</div><div class="objs">${ems}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'which-more':{
+      const _mg=(n,off)=>{const sh=Math.min(n,12);return Array(sh).fill(0).map((_,i)=>`<span class="oem" style="font-size:clamp(1.5rem,3vw,2.2rem);animation-delay:${(off+i)*.06}s">${q.obj.em}</span>`).join('')+(n>12?`<span style="font-family:'Fredoka One',cursive;font-size:1rem;color:rgba(255,255,255,.6);"> +${n-12}</span>`:'');};
+      const grpA=_mg(q.a,0);
+      const grpB=_mg(q.b,q.a);
+      h=`<div class="ibar"><div class="qinstr">Qual grupo tem mais ${q.obj.names}?</div>${hearBtn}</div><div class="wmwrap"><div class="wmgrp" onclick="chkWM(this,0,${q.correct})" id="wm0"><div class="wmobjs">${grpA}</div>${isLearnMode()?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:rgba(255,255,255,.7)">${q.a}</div>`:''}</div><div class="wmgrp" onclick="chkWM(this,1,${q.correct})" id="wm1"><div class="wmobjs">${grpB}</div>${isLearnMode()?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:rgba(255,255,255,.7)">${q.b}</div>`:''}</div></div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'sequence':{
+      const seqHTML=q.shown.map((v,i)=>`<span class="snum${v===null?' bl':''}">${v===null?'?':v}</span>${i<q.shown.length-1?'<span class="ssep">→</span>':''}`).join('');
+      CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct),read:String(NUMS[o]||o)}));
+      h=`<div class="ibar"><div class="qinstr">Qual é o número que falta?</div>${hearBtn}</div><div class="seqw">${seqHTML}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'add':
+    case 'subtract':
+    case 'lightning':{
+      if(q.isLightning){document.getElementById('tmr').style.display='';startTimer(15);} else {document.getElementById('tmr').style.display='none';}
+      const grpA=Array(Math.min(q.a,15)).fill(0).map((_,i)=>`<span class="oem" style="font-size:clamp(1.4rem,2.7vw,2.1rem);animation-delay:${i*.05}s">${q.obj.em}</span>`).join('');
+      const grpB=Array(Math.min(q.b,15)).fill(0).map((_,i)=>`<span class="oem" style="font-size:clamp(1.4rem,2.7vw,2.1rem);animation-delay:${(Math.min(q.a,15)+i)*.05}s">${q.obj.em}</span>`).join('');
+      const lbl=q.isLightning?`<span class="lightning-badge">⚡ Relâmpago</span>`:hearBtn;
+      const prompt=q.type==='subtract'?`${q.a} − ${q.b}. ${quantosAs(q.obj)} ${q.obj.names} ficam?`:`${q.a} + ${q.b}. ${quantosAs(q.obj)} ${q.obj.names} há ao todo?`;
+      CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.ans),read:String(NUMS[o]||o)}));
+      h=`<div class="ibar"><div class="qinstr">${prompt}</div>${lbl}</div><div class="mathw"><div class="mg"><div class="mglbl">${q.a}</div><div class="mgobjs">${grpA}</div></div><div class="mop">${q.op}</div><div class="mg"><div class="mglbl">${q.b}</div><div class="mgobjs">${grpB}</div></div><div class="mop">=</div><div class="meq">?</div></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'missing-addend':{
+      CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.missing),read:String(NUMS[o]||o)}));
+      h=`<div class="ibar"><div class="qinstr">${q.a} + __ = ${q.total}</div>${hearBtn}</div><div class="seqw"><span class="snum">${q.a}</span><span class="ssep">+</span><span class="snum bl">?</span><span class="ssep">=</span><span class="snum">${q.total}</span></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'compare':{
+      const cmpRead={'>':'maior que','<':'menor que','=':'igual'};
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:cmpRead[o]||o}));
+      h=`<div class="ibar"><div class="qinstr">Qual símbolo está correto?</div>${hearBtn}</div><div class="cmpw"><span class="cmpn">${q.a}</span><span class="cmpmid">○</span><span class="cmpn">${q.b}</span></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'letter-tap':{
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.lt,read:letterName(o)}));
+      h=`<div class="ibar"><div class="qinstr">Toca na letra ${q.lt}.</div>${hearBtn}</div><div class="bigltr">${letterFormsHTML(q.lt)}<div class="sound-tip">Som da letra: ${letterName(q.lt)}</div></div><div class="opts c3" style="margin-top:12px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'vowel-sort':{
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correctOpt,read:o}));
+      const vsBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">A letra ${q.lt} é...</div>${hearBtn}</div><div class="vcard">${letterFormsHTML(q.lt)}</div><div class="opts c2">${vsBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'image-first':{
+      CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct,read:null}));
+      const ifBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;font-size:clamp(2.2rem,5vw,3.5rem);min-height:clamp(90px,13vw,125px);"><span>${o.em}</span>${isLearnMode()?`<span style="font-size:clamp(.8rem,1.8vw,1.1rem);color:rgba(255,255,255,.6)">${o.w}</span>`:''}</button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">Qual começa com a letra ${q.lt}?</div>${hearBtn}</div><div class="opts c3">${ifBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'missing-letter':
+    case 'complete-word':{
+      const disp=q.displayed.split('').map((c,i)=>{if(c==='_')return`<span class="bl">_</span>`;if(i===0)return`<span class="hl">${c}</span>`;return c;}).join('');
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:letterName(o)}));
+      h=`<div class="ibar"><div class="qinstr">Que letra falta?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div class="wddisp">${disp}</div><div class="opts c3" style="margin-top:10px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'first-letter':{
+      const disp=isLearnMode()?q.word.w.split('').map((c,i)=>i===0?`<span class="hl">${c}</span>`:c).join(''):`<span style="letter-spacing:.22em;opacity:.8">${'•'.repeat(q.word.w.length)}</span>`;
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:letterName(o)}));
+      h=`<div class="ibar"><div class="qinstr">Com que letra começa?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div class="wddisp">${disp}</div><div class="opts c3" style="margin-top:10px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'syllable-count':{
+      const sylHTML=isLearnMode()?q.word.syls.map((s,i)=>`<span class="syl" style="font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.5vw,2.5rem);background:rgba(155,89,182,.22);border:2px solid rgba(155,89,182,.4);border-radius:12px;padding:7px 14px;color:#fff;">${s}</span>${i<q.word.syls.length-1?'<span style="font-size:1.2rem;color:rgba(255,255,255,.3)">-</span>':''}`).join(''):`<div class="modebadge">👂 Diz a palavra devagar</div>`;
+      CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct),read:String((NUMS[o]||o)+' sílaba'+(o>1?'s':''))}));
+      h=`<div class="ibar"><div class="qinstr">Quantas sílabas tem ${q.word.w}?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0 14px;">${sylHTML}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'which-word':{
+      CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct,read:null}));
+      h=`<div class="ibar"><div class="qinstr">Ouve e toca na imagem certa.</div>${hearBtn}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;font-size:clamp(2.2rem,5vw,3.5rem);min-height:clamp(90px,13vw,125px);"><span>${o.em}</span>${isLearnMode()?`<span style="font-size:clamp(.78rem,1.7vw,1.05rem);color:rgba(255,255,255,.5)">${o.w}</span>`:''}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'rhyme':{
+      CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct.w,read:o.w.toLowerCase()}));
+      const rhBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;"><span style="font-size:2.4rem">${o.em}</span><span style="font-size:1rem;opacity:.82">${o.w}</span></button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">Qual rima com ${q.base}?</div>${hearBtn}</div><div class="logic-strip"><div class="logic-chip">${q.baseEm}</div><div class="logic-chip">${q.base}</div></div><div class="opts c3">${rhBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'initial-sound':{
+      CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct,read:o.w.toLowerCase()}));
+      const isBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;"><span style="font-size:2.4rem">${o.em}</span><span style="font-size:1rem;opacity:.82">${isLearnMode()?o.w:'?'}</span></button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">Qual começa com o mesmo som?</div>${hearBtn}</div><div class="logic-strip"><div class="logic-chip">${q.ref.em}</div><div class="logic-chip">${q.ref.w}</div></div><div class="opts c3">${isBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'build-syllable':{
+      const disp=q.displayedSyls.map((s,i)=>s==='__'?`<span class="snum bl">?</span>`:`<span class="snum">${s}</span>`).join('<span class="ssep">+</span>');
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:o.toLowerCase()}));
+      h=`<div class="ibar"><div class="qinstr">Que sílaba falta?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div class="seqw">${disp}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'pattern-next':{
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:o}));
+      h=`<div class="ibar"><div class="qinstr">O que vem a seguir?</div>${hearBtn}</div><div class="logic-strip">${q.seq.map(v=>`<div class="logic-chip">${v}</div>`).join('')}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'odd-one-out':{
+      CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:o}));
+      h=`<div class="ibar"><div class="qinstr">Qual é o diferente?</div>${hearBtn}</div><div class="logic-strip">${q.items.map(it=>`<div class="logic-chip">${it.v}</div>`).join('')}</div><div class="opts c2">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'memory-seq':{
+      const correct=q.correct;
+      CUR._opts=q.opts.map(o=>({val:o.join(''),correct:correct,read:null}));
+      const seqBtns=q.opts.map((o,i)=>`<button class="obtn logic-seq-btn" data-value="${o.join('')}" onclick="pick(this,${i})">${o.map(v=>`<span style="font-size:2rem">${v}</span>`).join('')}</button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">Guarda esta sequência na cabeça.</div>${hearBtn}</div><div class="logic-strip" id="mseq-show">${q.seq.map(v=>`<div class="logic-chip">${v}</div>`).join('')}</div><div class="opts c1" id="mseq-opts" style="grid-template-columns:1fr;display:none">${seqBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>{V.say(q.say);setTimeout(()=>{const s=document.getElementById('mseq-show');const o=document.getElementById('mseq-opts');if(s)s.innerHTML='<div class="modebadge">🧠 Agora escolhe a igual</div>';if(o)o.style.display='';},2500);},350);break;}
+    case 'rule-pick':{
+      CUR._opts=q.options.map(o=>({val:o.label,correct:q.correct,read:o.label.toLowerCase()}));
+      const rpBtns=q.options.map((o,i)=>`<button class="obtn" data-value="${o.label}" onclick="pick(this,${i})" style="flex-direction:column;gap:8px;"><span style="font-size:2.4rem">${o.visual}</span><span style="font-size:1rem;opacity:.82">${o.label}</span></button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">${q.prompt}</div>${hearBtn}</div><div class="opts c3">${rpBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    case 'curiosity-quiz':{
+      CUR._opts=q.opts.map(o=>({val:o.label,correct:q.correct,read:o.label.toLowerCase()}));
+      const cqBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.label}" onclick="pick(this,${i})" style="flex-direction:column;gap:8px;"><span style="font-size:2.4rem">${o.visual}</span><span style="font-size:1rem;opacity:.82">${o.label}</span></button>`).join('');
+      h=`<div class="ibar"><div class="qinstr">${q.curiosity.question}</div>${hearBtn}</div><div class="cur-visual">${q.curiosity.visual}</div><div class="opts c3">${cqBtns}</div><div class="fb" id="fb"></div>`;
+      setTimeout(()=>V.say(q.say),350);break;}
+    default:h=`<div class="qinstr">A carregar...</div>`;
+  }
+  document.getElementById('qcard').innerHTML=h;
+}
+
+// ═══════════════════════════════════════════════
+// TIMER (Lightning)
+// ═══════════════════════════════════════════════
+function startTimer(sec){
+  const ring=document.getElementById('tmr-ring');
+  const txt=document.getElementById('tmr-txt');
+  const tmrEl=document.getElementById('tmr');
+  const circ=204;
+  ring.style.strokeDashoffset='0';
+  txt.textContent=sec;
+  let left=sec;
+  CUR.timerInterval=setInterval(()=>{
+    left--;txt.textContent=left;
+    ring.style.strokeDashoffset=(circ*(1-left/sec))+'';
+    if(left<=5)tmrEl.classList.add('red');
+    if(left<=0){
+      stopTimer();
+      // Time's up — treat as wrong
+      const nm4=CUR.profile?CUR.profile.name:'';
+      V.say(`O tempo acabou, ${nm4}! Não faz mal! Vamos ver a resposta juntos!`);
+      const q=CUR.qs[CUR.qIdx];
+      CUR.explaining=true;
+      addWrongQuestion(q);
+      updateProfile(CUR.profile);
+      showExplanation(null,q);
+    }
+  },1000);
+}
+function stopTimer(){
+  if(CUR.timerInterval){clearInterval(CUR.timerInterval);CUR.timerInterval=null;}
+  document.getElementById('tmr').style.display='none';
+  document.getElementById('tmr').classList.remove('red');
+}
+
+// ═══════════════════════════════════════════════
+// ANSWER CHECKING
+// ═══════════════════════════════════════════════
+const OK_SAY=['Uáu! Muito bem!','Certo! És incrível!','Acertaste! Boa!','Fantástico!','Que campeão!','Sim! Perfeito!','Incrível! Acertaste!','Isso mesmo! Brilhante!','Correto! Adoro ver isso!'];
+const OK_MSG=['UÁU! Muito bem! 🌟','Certo! 🎉','Acertaste! 🚀','Fantástico! ⭐','Que campeão! 🏆','Perfeito! 💫','Brilhante! 🌟'];
+
+// Contextual reactions based on question type and answer
+function okSayContextual(q, nm){
+  const streak = CUR.streak;
+  if(streak===3) return `Três seguidas, ${nm}! És mesmo incrível!`;
+  if(streak===5) return `Cinco seguidas! ${nm}, és uma máquina!`;
+  if(streak>=7) return `Imparável, ${nm}! Continue assim!`;
+  if(CUR.qIdx===CUR.qs.length-1) return `Última pergunta e acertaste! Fantástico, ${nm}!`;
+  switch(q.type){
+    case 'count': return `Correto! São mesmo ${nw(q.n,q.obj.gen)} ${q.obj.names}! Muito bem!`;
+    case 'add': return `Certo! ${q.a} mais ${q.b} é mesmo ${q.ans}! Boa, ${nm}!`;
+    case 'subtract': return `Exato! ${verbFicar(q.ans,q.obj)}! Acertaste, ${nm}!`;
+    case 'which-more': return `Isso mesmo! O grupo maior tem mais! Muito bem!`;
+    case 'sequence': return `Certo! O número em falta era o ${NUMS[q.correct]}! Incrível!`;
+    case 'missing-addend': return `Sim! ${q.a} mais ${q.missing} é ${q.total}! Genial, ${nm}!`;
+    case 'compare': return `Correto! Muito bem a comparar números, ${nm}!`;
+    case 'letter-tap': return `Isso! Essa é a letra ${letterName(q.lt)}. Fantástico!`;
+    case 'vowel-sort': return `Correto! ${q.correct?'É uma vogal':'É uma consoante'}! Muito bem!`;
+    case 'image-first': return `Sim! Essa palavra começa com ${letterName(q.lt)}. Boa, ${nm}!`;
+    case 'missing-letter': case 'complete-word': return `Exato! A letra que faltava era ${letterName(q.correct)}. Brilhante!`;
+    case 'first-letter': return `Correto! ${q.word.w} começa com ${letterName(q.correct)}. Muito bem, ${nm}!`;
+    case 'syllable-count': return `Certo! ${q.word.w} tem ${q.correct} sílaba${q.correct>1?'s':''}! Fantástico!`;
+    case 'which-word': return `Isso mesmo! Era a palavra ${q.correct.toLowerCase()}! Boa, ${nm}!`;
+    case 'rhyme': return `Certo! Essas palavras rimam!`;
+    case 'initial-sound': return `Boa! Encontraste o mesmo som inicial!`;
+    case 'build-syllable': return `Excelente! Juntaste bem as sílabas!`;
+    case 'pattern-next': return `Muito bem! Descobriste o padrão!`;
+    case 'odd-one-out': return `Boa! Encontraste o diferente!`;
+    case 'memory-seq': return `Fantástico! A tua memória está afiada!`;
+    case 'rule-pick': return `Certo! Seguiste a regra!`;
+    case 'curiosity-quiz': return `Boa! Aprendeste uma curiosidade nova!`;
+    default: return OK_SAY[Math.floor(Math.random()*OK_SAY.length)];
+  }
+}
+
+// What to say before moving to the next question
+function transitionSay(qIdx, total, nm){
+  const remaining = total - qIdx - 1;
+  if(remaining===0) return null; // roundEnd handles it
+  if(remaining===1) return `Última pergunta, ${nm}! Dá tudo!`;
+  if(remaining===2) return `Faltam só mais duas, ${nm}! Continua!`;
+  const phrases = ['Boa! Próxima pergunta!','Vamos a mais uma!','Continua assim!','Força, ' + nm + '!'];
+  return Math.random()<0.4 ? phrases[Math.floor(Math.random()*phrases.length)] : null;
+}
+
+// ── MOTOR DE RESPOSTA ────────────────────────────────────────────────
+// Validação IMEDIATA. Voz é fire-and-forget, nunca bloqueia.
+function onAnswer(btn,chosen,correct){
+  if(CUR.busy||CUR.explaining)return;
+  if(String(chosen)===String(correct))markOk(btn);
+  else markErr(btn,correct,btn);
+}
+
+// pick(btn,idx) — handler seguro: sem strings em onclick, lê CUR._opts[idx]
+function pick(btn,idx){
+  if(CUR.busy||CUR.explaining)return;
+  const o=CUR._opts[idx];
+  if(!o)return;
+  if(o.read)V.say(String(o.read));
+  onAnswer(btn,o.val,o.correct);
+}
+
+// speakQ() — botão 🔊 seguro, sem JSON.stringify em onclick
+function speakQ(){V.say('Atenção. '+((CUR.qs[CUR.qIdx]&&CUR.qs[CUR.qIdx].say)||''));}
+
+// Funções de compatibilidade (usadas fora de renderQ)
+function tapOpt(btn,chosen,correct,readAs){
+  if(CUR.busy||CUR.explaining)return;
+  if(readAs)V.say(readAs);
+  onAnswer(btn,chosen,correct);
+}
+function chk(btn,chosen,correct){onAnswer(btn,chosen,correct);}
+function chkWM(btn,idx,correct){
+  if(CUR.busy||CUR.explaining)return;
+  if(idx===correct)markOk(btn);
+  else markErr(btn,correct,btn);
+}
+function chkImageFirst(btn,chosen,correct){onAnswer(btn,chosen,correct);}
+
+function markOk(btn){
+  CUR.busy=true;stopTimer();
+  try{if(navigator.vibrate)navigator.vibrate(40);}catch(e){}
+  if(btn)btn.classList.add('ok');
+  CUR.score++;CUR.streak++;CUR.profile.totalCorrect=(CUR.profile.totalCorrect||0)+1;
+  CUR.profile.stars++;
+  document.getElementById('g-stars').textContent=CUR.profile.stars;
+  const q=CUR.qs[CUR.qIdx];
+  const nm=CUR.profile.name;
+  // Remove from wrongQ if it was a review
+  if(q.isReview) removeWrongQuestion(q);
+  const okTxt=okSayContextual(q,nm);
+  const okMsg=OK_MSG[Math.floor(Math.random()*OK_MSG.length)];
+  const fb=document.getElementById('fb');
+  if(fb){fb.className='fb ok';fb.textContent=okMsg;}
+  V.say(okTxt);
+  const trans=transitionSay(CUR.qIdx,CUR.qs.length,nm);
+  checkMedals(true);
+  updateProfile(CUR.profile);
+  // Pre-generate next question during feedback window (reduces perceived latency)
+  const _nextIdx=CUR.qIdx+1;
+  if(_nextIdx<CUR.qs.length && !CUR.qs[_nextIdx]._rendered){
+    try{ CUR.qs[_nextIdx]._rendered=true; }catch(e){}
+  }
+  const delay=trans?2000:1300;
+  setTimeout(()=>{if(trans)V.say(trans);nextQ();},delay);
+}
+
+function markErr(btn,correct,altBtn){
+  if(btn)btn.classList.add('err');
+  try{if(navigator.vibrate)navigator.vibrate([60,40,60]);}catch(e){}
+  CUR.explaining=true;CUR.streak=0;
+  const fb=document.getElementById('fb');
+  if(fb){fb.className='fb err';fb.textContent='Ops! Não foi dessa! Vamos perceber juntos... 🤔';}
+  const q2=CUR.qs[CUR.qIdx];
+  const nm2=CUR.profile.name;
+  const errPhrases=[
+    `Hmm... não foi essa, ${nm2}! Não faz mal, vamos perceber juntos!`,
+    `Quase, ${nm2}! Vamos ver onde está a resposta certa!`,
+    `Ops! Não foi dessa! Não desistas, ${nm2}! Vamos perceber juntos!`,
+    `Não foi bem isso, ${nm2}. Vamos aprender juntos!`,
+  ];
+  const errTxt=errPhrases[Math.floor(Math.random()*errPhrases.length)];
+  const explainTarget=altBtn||btn;
+  showExplanation(explainTarget,CUR.qs[CUR.qIdx]);
+  V.say(errTxt);
+  // Save for review
+  addWrongQuestion(q2);
+  checkMedals(false);
+  updateProfile(CUR.profile);
+}
+
+// ═══════════════════════════════════════════════
+// EXPLANATION ENGINE
+// ═══════════════════════════════════════════════
+function showExplanation(errBtn,q){
+  const fb=document.getElementById('fb');
+  if(errBtn)setTimeout(()=>errBtn.classList.remove('err'),500);
+  const btns=[...document.querySelectorAll('#qcard .obtn, #qcard .wmgrp')];
+  btns.forEach(b=>b.classList.add('dis'));
+
+  let rightBtn=null;
+  if(q.type==='which-more') rightBtn=document.getElementById(`wm${q.correct}`);
+  else rightBtn=btns.find(b=>checkIsCorrect(b,q));
+  if(rightBtn){rightBtn.classList.remove('dis');rightBtn.classList.add('rev');rightBtn.onclick=()=>confirmCorrect(rightBtn,q,true);}
+
+  let explainHTML='';
+  let parts=[];
+  switch(q.type){
+    case 'count':{
+      explainHTML=`<div class="exbox"><div class="extit">Vamos contar juntos. 🔢</div><div class="extxt">Conta um a um e sem pressa. No fim ficam <b style="color:var(--green)">${q.n}</b>.</div></div>`;
+      parts=[{text:'Vamos contar juntos devagar.',pause:300},{text:`A resposta certa é ${NUMS[q.n]||q.n}.`,pause:150}];break;}
+    case 'which-more':{
+      explainHTML=`<div class="exbox"><div class="extit">Olha para os dois grupos. 👀</div><div class="extxt">Conta cada grupo. O grupo certo tem <b style="color:var(--green)">${q.correct===0?q.a:q.b}</b> ${q.obj.names}.</div></div>`;
+      parts=[{text:'Conta primeiro um grupo e depois o outro.',pause:350},{text:'Agora escolhe o grupo com mais.',pause:150}];break;}
+    case 'add':{
+      explainHTML=`<div class="exbox"><div class="extit">Junta tudo. ➕</div><div class="extxt">Tinhas <b>${q.a}</b> e juntaste <b>${q.b}</b>. Ao todo ficam <b style="color:var(--green)">${q.ans}</b>.</div></div>`;
+      parts=[{text:`Primeiro tens ${q.a}.`,pause:320},{text:`Depois juntas mais ${q.b}.`,pause:320},{text:`Ao todo ficam ${q.ans}.`,pause:120}];break;}
+    case 'subtract':
+    case 'lightning':{
+      explainHTML=`<div class="exbox"><div class="extit">Agora tira alguns. ➖</div><div class="extxt">Começas com <b>${q.a}</b>, tiras <b>${q.b}</b> e ficam <b style="color:var(--green)">${q.ans}</b>.</div></div>`;
+      parts=[{text:`Tinhas ${q.a}.`,pause:300},{text:`Tiraste ${q.b}.`,pause:300},{text:`Ficam ${q.ans}.`,pause:120}];break;}
+    case 'sequence':{
+      explainHTML=`<div class="exbox"><div class="extit">Repara no salto. 🔢</div><div class="extxt">Os números sobem sempre do mesmo modo. O que faltava era <b style="color:var(--green)">${q.correct}</b>.</div></div>`;
+      parts=[{text:'Olha para como os números avançam.',pause:350},{text:`O que faltava era ${NUMS[q.correct]||q.correct}.`,pause:150}];break;}
+    case 'missing-addend':{
+      explainHTML=`<div class="exbox"><div class="extit">Número escondido. 🔍</div><div class="extxt">Precisavas de chegar ao <b>${q.total}</b>. O número escondido era <b style="color:var(--green)">${q.missing}</b>.</div></div>`;
+      parts=[{text:`Queríamos chegar ao ${q.total}.`,pause:320},{text:`O número escondido era ${q.missing}.`,pause:120}];break;}
+    case 'compare':{
+      explainHTML=`<div class="exbox"><div class="extit">Comparar. ⚖️</div><div class="extxt"><b>${q.a}</b> ${q.correct==='>'?'é maior do que':q.correct==='<'?'é menor do que':'é igual a'} <b>${q.b}</b>.</div></div>`;
+      parts=[{text:'Olha para qual é o maior.',pause:320},{text:`O símbolo certo é ${q.correct==='>'?'maior':q.correct==='<'?'menor':'igual'}.`,pause:120}];break;}
+    case 'letter-tap':{
+      explainHTML=`<div class="exbox"><div class="extit">Esta é a letra ${q.lt}. 🔤</div>${letterFormsHTML(q.lt)}<div class="extxt">O nome desta letra é <b style="color:var(--yellow)">${letterName(q.lt)}</b>.</div></div>`;
+      parts=[{text:`Esta é a letra ${letterName(q.lt)}.`,pause:350},{text:`Toca agora nela.`,pause:120}];break;}
+    case 'vowel-sort':{
+      explainHTML=`<div class="exbox"><div class="extit">Vamos lembrar. 🔡</div><div class="extxt">As vogais são A, E, I, O e U. A letra <b style="color:var(--yellow)">${q.lt}</b> ${q.correct?'é uma vogal':'é uma consoante'}.</div></div>`;
+      parts=[{text:`A letra ${letterName(q.lt)} ${q.correct?'é uma vogal':'é uma consoante'}.`,pause:220}];break;}
+    case 'image-first':{
+      explainHTML=`<div class="exbox"><div class="extit">Primeiro som. 👂</div><div class="extxt">A palavra certa começa com a letra <b style="color:var(--green)">${q.lt}</b>, que se diz <b>${letterName(q.lt)}</b>.</div></div>`;
+      parts=[{text:`O primeiro som é ${letterName(q.lt)}.`,pause:320},{text:'Agora escolhe a imagem certa.',pause:120}];break;}
+    case 'missing-letter':
+    case 'complete-word':{
+      explainHTML=`<div class="exbox"><div class="extit">Letra em falta. ✏️</div><div class="extxt">A palavra é <b style="color:var(--yellow)">${q.word.w}</b>. A letra em falta é <b style="color:var(--green)">${q.correct}</b>, ou seja, ${letterName(q.correct)}.</div></div>`;
+      parts=[{text:`A palavra é ${q.word.w.toLowerCase()}.`,pause:320},{text:`A letra em falta é ${letterName(q.correct)}.`,pause:120}];break;}
+    case 'first-letter':{
+      explainHTML=`<div class="exbox"><div class="extit">Primeira letra. 🔤</div><div class="extxt">${q.word.w} começa com <b style="color:var(--green)">${q.correct}</b>, que se diz ${letterName(q.correct)}.</div></div>`;
+      parts=[{text:`${q.word.w.toLowerCase()} começa com ${letterName(q.correct)}.`,pause:180}];break;}
+    case 'syllable-count':{
+      explainHTML=`<div class="exbox"><div class="extit">Bate as sílabas. 🎵</div><div class="extxt">${q.word.syls.join(' - ')}. Esta palavra tem <b style="color:var(--green)">${q.correct}</b> sílaba${q.correct>1?'s':''}.</div></div>`;
+      parts=[{text:'Diz a palavra devagar.',pause:280},{text:`Tem ${q.correct} sílabas.`,pause:120}];break;}
+    case 'which-word':{
+      explainHTML=`<div class="exbox"><div class="extit">Palavra certa. 👂</div><div class="extxt">A palavra dita era <b style="color:var(--green)">${q.correct.toLowerCase()}</b>.</div></div>`;
+      parts=[{text:`A palavra era ${q.correct.toLowerCase()}.`,pause:120}];break;}
+    case 'rhyme':{
+      explainHTML=`<div class="exbox"><div class="extit">As palavras rimam. 🎶</div><div class="extxt">${q.explain}</div></div>`;
+      parts=[{text:'Ouve o fim das palavras.',pause:260},{text:q.explain,pause:120}];break;}
+    case 'initial-sound':{
+      explainHTML=`<div class="exbox"><div class="extit">Mesmo som no início. 👂</div><div class="extxt">${q.ref.w} e ${q.correct} começam com o mesmo som.</div></div>`;
+      parts=[{text:`${q.ref.w.toLowerCase()} e ${q.correct.toLowerCase()} começam da mesma maneira.`,pause:120}];break;}
+    case 'build-syllable':{
+      explainHTML=`<div class="exbox"><div class="extit">Junta as sílabas. 🧩</div><div class="extxt">A palavra é <b>${q.word.w}</b>. A sílaba que faltava era <b style="color:var(--green)">${q.correct}</b>.</div></div>`;
+      parts=[{text:`A sílaba em falta era ${q.correct.toLowerCase()}.`,pause:120}];break;}
+    case 'pattern-next':{
+      explainHTML=`<div class="exbox"><div class="extit">O padrão repete-se. 🧠</div><div class="extxt">Olha para o que se repete. Depois de ${q.items.join(' , ')} vem <b style="color:var(--green)">${q.correct}</b>.</div></div>`;
+      parts=[{text:'Olha para o que se repete.',pause:260},{text:'Agora escolhe o que vem a seguir.',pause:120}];break;}
+    case 'odd-one-out':{
+      explainHTML=`<div class="exbox"><div class="extit">O diferente. 🔎</div><div class="extxt">${q.explain}</div></div>`;
+      parts=[{text:q.explain,pause:120}];break;}
+    case 'memory-seq':{
+      explainHTML=`<div class="exbox"><div class="extit">Memória. 🛰️</div><div class="extxt">A sequência certa era <b style="color:var(--green)">${q.seq.join(' ')}</b>.</div></div>`;
+      parts=[{text:'Lembra-te da ordem.',pause:260},{text:'Agora toca na sequência igual.',pause:120}];break;}
+    case 'rule-pick':{
+      explainHTML=`<div class="exbox"><div class="extit">Segue a regra. 📐</div><div class="extxt">${q.explain}</div></div>`;
+      parts=[{text:q.explain,pause:120}];break;}
+    case 'curiosity-quiz':{
+      explainHTML=`<div class="exbox"><div class="extit">Curiosidade rápida. 🌍</div><div class="extxt">${q.curiosity.explain}</div></div>`;
+      parts=[{text:q.curiosity.explain,pause:120}];break;}
+    default:parts=[{text:'A resposta certa está a brilhar.',pause:120}];
+  }
+  parts.push({text:'Se já percebeste, toca já na resposta certa.',pause:0});
+  if(fb){fb.className='fb hint';fb.innerHTML=(explainHTML||'')+`<div class="taphint">👆 Se já percebeste, toca logo na resposta certa.</div>`;}
+  V.seq(parts);
+}
+
+
+function checkIsCorrect(btn,q){
+  const val=btn&&btn.dataset&&btn.dataset.value?btn.dataset.value:String((btn&&btn.textContent)||'').trim().split('\n')[0].trim();
+  switch(q.type){
+    case 'which-more': return btn.id===`wm${q.correct}`;
+    case 'count': return val===String(q.n);
+    case 'sequence': return val===String(q.correct);
+    case 'missing-addend': return val===String(q.missing);
+    case 'add': case 'subtract': case 'lightning': return val===String(q.ans);
+    case 'compare': return val===q.correct;
+    case 'letter-tap': return val===q.lt;
+    case 'vowel-sort': return val===q.correctOpt;
+    case 'missing-letter': case 'complete-word': case 'first-letter': return val===q.correct;
+    case 'syllable-count': return val===String(q.correct);
+    case 'which-word': return val===q.correct;
+    case 'rhyme': return val===q.correct.w;
+    case 'initial-sound': return val===q.correct;
+    case 'build-syllable': return val===q.correct;
+    case 'pattern-next': return val===q.correct;
+    case 'odd-one-out': return val===q.correct;
+    case 'memory-seq': return val===q.correct;
+    case 'rule-pick': return val===q.correct;
+    case 'curiosity-quiz': return val===q.correct;
+    default: return false;
+  }
+}
+
+function confirmCorrect(btn,q,skipVoice=false){
+  CUR.explaining=false;
+  V.stop();
+  if(btn)btn.classList.add('ok');
+  const nm3=CUR.profile.name;
+  const learnSay=[
+    `Muito bem, ${nm3}! Agora já sabes! Continua assim!`,
+    `Boa, ${nm3}! Aprendeste! Isso é o mais importante!`,
+    `Excelente, ${nm3}! Erraste, aprendeste e acertaste! Isso é ser campeão!`,
+  ];
+  const fb=document.getElementById('fb');
+  if(fb){fb.className='fb ok';fb.textContent='Agora já sabes! 🌟';}
+  checkMedalById('comeback');
+  if(skipVoice){
+    setTimeout(nextQ,450);
+    return;
+  }
+  V.say(learnSay[Math.floor(Math.random()*learnSay.length)]);
+  setTimeout(nextQ,1600);
+}
+
+// ═══════════════════════════════════════════════
+// NEXT / ROUND END
+// ═══════════════════════════════════════════════
+function nextQ(){
+  CUR.qIdx++;
+  if(CUR.qIdx>=CUR.qs.length) roundEnd();
+  else renderQ();
+}
+
+function roundEnd(){
+  stopTimer();
+  const nm=CUR.profile.name;
+  const sc=CUR.score,tot=CUR.qs.length;
+  // Save planet progress
+  const starsEarned=sc===tot?3:sc>=tot*.7?2:sc>=tot*.4?1:0;
+  const world=CUR.world,pIdx=CUR.planet;
+  const prev=(CUR.profile.progress[world]||{})[pIdx]||0;
+  if(starsEarned>prev){
+    CUR.profile.progress[world]=CUR.profile.progress[world]||{};
+    CUR.profile.progress[world][pIdx]=starsEarned;
+  }
+  if(starsEarned===3) checkMedalById('perfect');
+  checkMedalById('first-planet');
+  // Check world complete
+  const allPlanets=PLANETS[world];
+  const prog=CUR.profile.progress[world]||{};
+  if(allPlanets.every((_,i)=>(prog[i]||0)>0)) checkMedalById(world==='numbers'?'world-num':world==='letters'?'world-let':'world-logic');
+  if(CUR.config.types.includes('lightning')) checkMedalById('lightning');
+
+  // Verificar fail streak em planeta desbloqueado por buraco negro
+  const _cu=CUR.profile.challengeUnlocked||{};
+  const _ck=world+'_'+pIdx;
+  if(_cu[_ck]){
+    CUR.profile.planetFailStreak=CUR.profile.planetFailStreak||{};
+    if(starsEarned===0){
+      CUR.profile.planetFailStreak[_ck]=(CUR.profile.planetFailStreak[_ck]||0)+1;
+      if(CUR.profile.planetFailStreak[_ck]>=3){
+        CUR.profile.planetFailStreak[_ck]=0;
+        // Sugerir planeta anterior após o ecrã de resultados
+        setTimeout(()=>showPrevPlanetSuggestion(world,pIdx),3000);
+      }
+    } else {
+      CUR.profile.planetFailStreak[_ck]=0;
+    }
+  }
+
+  updateProfile(CUR.profile);
+
+  let em,title,sub,talkParts;
+  if(sc===tot){
+    em='🏆🚀💫';title=`Perfeito, ${nm}!`;sub=`Acertaste em tudo! ${tot} de ${tot}!`;
+    talkParts=[
+      {text:`UÁU! Perfeito, ${nm}!`,pause:700},
+      {text:`Acertaste em todas as ${tot} perguntas!`,pause:700},
+      {text:`És um verdadeiro génio do espaço! Parabéns!`,pause:0},
+    ];
+  } else if(sc>=tot*.7){
+    em='🌟👍';title=`Muito bem, ${nm}!`;sub=`Acertaste em ${sc} de ${tot}!`;
+    talkParts=[
+      {text:`Muito bem, ${nm}!`,pause:700},
+      {text:`Acertaste em ${sc} de ${tot} perguntas!`,pause:700},
+      {text:`Estás quase a ser um campeão! Continua assim!`,pause:0},
+    ];
+  } else {
+    em='💪🚀';title=`Boa tentativa, ${nm}!`;sub=`${sc} de ${tot}. Continua a treinar!`;
+    talkParts=[
+      {text:`Boa tentativa, ${nm}!`,pause:700},
+      {text:`Acertaste em ${sc} perguntas.`,pause:700},
+      {text:`Com mais prática vais ser incrível! Não desistas!`,pause:0},
+    ];
+  }
+
+  CUR.pendingResults={em,title,starsEarned,sc,tot,sub,talkParts};
+  const shouldCuriosity=sc>=Math.max(3,Math.ceil(tot*0.6));
+  if(shouldCuriosity){showCuriosityReward();}else{showStoredResults();}
+}
+
+function showStoredResults(){const r=CUR.pendingResults;if(!r)return;
+  // Avatar no ecrã de resultados
+  const _rav=document.getElementById('res-avatar');
+  if(_rav&&CUR.profile){const _ac3=getAC(CUR.profile);_rav.innerHTML=avatarSVGMini(_ac3.h,_ac3.s,_ac3.v,56);}document.getElementById('res-em').textContent=r.em;document.getElementById('res-title').textContent=r.title;document.getElementById('res-stars').textContent='⭐'.repeat(Math.min(r.starsEarned,3))||'';document.getElementById('res-score').textContent=`${r.sc} / ${r.tot}`;document.getElementById('res-sub').textContent=r.sub;show('s-results');CNF.boom();setTimeout(()=>V.seq(r.talkParts),500);}
+function showCuriosityReward(){const cur=rnd(CURIOSITIES);CUR.rewardCuriosity=cur;document.getElementById('cur-title').textContent='Missão Curiosa';document.getElementById('cur-visual').textContent=cur.visual;document.getElementById('cur-question').textContent=cur.question;document.getElementById('cur-fb').textContent='';document.getElementById('cur-fb').className='fb';document.getElementById('cur-explain').style.display='none';document.getElementById('cur-explain').textContent='';document.getElementById('cur-next').style.display='none';document.getElementById('cur-options').innerHTML=cur.options.map((o,i)=>`<button class="obtn" data-value="${o.label}" onclick="answerCurIdx(this,${i})" style="flex-direction:column;gap:8px;"><span style="font-size:2.4rem">${o.visual}</span><span style="font-size:1rem;opacity:.82">${o.label}</span></button>`).join('');show('s-curiosity');V.say(`Bónus curioso. ${cur.question}`);}
+function answerCurIdx(btn,idx){const cur=CUR.rewardCuriosity;if(!cur)return;const opts=cur.options;if(idx<0||idx>=opts.length)return;answerCuriosityReward(btn,opts[idx].label);}
+function answerCuriosityReward(btn,label){if(document.getElementById('cur-next').style.display==='')return;const cur=CUR.rewardCuriosity;const buttons=[...document.querySelectorAll('#cur-options .obtn')];buttons.forEach(b=>b.classList.add('dis'));const correctBtn=buttons.find(b=>b.dataset.value===cur.correct);if(label===cur.correct){btn.classList.add('ok');document.getElementById('cur-fb').className='fb ok';document.getElementById('cur-fb').textContent='Certo!';checkMedalById('curious');}else{btn.classList.add('err');if(correctBtn)correctBtn.classList.add('rev');document.getElementById('cur-fb').className='fb err';document.getElementById('cur-fb').textContent='Quase. Vê a certa.';}document.getElementById('cur-explain').style.display='block';document.getElementById('cur-explain').textContent=cur.explain;document.getElementById('cur-next').style.display='';V.seq([{text:label===cur.correct?'Boa!':'Vamos ver juntos.'},{text:cur.explain,pause:0}]);}
+function finishCuriosityReward(){showStoredResults();}
+function celNext(){
+  document.getElementById('cel').classList.remove('on');
+  V.stop();
+  show('s-galaxy');
+  renderGalaxy();
+}
+
+function replayPlanet(){selectPlanet(CUR.planet);}
+function exitGame(){stopTimer();V.stop();show('s-galaxy');renderGalaxy();}
+
+// ═══════════════════════════════════════════════
+// MEDALS
+// ═══════════════════════════════════════════════
+function checkMedals(wasCorrect){
+  if(wasCorrect){
+    if((CUR.profile.totalCorrect||0)>=1) checkMedalById('first-ok');
+    if(CUR.streak>=5) checkMedalById('streak5');
+  }
+}
+function checkMedalById(id){
+  if(CUR.profile.medals.includes(id))return;
+  CUR.profile.medals.push(id);
+  updateProfile(CUR.profile);
+  showMedalPopup(id);
+}
+function showMedalPopup(id){
+  const m=MEDAL_DEF.find(x=>x.id===id);if(!m)return;
+  const pop=document.getElementById('medal-pop');
+  pop.className='on';
+  pop.innerHTML=`<div class="mpem">${m.em}</div><div><div class="mptxt">Medalha: ${m.name}</div><div class="mpsub">${m.desc}</div></div>`;
+  V.say(`UÁU! Parabéns, ${CUR.profile?CUR.profile.name:''}! Ganhaste a medalha ${m.name}! ${m.desc}`);
+  setTimeout(()=>pop.className='',4000);
+}
+
+function goMedals(){
+  const grid=document.getElementById('medals-grid');
+  grid.innerHTML='';
+  MEDAL_DEF.forEach(m=>{
+    const earned=(CUR.profile.medals||[]).includes(m.id);
+    const div=document.createElement('div');
+    div.className='medal '+(earned?'on':'off');
+    div.innerHTML=`<div class="mem">${m.em}</div><div class="mnm">${m.name}</div><div class="mds">${m.desc}</div>`;
+    grid.appendChild(div);
+  });
+  show('s-medals');
+}
+
+
+// ═══════════════════════════════════════════════
+// SETTINGS
+// ═══════════════════════════════════════════════
+function audioLabel(v){return v?'Ligado':'Desligado';}
+function modeLabel(v){return v==='test'?'Testar':'Ensinar';}
+function difficultyLabel(v){return v==='easy'?'Fácil':v==='advanced'?'Avançada':'Automática';}
+function syncSettingsUI(){
+  const s=getSettings();
+  const child=CUR.profile?CUR.profile.name:'Astronauta';
+  const childEl=document.getElementById('set-child-name');
+  if(childEl)childEl.textContent=child;
+  const ba=document.getElementById('btn-audio');
+  const bm=document.getElementById('btn-mode');
+  const bd=document.getElementById('btn-difficulty');
+  if(ba){ba.textContent=audioLabel(s.audio);ba.classList.toggle('on',!!s.audio);}
+  if(bm){bm.textContent=modeLabel(s.mode);bm.classList.toggle('on',s.mode!=='test');}
+  if(bd){bd.textContent=difficultyLabel(s.difficulty);bd.classList.toggle('on',s.difficulty!=='advanced');}
+}
+function goSettings(){
+  CUR._prevScreen=[...document.querySelectorAll('.sc.on')].map(el=>el.id)[0]||'s-galaxy';
+  syncSettingsUI();show('s-settings');
+  V.say('Aqui podes ajustar o jogo para cada astronauta.');
+}
+function closeSettings(){
+  V.stop();
+  const prev=CUR._prevScreen||'s-galaxy';
+  show(prev);
+  if(prev==='s-galaxy')setTimeout(()=>renderGalaxy(),20);
+}
+function toggleAudio(){const s=getSettings();saveSettings({audio:!s.audio});syncSettingsUI();if(!s.audio)V.say('Áudio ligado.');else V.stop();toast(`Áudio ${!s.audio?'ligado':'desligado'}.`);}
+function cycleMode(){const s=getSettings();const next=s.mode==='learn'?'test':'learn';saveSettings({mode:next});syncSettingsUI();toast(`Modo ${modeLabel(next).toLowerCase()}.`);V.say(next==='learn'?'Modo ensinar. Agora o jogo mostra mais ajuda.':'Modo testar. Agora há menos pistas.');}
+function cycleDifficulty(){const order=['auto','easy','advanced'];const s=getSettings();const next=order[(order.indexOf(s.difficulty)+1)%order.length];saveSettings({difficulty:next});syncSettingsUI();toast(`Dificuldade ${difficultyLabel(next).toLowerCase()}.`);V.say(`Dificuldade ${difficultyLabel(next).toLowerCase()}.`);}
+function resetCurrentProgress(){
+  if(!CUR.profile){toast('Escolhe primeiro um astronauta.');return;}
+  CUR.profile.progress={numbers:{},letters:{},logic:{}};CUR.profile.medals=[];CUR.profile.seenTypes=[];CUR.profile.wrongQ=[];CUR.profile.stars=0;CUR.profile.totalCorrect=0;CUR.profile.streak=0;updateProfile(CUR.profile);syncSettingsUI();toast('Progresso reiniciado.');V.say(`Pronto, ${CUR.profile.name}. Vamos começar de novo!`);
+}
+function deleteCurrentProfile(){
+  if(!CUR.profile){toast('Escolhe primeiro um astronauta.');return;}
+  const name=CUR.profile.name;
+  const ps=getProfiles().filter(p=>p.id!==CUR.profile.id);saveProfiles(ps);CUR.profile=null;toast(`Perfil ${name} apagado.`);show('s-profiles');goProfiles();
+}
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+let toastTimer;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('on');
+  if(toastTimer)clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('on'),2800);
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+if(SS)SS.onvoiceschanged=()=>{};
+setTimeout(()=>SS?.getVoices(),300);
+document.addEventListener('visibilitychange',()=>{if(document.hidden){V.stop();}});
+
+// Data migration: mover dados de versões antigas
+(()=>{try{const old=localStorage.getItem('aventura_v3')||localStorage.getItem('aventura_v4')||localStorage.getItem('aventura_v5');if(old&&!localStorage.getItem('aventura_v6')){localStorage.setItem('aventura_v6',old);}}catch(e){}})();
+// Welcome voice
+setTimeout(()=>{syncSettingsUI();V.say('Bem-vindo à Aventura Espacial! Toca em Jogar para começar!');},600);
+
+// Performance: passive listeners para eventos de touch no document
+document.addEventListener('touchstart',()=>{},{passive:true});
+document.addEventListener('touchmove',()=>{},{passive:true});
+</script>
+<!-- ── BURACO NEGRO OVERLAY ── -->
+<div id="bh-overlay">
+  <div class="bh-modal">
+    <div id="bh-planet-em" style="font-size:clamp(2.5rem,8vw,4rem);margin-bottom:6px;">🌑</div>
+    <div class="bh-title" id="bh-title">Buraco Negro!</div>
+    <div class="bh-sub" id="bh-sub">3 perguntas. Acerta 2 para desbloquear.</div>
+    <div class="bh-prog" id="bh-prog">
+      <div class="bh-dot" id="bh-d0"></div>
+      <div class="bh-dot" id="bh-d1"></div>
+      <div class="bh-dot" id="bh-d2"></div>
+    </div>
+    <div id="bh-qcard" style="margin:10px 0;min-height:80px;"></div>
+    <div id="bh-result" style="display:none;padding:14px 0;">
+      <div id="bh-result-em" style="font-size:3rem;margin-bottom:8px;"></div>
+      <div id="bh-result-txt" style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#c8a0ff;margin-bottom:16px;"></div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn-y" id="bh-play-btn" onclick="bhPlayUnlocked()" style="display:none">🚀 Jogar agora!</button>
+        <button class="btn-g" onclick="bhRetry()" id="bh-retry-btn" style="display:none">🌑 Tentar de novo</button>
+        <button class="btn-g" onclick="bhClose()">← Voltar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── SUGESTÃO PLANETA ANTERIOR ── -->
+<div id="prev-suggest" style="display:none;position:fixed;inset:0;background:rgba(5,5,20,.82);z-index:800;align-items:center;justify-content:center;padding:20px;">
+  <div class="bh-modal">
+    <div style="font-size:2.5rem;margin-bottom:8px;">💪</div>
+    <div class="bh-title" id="ps-title">Este planeta é difícil!</div>
+    <div class="bh-sub" id="ps-sub">Já falhaste 3 vezes seguidas. Que tal treinar um pouco no planeta anterior?</div>
+    <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+      <button class="btn-y" id="ps-prev-btn" onclick="psSuggestGo()">⬅️ Ir ao anterior</button>
+      <button class="btn-g" onclick="psDismiss()">Continuar aqui</button>
+    </div>
+  </div>
+</div>
+</body>
+</html>
