@@ -295,6 +295,199 @@ canvas#cnf{position:fixed;inset:0;z-index:999;pointer-events:none;}
 .bh-dot{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.3);transition:all .3s;}
 .bh-dot.ok{background:#50dd90;border-color:#50dd90;box-shadow:0 0 8px #50dd90;}
 .bh-dot.err{background:#f85858;border-color:#f85858;}
+
+/* ── TUTORIAL OVERLAY ─────────────────────────────── */
+#tut-overlay{
+  position:fixed;inset:0;z-index:900;
+  background:rgba(5,5,30,.92);
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:16px;overflow-y:auto;
+}
+#tut-overlay.on{display:flex;}
+#tut-box{
+  background:linear-gradient(160deg,#0d1b4a,#1a0d3d);
+  border:2px solid rgba(150,100,255,.4);
+  border-radius:24px;padding:22px 20px 18px;
+  max-width:580px;width:100%;
+  box-shadow:0 0 50px rgba(120,80,255,.3);
+}
+#tut-header{
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  margin-bottom:14px;
+}
+#tut-icon{font-size:clamp(2.4rem,6vw,3.4rem);}
+#tut-title{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.3rem,3.5vw,1.9rem);
+  color:#fff;text-align:center;
+}
+.tut-methods{display:flex;gap:8px;margin-top:6px;}
+.tut-mbtn{
+  background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.2);
+  border-radius:20px;padding:5px 14px;color:rgba(255,255,255,.7);
+  font-size:.82rem;font-family:'Fredoka One',cursive;cursor:pointer;
+  transition:all .2s;
+}
+.tut-mbtn.active{
+  background:rgba(120,80,255,.35);border-color:#9966ff;
+  color:#fff;
+}
+#tut-visual{
+  min-height:100px;display:flex;align-items:center;justify-content:center;
+  flex-wrap:wrap;gap:8px;margin:10px 0;
+  background:rgba(255,255,255,.04);border-radius:16px;
+  padding:14px 10px;
+}
+.tut-grid{
+  display:flex;flex-wrap:wrap;gap:6px;
+  justify-content:center;align-items:center;
+}
+.tut-em{
+  font-size:clamp(2rem,5.5vw,3.2rem);
+  cursor:pointer;transition:all .2s;
+  display:inline-block;line-height:1;
+  border-radius:8px;padding:2px 4px;
+}
+.tut-em:active{transform:scale(.88);}
+.tut-em.tapped{
+  opacity:.28;text-decoration:line-through;
+  filter:grayscale(1);transform:scale(.82);
+}
+.tut-x{
+  font-size:clamp(2rem,5.5vw,3.2rem);opacity:.3;
+  text-decoration:line-through;filter:grayscale(1);
+}
+.tut-nline{
+  display:flex;gap:5px;align-items:center;justify-content:center;
+  flex-wrap:wrap;
+}
+.tut-nline span{
+  width:clamp(28px,5vw,38px);height:clamp(28px,5vw,38px);
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.1);border-radius:8px;
+  font-family:'Fredoka One',cursive;font-size:clamp(.9rem,2.2vw,1.2rem);
+  color:rgba(255,255,255,.6);border:2px solid transparent;
+}
+.tut-nline span.hl{
+  background:rgba(80,200,120,.25);border-color:#50c878;
+  color:#50c878;font-size:clamp(1rem,2.5vw,1.4rem);
+}
+.tut-nline span.hl2{
+  background:rgba(255,180,50,.25);border-color:#ffb432;
+  color:#ffb432;font-size:clamp(1rem,2.5vw,1.4rem);
+}
+.tut-nline span.step{
+  background:rgba(200,100,255,.2);border-color:#c864ff;color:#c864ff;
+}
+.tut-eq{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(2rem,6vw,3.5rem);
+  color:#fff;text-align:center;letter-spacing:4px;
+}
+.tut-ans{color:#50c878;}
+.tut-ans-bad{color:#ff6b6b;}
+.tut-word{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.6rem,5vw,3rem);
+  color:#fff;letter-spacing:6px;text-align:center;
+}
+.tut-word .whl{color:#ffd700;font-size:1.2em;}
+.tut-word .wgap{
+  display:inline-block;width:.7em;height:.7em;
+  border-bottom:3px solid #9966ff;
+  vertical-align:middle;margin:0 4px;
+}
+.tut-syls{
+  display:flex;gap:8px;justify-content:center;flex-wrap:wrap;
+}
+.tut-syl{
+  background:rgba(255,255,255,.12);border-radius:10px;
+  padding:6px 14px;
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.2rem,3vw,1.8rem);
+  color:#fff;border:2px solid rgba(150,100,255,.4);
+}
+.tut-syl.hl{background:rgba(120,80,255,.35);border-color:#9966ff;color:#ffd700;}
+.tut-tap-hint{
+  font-size:.78rem;color:rgba(255,255,255,.5);
+  text-align:center;margin-top:6px;font-style:italic;
+}
+#tut-text{
+  font-size:clamp(1rem,2.6vw,1.35rem);
+  color:rgba(255,255,255,.9);text-align:center;
+  font-weight:700;line-height:1.55;margin:8px 0;min-height:52px;
+}
+.tut-progress{
+  display:flex;gap:7px;justify-content:center;margin:10px 0 12px;
+}
+.tut-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:rgba(255,255,255,.2);transition:background .2s;
+}
+.tut-dot.active{background:#9966ff;}
+.tut-dot.done{background:rgba(150,100,255,.5);}
+.tut-nav{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.tut-nav-btn{
+  background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);
+  border-radius:20px;padding:8px 22px;
+  font-family:'Fredoka One',cursive;font-size:clamp(.9rem,2.2vw,1.1rem);
+  color:#fff;cursor:pointer;transition:all .2s;
+}
+.tut-nav-btn:active{transform:scale(.95);}
+.tut-nav-btn.primary{
+  background:linear-gradient(135deg,#7c3aed,#4f46e5);
+  border-color:#9966ff;
+}
+.tut-skip{
+  margin-top:10px;text-align:center;
+  font-size:.8rem;color:rgba(255,255,255,.4);
+  cursor:pointer;text-decoration:underline;
+}
+/* ── HINT PANEL ─────────────────────────────────────── */
+#hint-overlay{
+  position:fixed;inset:0;z-index:800;
+  background:rgba(5,5,30,.75);
+  display:none;align-items:flex-end;justify-content:center;
+  padding-bottom:0;
+}
+#hint-overlay.on{display:flex;}
+#hint-box{
+  background:linear-gradient(160deg,#0f2050,#1d0f45);
+  border:2px solid rgba(100,180,255,.35);
+  border-radius:24px 24px 0 0;
+  padding:20px 20px 28px;
+  max-width:600px;width:100%;
+  box-shadow:0 -8px 40px rgba(80,120,255,.25);
+  animation:slideUp .25s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+#hint-header{
+  display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+#hint-icon{font-size:1.8rem;}
+#hint-title{
+  font-family:'Fredoka One',cursive;
+  font-size:clamp(1.1rem,2.8vw,1.4rem);
+  color:#ffd700;flex:1;
+}
+.hint-steps{display:flex;flex-direction:column;gap:10px;}
+.hint-step{
+  display:flex;align-items:flex-start;gap:10px;
+  background:rgba(255,255,255,.06);border-radius:12px;
+  padding:10px 14px;
+}
+.hint-num{
+  font-family:'Fredoka One',cursive;font-size:1.1rem;
+  color:#9966ff;min-width:22px;text-align:center;margin-top:1px;
+}
+.hint-txt{
+  font-size:clamp(.88rem,2.2vw,1.05rem);
+  color:rgba(255,255,255,.88);font-weight:600;line-height:1.5;
+}
+.hint-vis{
+  text-align:center;font-size:clamp(1.4rem,3.5vw,2rem);
+  margin:10px 0 4px;letter-spacing:4px;
+}
 </style>
 </head>
 <body>
@@ -947,6 +1140,427 @@ const MEMORY_SETS=[
 ];
 
 // Galaxy planet definitions per world
+
+// ═══════════════════════════════════════════════
+// TUTORIAL ENGINE
+// ═══════════════════════════════════════════════
+const TUT={
+  queue:[],   // array of type strings to show
+  qi:0,       // index in queue
+  method:0,   // 0 or 1
+  slide:0,    // slide index within method
+  tapCount:0, // for tap interactions
+  onDone:null,
+};
+
+function _tutBuildVisual(slide){
+  const v=slide.vis||'';
+  if(!v) return '';
+  // Simple equation / text
+  if(v==='eq'){
+    return `<div class="tut-eq">${slide.eq||''}</div>`;
+  }
+  // Emoji grid (static)
+  if(v==='grid'){
+    const ems=(slide.ems||'').split('').filter(e=>e.trim());
+    // Handle emoji properly (multi-char)
+    const emArr=[...slide.ems||''].filter(e=>e.trim());
+    const spans=emArr.map((e,i)=>`<span class="tut-em" style="animation-delay:${i*.08}s">${e}</span>`).join('');
+    return `<div class="tut-grid">${spans}</div>`;
+  }
+  // Tapable grid
+  if(v==='tap'){
+    const emArr=[...slide.ems||''].filter(e=>e.trim());
+    TUT.tapCount=0;
+    const target=slide.target||emArr.length;
+    const spans=emArr.map((e,i)=>
+      `<span class="tut-em" onclick="tutTap(this,${target})">${e}</span>`
+    ).join('');
+    return `<div class="tut-grid">${spans}</div><div class="tut-tap-hint">Toca em ${target} para continuar!</div>`;
+  }
+  // Two groups
+  if(v==='twogroups'||v==='twogroups-hl'||v==='twogroups-ans'){
+    const emA=slide.emA||slide.em||'🍎';
+    const emB=slide.emB||slide.em||'🍎';
+    const grpA=Array(slide.a||3).fill(emA).join('');
+    const grpB=Array(slide.b||5).fill(emB).join('');
+    const hlA=v==='twogroups-ans'?'':'';
+    return `<div style="display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 16px;text-align:center;">
+        <div style="font-size:clamp(.7rem,1.8vw,1rem);color:rgba(255,255,255,.6);margin-bottom:4px;">Grupo A</div>
+        <div class="tut-grid">${[...grpA].map(e=>`<span class="tut-em">${e}</span>`).join('')}</div>
+        ${v==='twogroups-ans'?`<div style="font-family:'Fredoka One',cursive;color:#ffd700;font-size:1.2rem;">${slide.a}</div>`:''}
+      </div>
+      <div style="font-family:'Fredoka One',cursive;font-size:1.8rem;color:rgba(255,255,255,.5);">vs</div>
+      <div style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px 16px;text-align:center;">
+        <div style="font-size:clamp(.7rem,1.8vw,1rem);color:rgba(255,255,255,.6);margin-bottom:4px;">Grupo B</div>
+        <div class="tut-grid">${[...grpB].map(e=>`<span class="tut-em">${e}</span>`).join('')}</div>
+        ${v==='twogroups-ans'?`<div style="font-family:'Fredoka One',cursive;color:${slide.b>slide.a?'#50c878':'#ffd700'};font-size:1.2rem;">${slide.b} ${slide.b>slide.a?' ← maior':''}</div>`:''}
+      </div>
+    </div>`;
+  }
+  // Number line
+  if(v==='nline'||v==='nline-back'){
+    const n=slide.n||10;
+    const hl=slide.hl||0;
+    const hl2=slide.hl2||0;
+    const start=slide.start||0;
+    const steps=slide.steps||0;
+    const nums=Array.from({length:n},(_, i)=>i+1);
+    const spans=nums.map(num=>{
+      let cls='';
+      if(v==='nline-back'){
+        if(num===start) cls=' hl2';
+        else if(num===start-steps) cls=' hl';
+        else if(num>start-steps && num<start) cls=' step';
+      } else {
+        if(num===hl) cls=' hl'; if(num===hl2) cls=' hl2';
+      }
+      return `<span class="${cls}">${num}</span>`;
+    }).join('');
+    const arrow=v==='nline-back'?`<div style="text-align:center;font-size:1.5rem;color:#c864ff;margin-top:6px;">← ← ←</div>`:'';
+    return `<div class="tut-nline">${spans}</div>${arrow}`;
+  }
+  // Subtract result visual
+  if(v==='subresult'){
+    const total=slide.total||7;
+    const removed=slide.removed||3;
+    const em='🍎';
+    const spans=Array.from({length:total},(_,i)=>
+      i<removed?`<span class="tut-x">${em}</span>`:`<span class="tut-em">${em}</span>`
+    ).join('');
+    return `<div class="tut-grid">${spans}</div><div style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:#50c878;margin-top:8px;">${total} − ${removed} = ${total-removed} ✅</div>`;
+  }
+  // Add groups
+  if(v==='addgroups'||v==='addgroups-join'){
+    const em=slide.em||'🍎';
+    const a=slide.a||3; const b=slide.b||2;
+    if(v==='addgroups'){
+      const gA=Array(a).fill(em).map(e=>`<span class="tut-em">${e}</span>`).join('');
+      const gB=Array(b).fill(em).map(e=>`<span class="tut-em">${e}</span>`).join('');
+      return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;">
+        <div class="tut-grid" style="background:rgba(255,255,255,.06);border-radius:10px;padding:8px;">${gA}</div>
+        <span style="font-family:'Fredoka One',cursive;font-size:2rem;color:#ffd700;">+</span>
+        <div class="tut-grid" style="background:rgba(255,255,255,.06);border-radius:10px;padding:8px;">${gB}</div>
+      </div>`;
+    } else {
+      const all=Array(a+b).fill(em).map(e=>`<span class="tut-em">${e}</span>`).join('');
+      return `<div class="tut-grid" style="background:rgba(255,255,255,.08);border-radius:12px;padding:10px;">${all}</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:#50c878;margin-top:8px;">${a} + ${b} = ${a+b} ✅</div>`;
+    }
+  }
+  // Add groups find missing
+  if(v==='addgroups-find'){
+    const em=slide.em||'⭐'; const a=slide.a||3; const total=slide.total||7;
+    const gA=Array(a).fill(em).map(e=>`<span class="tut-em">${e}</span>`).join('');
+    const gQ=Array(total-a).fill('❓').map(e=>`<span class="tut-em">${e}</span>`).join('');
+    return `<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;justify-content:center;">
+      <div class="tut-grid" style="background:rgba(255,255,255,.06);border-radius:10px;padding:8px;">${gA}</div>
+      <span style="font-family:'Fredoka One',cursive;font-size:2rem;color:#ffd700;">+</span>
+      <div class="tut-grid" style="background:rgba(255,255,255,.06);border-radius:10px;padding:8px;">${gQ}</div>
+      <span style="font-family:'Fredoka One',cursive;font-size:1.4rem;color:#ffd700;">= ${total}</span>
+    </div>`;
+  }
+  // Count from
+  if(v==='countfrom'){
+    const start=slide.start||4; const add=slide.add||3;
+    const nums=Array.from({length:add},(_, i)=>start+i+1);
+    const spans=nums.map(n=>`<span class="tut-nline-step" style="display:inline-block;background:rgba(120,80,255,.3);border:2px solid #9966ff;border-radius:8px;padding:4px 12px;font-family:'Fredoka One',cursive;font-size:1.4rem;color:#fff;margin:3px;">${n}</span>`).join('<span style="color:#ffd700;font-size:1.2rem;margin:0 2px;">→</span>');
+    return `<div style="text-align:center;">
+      <span style="font-family:'Fredoka One',cursive;font-size:1.6rem;color:#ffd700;margin-right:8px;">${start}</span>
+      <span style="color:rgba(255,255,255,.5);margin-right:8px;">→</span>
+      ${spans}
+    </div><div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#50c878;margin-top:8px;">${start} + ${add} = ${start+add} ✅</div>`;
+  }
+  // Fingers
+  if(v==='fingers'){
+    const n=slide.n||3;
+    const fingers=['☝️','✌️','🤟','🖖','🖐️','🤙','👆','👉','👊','🤚'];
+    return `<div style="font-size:clamp(2.5rem,7vw,4rem);text-align:center;letter-spacing:8px;">${fingers.slice(0,n).join('')}</div>
+      <div style="font-family:'Fredoka One',cursive;font-size:1.3rem;color:#ffd700;text-align:center;margin-top:6px;">${n} dedos = ${n}</div>`;
+  }
+  // Big single letter
+  if(v==='bigword'){
+    return `<div style="font-family:'Fredoka One',cursive;font-size:clamp(4rem,12vw,7rem);color:${slide.color||'#fff'};text-align:center;text-shadow:0 0 30px ${slide.color||'#fff'}66;">${slide.word||'A'}</div>`;
+  }
+  // Word show (emoji + word)
+  if(v==='wordshow'){
+    return `<div style="text-align:center;">
+      <div style="font-size:clamp(3rem,8vw,5rem);">${slide.em||''}</div>
+      <div class="tut-word">${slide.word||''}</div>
+    </div>`;
+  }
+  // Word with first letter highlighted
+  if(v==='wordfirst'){
+    const w=slide.word||''; const fl=slide.fl||w[0];
+    const rest=w.slice(fl.length);
+    const done=slide.done||false;
+    return `<div style="text-align:center;">
+      <div style="font-size:clamp(2.5rem,7vw,4rem);">${slide.em||''}</div>
+      <div class="tut-word"><span class="whl">${fl}</span>${rest}</div>
+      ${done?`<div style="font-family:'Fredoka One',cursive;font-size:1.2rem;color:#50c878;margin-top:6px;">Começa com ${fl}! ✅</div>`:''}
+    </div>`;
+  }
+  // Missing letter
+  if(v==='misword'||v==='misword-ans'){
+    const em=slide.em||''; const word=slide.word||''; const fl=slide.fl||'';
+    const display=v==='misword-ans'?word:word;
+    const isAns=v==='misword-ans';
+    const formatted=isAns
+      ? `<span style="color:#50c878;">${word}</span>`
+      : word.replace('_',`<span class="wgap"></span>`);
+    return `<div style="text-align:center;">
+      <div style="font-size:clamp(2.5rem,7vw,4rem);">${em}</div>
+      <div class="tut-word">${formatted}</div>
+    </div>`;
+  }
+  // Syllable show
+  if(v==='sylshow'||v==='sylshow-hl'||v==='sylshow-join'){
+    const syls=slide.syls||['SÍ','LA','BA'];
+    const spans=syls.map((s,i)=>{
+      const cls=v==='sylshow-hl'?'tut-syl hl':'tut-syl';
+      return `<span class="${cls}" style="${v==='sylshow-hl'?'animation-delay:'+i*.3+'s':''}">${s}</span>`;
+    }).join(v==='sylshow-join'?'<span style="font-size:1.4rem;color:#ffd700;padding:0 4px;">+</span>':'<span style="color:rgba(255,255,255,.3);padding:0 4px;">·</span>');
+    const joinResult=v==='sylshow-join'?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:#50c878;margin-top:8px;">= ${slide.word} ✅</div>`:'';
+    return `<div class="tut-syls">${spans}</div>${joinResult}`;
+  }
+  // Pattern show
+  if(v==='patshow'||v==='patshow-hl'){
+    const items=slide.items||['⭐','🌙','⭐','🌙','?'];
+    const ans=slide.ans!=null?slide.ans:-1;
+    const spans=items.map((e,i)=>{
+      const isAns=i===ans;
+      const isQ=e==='?';
+      const style=isAns?'background:rgba(80,200,120,.25);border:2px solid #50c878;border-radius:10px;padding:2px 6px;':'';
+      return `<span class="tut-em" style="${style}">${isQ?'❓':e}</span>`;
+    }).join('');
+    return `<div class="tut-grid">${spans}</div>`;
+  }
+  // Odd one out
+  if(v==='oddshow'||v==='oddshow-hl'){
+    const items=slide.items||['🚀','🛸','✈️','⚽'];
+    const odd=slide.odd!=null?slide.odd:3;
+    const spans=items.map((e,i)=>{
+      const isOdd=i===odd && v==='oddshow-hl';
+      const style=isOdd?'filter:hue-rotate(120deg);border:2px solid #ff6b6b;border-radius:10px;opacity:.7;padding:2px;':'';
+      return `<span class="tut-em" style="${style}">${e}</span>`;
+    }).join('');
+    return `<div class="tut-grid" style="gap:12px;">${spans}</div>`;
+  }
+  // Memory sequence
+  if(v==='memshow'){
+    const seq=slide.seq||['🌙','⭐','🚀'];
+    const show=slide.show!==false;
+    if(show){
+      return `<div class="tut-grid" style="gap:14px;">${seq.map(e=>`<span class="tut-em" style="font-size:clamp(2.5rem,7vw,4rem);">${e}</span>`).join('')}</div>`;
+    } else {
+      return `<div class="tut-grid" style="gap:14px;">${seq.map(e=>`<span class="tut-em" style="font-size:clamp(2.5rem,7vw,4rem);filter:blur(8px);opacity:.3;">❓</span>`).join('')}</div>
+        <div style="font-family:'Fredoka One',cursive;font-size:.9rem;color:rgba(255,255,255,.6);text-align:center;margin-top:6px;">Consegues lembrar-te?</div>`;
+    }
+  }
+  // Vowels display
+  if(v==='vowels'){
+    return `<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      ${['A','E','I','O','U'].map(l=>`<span style="font-family:'Fredoka One',cursive;font-size:clamp(2rem,6vw,3.5rem);color:#ffd700;background:rgba(255,215,0,.15);border:2px solid #ffd70055;border-radius:12px;padding:6px 14px;">${l}</span>`).join('')}
+    </div>`;
+  }
+  // Consonants display
+  if(v==='consonants'){
+    const cons='BCDFGHJKLMNPQRSTVWXZ'.split('');
+    return `<div style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:400px;">
+      ${cons.map(l=>`<span style="font-family:'Fredoka One',cursive;font-size:clamp(.9rem,2.5vw,1.3rem);color:rgba(255,255,255,.7);background:rgba(255,255,255,.06);border-radius:8px;padding:3px 8px;">${l}</span>`).join('')}
+    </div>`;
+  }
+  // Rhyme pair
+  if(v==='rhymepair'||v==='rhymepair-hl'){
+    const w1=slide.w1||'LUA'; const w2=slide.w2||'RUA'; const end=slide.end||'UA';
+    const fmt=(w)=>{
+      if(v!=='rhymepair-hl') return `<span style="color:#fff;">${w}</span>`;
+      const body=w.slice(0,w.length-end.length);
+      return `<span style="color:rgba(255,255,255,.6);">${body}</span><span style="color:#ffd700;">${end}</span>`;
+    };
+    return `<div style="display:flex;gap:20px;align-items:center;justify-content:center;flex-wrap:wrap;">
+      <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,5vw,2.5rem);">${fmt(w1)}</div>
+      <span style="font-size:1.8rem;">🎵</span>
+      <div style="font-family:'Fredoka One',cursive;font-size:clamp(1.6rem,5vw,2.5rem);">${fmt(w2)}</div>
+    </div>`;
+  }
+  // Compare crocodile
+  if(v==='compare-croc'||v==='compare-eq'){
+    const a=slide.a||7; const b=slide.b||3;
+    const sym=a>b?'>':a<b?'<':'=';
+    const col=v==='compare-croc'?(slide.show?'#50c878':'rgba(255,255,255,.4)'):'#ffd700';
+    return `<div style="font-family:'Fredoka One',cursive;font-size:clamp(2.5rem,7vw,4rem);color:#fff;text-align:center;letter-spacing:8px;">
+      <span style="color:#ffd700;">${a}</span>
+      <span style="color:${col};margin:0 10px;">${sym}</span>
+      <span style="color:#ffd700;">${b}</span>
+    </div>`;
+  }
+  // Staircase
+  if(v==='staircase'||v==='staircase-hl'){
+    const steps=slide.steps||[1,3,5,7];
+    const bars=steps.map((n,i)=>{
+      const h=20+i*18;
+      const hl=v==='staircase-hl';
+      return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+        <div style="width:40px;height:${h}px;background:${hl?'rgba(120,80,255,.5)':'rgba(255,255,255,.15)'};border-radius:6px 6px 0 0;border:2px solid ${hl?'#9966ff':'rgba(255,255,255,.2)'};"></div>
+        <div style="font-family:'Fredoka One',cursive;font-size:1rem;color:#ffd700;">${n}</div>
+      </div>`;
+    }).join('');
+    return `<div style="display:flex;align-items:flex-end;gap:6px;justify-content:center;">${bars}</div>`;
+  }
+  // Sequence numbers
+  if(v==='seq'||v==='seq-diff'){
+    const nums=slide.nums||[2,4,6,8,0]; const diff=slide.diff||2;
+    const spans=nums.map((n,i)=>{
+      const isGap=n===0;
+      const style=isGap?'background:rgba(120,80,255,.3);border:2px dashed #9966ff;':'background:rgba(255,255,255,.1);';
+      const label=isGap?'?':n;
+      return `<span style="font-family:'Fredoka One',cursive;font-size:clamp(1.3rem,3.5vw,2rem);color:#fff;${style}border-radius:10px;padding:6px 12px;display:inline-block;">${label}</span>`;
+    }).join(v==='seq-diff'?`<span style="font-size:.8rem;color:#9966ff;align-self:center;padding:0 2px;">+${diff}</span>`:'<span style="color:rgba(255,255,255,.3);padding:0 4px;">→</span>');
+    return `<div style="display:flex;align-items:center;flex-wrap:wrap;gap:6px;justify-content:center;">${spans}</div>`;
+  }
+  return `<div style="font-size:2rem;text-align:center;">${slide.em||'🎓'}</div>`;
+}
+
+function tutTap(el, target){
+  if(el.classList.contains('tapped')) return;
+  el.classList.add('tapped');
+  TUT.tapCount++;
+  if(TUT.tapCount>=target){
+    // Auto advance after short delay
+    setTimeout(()=>tutNav(1), 600);
+  }
+}
+
+function openTutorial(types, onDone){
+  if(!types||types.length===0){if(onDone)onDone();return;}
+  const validTypes=types.filter(t=>TUTORIALS[t]);
+  if(validTypes.length===0){if(onDone)onDone();return;}
+  TUT.queue=validTypes;
+  TUT.qi=0;TUT.method=0;TUT.slide=0;TUT.onDone=onDone;
+  _tutShow();
+}
+
+function _tutShow(){
+  const type=TUT.queue[TUT.qi];
+  const tut=TUTORIALS[type];
+  if(!tut){_tutNextType();return;}
+  document.getElementById('tut-icon').textContent=tut.icon;
+  document.getElementById('tut-title').textContent=tut.title;
+  // Method buttons
+  const mb=document.getElementById('tut-methods');
+  mb.innerHTML=tut.methods.map((m,i)=>
+    `<button class="tut-mbtn${i===TUT.method?' active':''}" onclick="tutSetMethod(${i})">${m.name}</button>`
+  ).join('');
+  // Progress indicator (queue)
+  const skipEl=document.getElementById('tut-skip');
+  if(TUT.queue.length>1){
+    skipEl.textContent=`Saltar (${TUT.qi+1}/${TUT.queue.length})`;
+  } else {
+    skipEl.textContent='Já percebi, quero jogar!';
+  }
+  _tutRenderSlide();
+  document.getElementById('tut-overlay').classList.add('on');
+}
+
+function _tutRenderSlide(){
+  const type=TUT.queue[TUT.qi];
+  const tut=TUTORIALS[type];
+  const method=tut.methods[TUT.method];
+  const slide=method.slides[TUT.slide];
+  TUT.tapCount=0;
+
+  document.getElementById('tut-visual').innerHTML=_tutBuildVisual(slide);
+  document.getElementById('tut-text').textContent=slide.text||'';
+
+  // Dots
+  const dots=document.getElementById('tut-dots');
+  dots.innerHTML=method.slides.map((_,i)=>`<div class="tut-dot${i===TUT.slide?' active':i<TUT.slide?' done':''}"></div>`).join('');
+
+  // Buttons
+  const prev=document.getElementById('tut-prev');
+  const next=document.getElementById('tut-next');
+  const isLast=TUT.slide===method.slides.length-1;
+  const isLastType=TUT.qi===TUT.queue.length-1;
+
+  prev.style.display=TUT.slide===0?'none':'inline-block';
+  if(isLast && isLastType) next.textContent='Vamos Jogar! 🚀';
+  else if(isLast) next.textContent='Próximo Tema →';
+  else next.textContent='Próximo →';
+
+  // Update method buttons
+  const mb=document.getElementById('tut-methods');
+  [...mb.querySelectorAll('.tut-mbtn')].forEach((b,i)=>b.classList.toggle('active',i===TUT.method));
+}
+
+function tutSetMethod(m){
+  TUT.method=m;TUT.slide=0;
+  _tutRenderSlide();
+}
+
+function tutNav(dir){
+  const type=TUT.queue[TUT.qi];
+  const tut=TUTORIALS[type];
+  const method=tut.methods[TUT.method];
+  const maxSlide=method.slides.length-1;
+
+  if(dir>0){
+    if(TUT.slide<maxSlide){TUT.slide++;_tutRenderSlide();}
+    else _tutNextType();
+  } else {
+    if(TUT.slide>0){TUT.slide--;_tutRenderSlide();}
+  }
+}
+
+function _tutNextType(){
+  TUT.qi++;
+  if(TUT.qi>=TUT.queue.length){
+    document.getElementById('tut-overlay').classList.remove('on');
+    V.stop();
+    if(TUT.onDone) TUT.onDone();
+  } else {
+    TUT.method=0;TUT.slide=0;
+    _tutShow();
+  }
+}
+
+function tutSkip(){
+  document.getElementById('tut-overlay').classList.remove('on');
+  V.stop();
+  if(TUT.onDone) TUT.onDone();
+}
+
+// ── HINT SYSTEM ──────────────────────────────────
+function openHint(){
+  const q=CUR.qs&&CUR.qs[CUR.qIdx];
+  if(!q)return;
+  const h=HINTS[q.type];
+  if(!h)return;
+  document.getElementById('hint-icon').textContent=h.icon;
+  document.getElementById('hint-title').textContent=h.title;
+  const steps=document.getElementById('hint-steps');
+  steps.innerHTML='';
+  if(h.vis){
+    const vis=document.createElement('div');
+    vis.className='hint-vis';
+    vis.textContent=h.vis;
+    steps.appendChild(vis);
+  }
+  h.steps.forEach(s=>{
+    const div=document.createElement('div');
+    div.className='hint-step';
+    div.innerHTML=`<span class="hint-num">${s.n}</span><span class="hint-txt">${s.t}</span>`;
+    steps.appendChild(div);
+  });
+  document.getElementById('hint-overlay').classList.add('on');
+  V.say('Aqui está uma dica para te ajudar a pensar!');
+}
+
+function closeHint(){
+  document.getElementById('hint-overlay').classList.remove('on');
+}
+
 const PLANETS={
   numbers:[
     {id:0,name:'Planeta Eco',em:'🟢',bg:'#1a5c30',
@@ -1003,6 +1617,424 @@ const PLANET_POS=[
 ];
 
 // Learn-first content per game type
+
+// ═══════════════════════════════════════════════
+// TUTORIAL SYSTEM — 2 métodos por tipo
+// ═══════════════════════════════════════════════
+const TUTORIALS={
+  'count':{title:'Como Contar',icon:'🔢',methods:[
+    {name:'👆 Um a um',slides:[
+      {text:'Vês estes objetos? Vamos contar todos!',vis:'grid',ems:'🍎🍎🍎🍎🍎',n:5},
+      {text:'Toca em cada um enquanto contas em voz alta: um, dois, três...',vis:'tap',ems:'🍎🍎🍎🍎🍎',n:5,target:5},
+      {text:'Contaste 5! O último número que disseste é sempre a resposta. ✅',vis:'eq',eq:'5 objetos = 5'},
+    ]},
+    {name:'🖐️ Usa os dedos',slides:[
+      {text:'Para cada objeto que vês, levanta um dedo.',vis:'grid',ems:'⭐⭐⭐',n:3},
+      {text:'Levanta 1 dedo por cada estrela. Um... dois... três!',vis:'fingers',n:3},
+      {text:'Conta os dedos levantados. Esse número é a resposta!',vis:'eq',eq:'3 dedos = 3'},
+    ]},
+  ]},
+  'which-more':{title:'Qual grupo tem MAIS?',icon:'⚖️',methods:[
+    {name:'🔢 Conta cada grupo',slides:[
+      {text:'Tens dois grupos de objetos. Vais contar cada um!',vis:'twogroups',a:3,b:5,em:'🚀'},
+      {text:'Conta o grupo da esquerda: um, dois, três. Depois conta o da direita.',vis:'twogroups-hl',a:3,b:5,em:'🚀'},
+      {text:'O grupo com o número maior é o que tem MAIS! ✅',vis:'twogroups-ans',a:3,b:5,em:'🚀'},
+    ]},
+    {name:'👀 Olha e compara',slides:[
+      {text:'Às vezes consegues ver qual grupo é maior sem contar!',vis:'twogroups',a:2,b:6,em:'🌟'},
+      {text:'Quando a diferença é grande, os olhos já te dizem qual é o maior.',vis:'twogroups',a:2,b:6,em:'🌟'},
+      {text:'Se for difícil de ver, então conta um a um. Sem pressa!',vis:'eq',eq:'2 vs 6 → o 6 é maior'},
+    ]},
+  ]},
+  'add':{title:'Como Somar',icon:'➕',methods:[
+    {name:'🍎 Junta os grupos',slides:[
+      {text:'Somar é juntar dois grupos num só.',vis:'addgroups',a:3,b:2,em:'🍎'},
+      {text:'Tens 3 maçãs. Vêm mais 2. Junta tudo ao centro!',vis:'addgroups-join',a:3,b:2,em:'🍎'},
+      {text:'3 + 2 = 5. Contaste todos juntos e chegaste à resposta! ✅',vis:'eq',eq:'3 + 2 = 5'},
+    ]},
+    {name:'🔢 Continua a contar',slides:[
+      {text:'Pega no número maior na cabeça. Não precisas de começar do zero!',vis:'eq',eq:'4 + 3 = ?'},
+      {text:'Tens o 4 na cabeça. Agora conta mais 3: cinco, seis, sete!',vis:'countfrom',start:4,add:3},
+      {text:'Paraste no 7. Isso é a resposta: 4 + 3 = 7 ✅',vis:'eq',eq:'4 + 3 = 7'},
+    ]},
+  ]},
+  'subtract':{title:'Como Subtrair',icon:'➖',methods:[
+    {name:'🍎 Risca os objetos',slides:[
+      {text:'Subtrair é tirar objetos de um grupo.',vis:'grid',ems:'🍎🍎🍎🍎🍎🍎🍎',n:7},
+      {text:'Temos 7 maçãs. Vamos tirar 3. Toca em 3 para as riscar!',vis:'tap',ems:'🍎🍎🍎🍎🍎🍎🍎',n:7,target:3},
+      {text:'Ficaram 4. 7 − 3 = 4. As que ficaram são a resposta! ✅',vis:'subresult',total:7,removed:3},
+    ]},
+    {name:'🔢 Conta para trás',slides:[
+      {text:'Outra forma: começamos no número maior e recuamos!',vis:'nline',n:10,hl:7},
+      {text:'Começa no 7. Recua 3 passos: 7... 6... 5... 4!',vis:'nline-back',n:10,start:7,steps:3},
+      {text:'Paraste no 4. Essa é sempre a resposta de 7 − 3. ✅',vis:'eq',eq:'7 − 3 = 4'},
+    ]},
+  ]},
+  'sequence':{title:'Sequências Numéricas',icon:'🔗',methods:[
+    {name:'➡️ Encontra o padrão',slides:[
+      {text:'Uma sequência segue sempre a mesma regra!',vis:'seq',nums:[2,4,6,8,0],gap:4},
+      {text:'Vê a diferença entre dois números seguidos: 4−2=2, 6−4=2. O passo é sempre 2!',vis:'seq-diff',nums:[2,4,6,8,0],diff:2},
+      {text:'O número em falta é 10! O passo era 2, então 8+2=10. ✅',vis:'eq',eq:'2, 4, 6, 8, 10'},
+    ]},
+    {name:'🚀 A escada',slides:[
+      {text:'Imagina uma escada. Cada degrau sobe o mesmo número de passos.',vis:'staircase',steps:[1,3,5,7]},
+      {text:'De 1 para 3 sobe 2. De 3 para 5 sobe 2. O degrau seguinte sobe mais 2!',vis:'staircase-hl',steps:[1,3,5,7]},
+      {text:'O próximo degrau é sempre: último número + o passo! ✅',vis:'eq',eq:'7 + 2 = 9'},
+    ]},
+  ]},
+  'missing-addend':{title:'O Número Escondido',icon:'🔍',methods:[
+    {name:'🧩 Preenche o espaço',slides:[
+      {text:'Numa conta como 3 + ? = 7, tens de descobrir o número escondido.',vis:'eq',eq:'3 + ? = 7'},
+      {text:'Pensa assim: já tenho 3. Quantos preciso de juntar para chegar a 7?',vis:'addgroups-find',a:3,total:7,em:'⭐'},
+      {text:'3 + 4 = 7. O número escondido era o 4! ✅',vis:'eq',eq:'3 + 4 = 7'},
+    ]},
+    {name:'🔢 Conta a diferença',slides:[
+      {text:'Outra forma: conta desde o primeiro número até ao resultado!',vis:'eq',eq:'5 + ? = 9'},
+      {text:'Começa no 5 e conta até ao 9: seis, sete, oito, nove. Contaste 4 passos!',vis:'countfrom',start:5,add:4},
+      {text:'O número escondido é 4 porque 5 + 4 = 9. ✅',vis:'eq',eq:'5 + 4 = 9'},
+    ]},
+  ]},
+  'compare':{title:'Maior, Menor ou Igual?',icon:'⚖️',methods:[
+    {name:'🐊 A boca do crocodilo',slides:[
+      {text:'O símbolo > parece a boca de um crocodilo. Ele come sempre o maior!',vis:'compare-croc',a:7,b:3},
+      {text:'7 > 3 porque 7 é maior. A boca aponta para o maior!',vis:'compare-croc',a:7,b:3,show:true},
+      {text:'Se os dois forem iguais, usamos o = e nenhum é maior. ✅',vis:'compare-eq',a:5,b:5},
+    ]},
+    {name:'🔢 Conta e decide',slides:[
+      {text:'Para comparar, pensa em qual número vem depois na contagem.',vis:'nline',n:10,hl:0},
+      {text:'Os números maiores ficam mais à direita. 8 vem depois de 3, por isso 8 > 3.',vis:'nline',n:10,hl2:8,hl:3},
+      {text:'Se não souberes, conta de um até cada número e vê qual demora mais! ✅',vis:'eq',eq:'3 < 8'},
+    ]},
+  ]},
+  'lightning':{title:'Contas Rápidas',icon:'⚡',methods:[
+    {name:'⚡ Pratica a velocidade',slides:[
+      {text:'Neste desafio tens pouco tempo. Mas a técnica é a mesma de sempre!',vis:'eq',eq:'4 + 3 = ?'},
+      {text:'Não tentes adivinhar. Pensa depressa: número maior na cabeça, conta os restantes.',vis:'countfrom',start:4,add:3},
+      {text:'Com prática ficas cada vez mais rápido! Não há atalho, há treino. ✅',vis:'eq',eq:'4 + 3 = 7 ⚡'},
+    ]},
+    {name:'🧠 Truques de memória',slides:[
+      {text:'Algumas contas podes memorizar: 5+5=10, 1+1=2, 2+2=4.',vis:'eq',eq:'5 + 5 = 10'},
+      {text:'Quando conheces uma conta de cor, não precisas de contar!',vis:'grid',ems:'⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐',n:10},
+      {text:'Começa a memorizar as mais fáceis e vai avançando! ✅',vis:'eq',eq:'Treino = velocidade!'},
+    ]},
+  ]},
+  'letter-tap':{title:'Reconhecer Letras',icon:'🔤',methods:[
+    {name:'👀 Vê a forma',slides:[
+      {text:'Cada letra tem uma forma única. Aprende a reconhecer cada uma!',vis:'bigword',word:'A',color:'#ffd700'},
+      {text:'O A parece uma montanha com um traço ao meio. Pensa em formas!',vis:'bigword',word:'A',color:'#ffd700'},
+      {text:'Quanto mais praticares, mais rápido reconheces! ✅',vis:'bigword',word:'B',color:'#9966ff'},
+    ]},
+    {name:'🗣️ Diz em voz alta',slides:[
+      {text:'Dizer a letra em voz alta ajuda a memorizar!',vis:'bigword',word:'M',color:'#50c878'},
+      {text:'Ouve bem o som da letra e associa à forma que vês.',vis:'bigword',word:'M',color:'#50c878'},
+      {text:'Som + Forma = Letra aprendida! ✅',vis:'eq',eq:'Som + Forma = ✅'},
+    ]},
+  ]},
+  'vowel-sort':{title:'Vogais e Consoantes',icon:'🔡',methods:[
+    {name:'🎵 As 5 vogais',slides:[
+      {text:'As vogais são apenas 5: A, E, I, O, U. São as letras que cantamos!',vis:'vowels'},
+      {text:'Todas as outras letras são consoantes. São muito mais!',vis:'consonants'},
+      {text:'Quando vês uma letra, pergunta: é A, E, I, O ou U? Se sim, é vogal! ✅',vis:'vowels'},
+    ]},
+    {name:'👄 Abre a boca',slides:[
+      {text:'As vogais fazem-te abrir bem a boca quando as dizes!',vis:'vowels'},
+      {text:'Diz em voz alta: A, E, I, O, U. Sentes a boca aberta?',vis:'vowels'},
+      {text:'As consoantes precisam sempre de uma vogal ao lado para fazer sílaba. ✅',vis:'eq',eq:'B + A = BA'},
+    ]},
+  ]},
+  'image-first':{title:'Primeira Letra da Palavra',icon:'🖼️',methods:[
+    {name:'🗣️ Diz e escuta',slides:[
+      {text:'Olha para a imagem. Diz a palavra em voz alta devagar!',vis:'wordshow',em:'🦁',word:'LEÃO'},
+      {text:'O primeiro som que sai da tua boca é a primeira letra!',vis:'wordfirst',em:'🦁',word:'LEÃO',fl:'L'},
+      {text:'LEÃO começa com L! ✅',vis:'wordfirst',em:'🦁',word:'LEÃO',fl:'L',done:True},
+    ]},
+    {name:'✏️ Isola o primeiro bocadinho',slides:[
+      {text:'Diz a palavra muito devagar e para logo no primeiro som.',vis:'wordshow',em:'🌸',word:'FLOR'},
+      {text:'FFF... FLOR começa com F! Só o primeiro som conta.',vis:'wordfirst',em:'🌸',word:'FLOR',fl:'F'},
+      {text:'Quanto mais devagar disseres, mais fácil é de ouvir! ✅',vis:'eq',eq:'F-LOR → F'},
+    ]},
+  ]},
+  'missing-letter':{title:'A Letra em Falta',icon:'🔍',methods:[
+    {name:'🖼️ Usa a imagem',slides:[
+      {text:'Há uma letra escondida na palavra. A imagem é uma pista!',vis:'misword',word:'S_L',em:'☀️',fl:'O'},
+      {text:'Vês o sol? A palavra é SOL. A letra em falta é o O!',vis:'misword-ans',word:'SOL',em:'☀️',fl:'O'},
+      {text:'Sempre que tiveres dúvidas, olha para a imagem. ✅',vis:'eq',eq:'S_L + ☀️ = SOL'},
+    ]},
+    {name:'🗣️ Diz a palavra inteira',slides:[
+      {text:'Diz a palavra em voz alta. Onde é que falta o som?',vis:'misword',word:'_UA',em:'🌙',fl:'L'},
+      {text:'LU-A. O primeiro som é L! Essa é a letra em falta.',vis:'wordfirst',em:'🌙',word:'LUA',fl:'L'},
+      {text:'Fala sempre em voz alta, ajuda muito! ✅',vis:'eq',eq:'_UA + 🌙 = LUA'},
+    ]},
+  ]},
+  'first-letter':{title:'Letra com que Começa',icon:'🔤',methods:[
+    {name:'🗣️ Diz devagar',slides:[
+      {text:'Ouve a palavra e diz-a muito devagar.',vis:'wordshow',em:'🚀',word:'NAVE'},
+      {text:'NNN... NAVE. O primeiro som é N!',vis:'wordfirst',em:'🚀',word:'NAVE',fl:'N'},
+      {text:'O primeiro som = a primeira letra! ✅',vis:'eq',eq:'N-AVE → N'},
+    ]},
+    {name:'✏️ Exagera o início',slides:[
+      {text:'Quando não consegues, exagera o início da palavra!',vis:'wordshow',em:'🌍',word:'TERRA'},
+      {text:'TTTT-ERRA. Estica o primeiro som até o ouvires bem.',vis:'wordfirst',em:'🌍',word:'TERRA',fl:'T'},
+      {text:'Exagerar ajuda a isolar a primeira letra! ✅',vis:'eq',eq:'T-ERRA → T'},
+    ]},
+  ]},
+  'complete-word':{title:'Completa a Palavra',icon:'✏️',methods:[
+    {name:'🖼️ A imagem diz tudo',slides:[
+      {text:'A imagem mostra-te a palavra completa. Usa-a!',vis:'misword',word:'LU_',em:'🌙',fl:'A'},
+      {text:'A imagem é uma lua. A palavra é LUA. A letra em falta é o A!',vis:'misword-ans',word:'LUA',em:'🌙',fl:'A'},
+      {text:'Imagem + palavra incompleta = consegues descobrir sempre! ✅',vis:'eq',eq:'LU_ + 🌙 = LUA'},
+    ]},
+    {name:'🗣️ Testa cada opção',slides:[
+      {text:'Quando não sabes, testa cada resposta a dizer a palavra.',vis:'misword',word:'SO_',em:'☀️',fl:'L'},
+      {text:'SOA? SOB? SOL? Qual soa a uma palavra real que conheces?',vis:'eq',eq:'SOL = ☀️ ✅'},
+      {text:'A tua memória de palavras conhecidas é uma ferramenta! ✅',vis:'wordfirst',em:'☀️',word:'SOL',fl:'L'},
+    ]},
+  ]},
+  'syllable-count':{title:'Contar Sílabas',icon:'🎵',methods:[
+    {name:'👏 Bate palmas',slides:[
+      {text:'As sílabas são os bocadinhos de uma palavra. Cada bocadinho tem um som!',vis:'sylshow',word:'ES-TRE-LA',syls:['ES','TRE','LA']},
+      {text:'Diz a palavra e bate uma palma por cada bocadinho. ES... TRE... LA!',vis:'sylshow-hl',word:'ES-TRE-LA',syls:['ES','TRE','LA']},
+      {text:'Bateste 3 palmas? Então tem 3 sílabas! ✅',vis:'eq',eq:'ES-TRE-LA = 3 sílabas'},
+    ]},
+    {name:'🫦 Usa o queixo',slides:[
+      {text:'Põe a mão no queixo e diz a palavra devagar.',vis:'sylshow',word:'LU-A',syls:['LU','A']},
+      {text:'Cada vez que o queixo desce é uma sílaba!',vis:'sylshow',word:'LU-A',syls:['LU','A']},
+      {text:'LU-A: o queixo desceu 2 vezes. São 2 sílabas! ✅',vis:'eq',eq:'LU-A = 2 sílabas'},
+    ]},
+  ]},
+  'which-word':{title:'Que Palavra É Esta?',icon:'👂',methods:[
+    {name:'👂 Ouve e associa',slides:[
+      {text:'Vais ouvir uma palavra e escolher a imagem certa.',vis:'wordshow',em:'🚀',word:'FOGUETÃO'},
+      {text:'Quando ouvires, repete a palavra em voz alta. Qual imagem encaixa?',vis:'twogroups',a:1,b:1,emA:'🚀',emB:'🌙',note:'foguetão'},
+      {text:'A palavra e a imagem têm de combinar. ✅',vis:'eq',eq:'Foguetão = 🚀'},
+    ]},
+    {name:'🔤 Lê e reconhece',slides:[
+      {text:'Se estiveres a ler a palavra, diz-a em voz alta devagar.',vis:'bigword',word:'SOL',color:'#ffd700'},
+      {text:'Depois procura a imagem que representa essa palavra.',vis:'wordshow',em:'☀️',word:'SOL'},
+      {text:'Som da palavra + imagem = escolha certa! ✅',vis:'eq',eq:'SOL → ☀️'},
+    ]},
+  ]},
+  'rhyme':{title:'Palavras que Rimam',icon:'🎶',methods:[
+    {name:'🎵 Ouve o fim',slides:[
+      {text:'Duas palavras rimam quando terminam com o mesmo som!',vis:'rhymepair',w1:'LUA',w2:'RUA',end:'UA'},
+      {text:'LU-A e RU-A: os dois acabam em "UA". Rimam!',vis:'rhymepair-hl',w1:'LUA',w2:'RUA',end:'UA'},
+      {text:'Atenção ao fim da palavra, não ao início! ✅',vis:'eq',eq:'LUA ↔ RUA (rima)'},
+    ]},
+    {name:'🗣️ Canta para testar',slides:[
+      {text:'Para testar se rima, diz as duas palavras seguidas como se fosse uma cantiga.',vis:'rhymepair',w1:'MALA',w2:'BALA',end:'ALA'},
+      {text:'Mala... bala! Soa bem? É porque rimam!',vis:'rhymepair-hl',w1:'MALA',w2:'BALA',end:'ALA'},
+      {text:'Se soar estranho, é porque não rimam. ✅',vis:'eq',eq:'MALA ↔ BALA (rima)'},
+    ]},
+  ]},
+  'initial-sound':{title:'Som Inicial',icon:'👂',methods:[
+    {name:'🗣️ Estica o início',slides:[
+      {text:'Vais ouvir uma palavra e descobrir o seu primeiro som.',vis:'wordshow',em:'🐸',word:'SAPO'},
+      {text:'Estica o início: SSS-APO. O primeiro som é S!',vis:'wordfirst',em:'🐸',word:'SAPO',fl:'S'},
+      {text:'Depois escolhes a palavra que começa pelo mesmo som! ✅',vis:'eq',eq:'S-APO → procura palavras com S'},
+    ]},
+    {name:'✋ Uma palavra de cada vez',slides:[
+      {text:'Para cada opção, diz a palavra e ouve o seu primeiro som.',vis:'eq',eq:'SOL / LUA / NAVE'},
+      {text:'SOL começa com S. LUA começa com L. NAVE começa com N.',vis:'eq',eq:'S / L / N'},
+      {text:'Agora compara com o som da palavra do exercício! ✅',vis:'eq',eq:'Mesmo som = resposta certa'},
+    ]},
+  ]},
+  'build-syllable':{title:'Construir Palavras',icon:'🧩',methods:[
+    {name:'🧩 Junta as peças',slides:[
+      {text:'As palavras são feitas de sílabas. Como um puzzle!',vis:'sylshow',word:'NA-VE',syls:['NA','VE']},
+      {text:'NA + VE = NAVE. As peças juntam-se para fazer a palavra!',vis:'sylshow-join',word:'NAVE',syls:['NA','VE']},
+      {text:'Olha para a imagem e pensa qual peça completa a palavra. ✅',vis:'eq',eq:'NA + VE = NAVE 🚀'},
+    ]},
+    {name:'🗣️ Diz em voz alta',slides:[
+      {text:'Diz as sílabas que já tens e ouve o que falta!',vis:'sylshow',word:'ES-_',syls:['ES','?']},
+      {text:'ES... o quê? ES-TRE-LA! Falta TRE para começar.',vis:'sylshow-hl',word:'ES-TRE-LA',syls:['ES','TRE','LA']},
+      {text:'A tua voz diz-te o que falta! ✅',vis:'eq',eq:'ES + ? → diz em voz alta'},
+    ]},
+  ]},
+  'pattern-next':{title:'Descobrir Padrões',icon:'🧠',methods:[
+    {name:'🔁 Encontra a repetição',slides:[
+      {text:'Um padrão é algo que se repete sempre da mesma forma!',vis:'patshow',items:['⭐','🌙','⭐','🌙','?']},
+      {text:'⭐🌙 ⭐🌙... o par repete-se sempre! O próximo é ⭐!',vis:'patshow-hl',items:['⭐','🌙','⭐','🌙','⭐'],ans:4},
+      {text:'Procura sempre o que se repete. Essa é a regra! ✅',vis:'eq',eq:'⭐🌙 ⭐🌙 ⭐🌙...'},
+    ]},
+    {name:'✋ Tapa e descobre',slides:[
+      {text:'Tapa tudo com o dedo menos os dois primeiros elementos.',vis:'patshow',items:['🚀','🌍','🚀','🌍','?']},
+      {text:'O que vês nesses dois? São sempre iguais? Esse é o padrão!',vis:'patshow-hl',items:['🚀','🌍','🚀','🌍','🚀'],ans:4},
+      {text:'Aplica o mesmo padrão ao elemento em falta. ✅',vis:'eq',eq:'🚀🌍 🚀🌍 🚀🌍...'},
+    ]},
+  ]},
+  'odd-one-out':{title:'O Intruso',icon:'🔎',methods:[
+    {name:'🏷️ Encontra o grupo',slides:[
+      {text:'Todos os objetos pertencem a um grupo, menos um. Qual é diferente?',vis:'oddshow',items:['🚀','🛸','✈️','⚽'],odd:3},
+      {text:'🚀, 🛸, ✈️ voam. ⚽ é uma bola, não voa! É o intruso!',vis:'oddshow-hl',items:['🚀','🛸','✈️','⚽'],odd:3},
+      {text:'Pergunta: o que têm em comum os outros? O que não se encaixa? ✅',vis:'eq',eq:'⚽ é diferente!'},
+    ]},
+    {name:'🤔 Elimina por descarte',slides:[
+      {text:'Olha para cada opção e pergunta: este pertence ao grupo?',vis:'oddshow',items:['🐱','🐶','🐰','🌸'],odd:3},
+      {text:'Gato, cão, coelho: são animais. Flor não é animal. É o intruso!',vis:'oddshow-hl',items:['🐱','🐶','🐰','🌸'],odd:3},
+      {text:'Um a um: pertence ou não pertence? O que sobrar é o intruso! ✅',vis:'eq',eq:'🌸 não é animal'},
+    ]},
+  ]},
+  'memory-seq':{title:'Memória Espacial',icon:'🛰️',methods:[
+    {name:'🔁 Repete em voz alta',slides:[
+      {text:'Vais ver uma sequência e depois tens de a encontrar igual.',vis:'memshow',seq:['🌙','⭐','🚀'],show:True},
+      {text:'Diz em voz alta enquanto vês: lua, estrela, foguetão!',vis:'memshow',seq:['🌙','⭐','🚀'],show:True},
+      {text:'Quando desaparecer, ainda te lembras? Diz de novo! ✅',vis:'memshow',seq:['🌙','⭐','🚀'],show:False},
+    ]},
+    {name:'📍 Usa um truque',slides:[
+      {text:'Faz uma história pequena com os objetos que vês!',vis:'memshow',seq:['🐱','🚗','🍎'],show:True},
+      {text:'O gato entrou no carro e comeu uma maçã. Agora não esqueces!',vis:'eq',eq:'Gato + carro + maçã'},
+      {text:'Uma história pequena prende a sequência na memória! ✅',vis:'memshow',seq:['🐱','🚗','🍎'],show:True},
+    ]},
+  ]},
+  'rule-pick':{title:'Seguir a Regra',icon:'📐',methods:[
+    {name:'📖 Lê com atenção',slides:[
+      {text:'Primeiro lê a regra com muito cuidado. Cada palavra conta!',vis:'eq',eq:'"Serve para voar"'},
+      {text:'Depois olha para cada opção e pergunta: esta obedece à regra?',vis:'oddshow',items:['🚀','🛸','✈️','⚽'],odd:3},
+      {text:'🚀, 🛸 e ✈️ voam. ⚽ não voa. A regra diz "voar"! ✅',vis:'eq',eq:'Regra → filtra as opções'},
+    ]},
+    {name:'✅ Uma a uma',slides:[
+      {text:'Para cada opção, aplica a regra. É um teste por opção!',vis:'eq',eq:'Opção A: cumpre a regra?'},
+      {text:'Opção A: sim. Opção B: não. Opção C: não. A é a resposta!',vis:'eq',eq:'A ✅ B ❌ C ❌'},
+      {text:'Elimina as que não cumprem até ficar a certa. ✅',vis:'eq',eq:'Eliminação = solução'},
+    ]},
+  ]},
+  'curiosity-quiz':{title:'Missão Curiosa',icon:'🌍',methods:[
+    {name:'🤔 Pensa antes de tocar',slides:[
+      {text:'Vais aprender algo novo sobre o mundo! Lê bem a pergunta.',vis:'eq',eq:'Quantas patas tem um gato?'},
+      {text:'Pensa na resposta antes de tocar. Usa o que já sabes!',vis:'grid',ems:'🐱',n:1},
+      {text:'Se não souberes, tenta adivinhar com lógica. É sempre uma aventura! ✅',vis:'eq',eq:'Pensar = aprender!'},
+    ]},
+    {name:'🧠 Aprende com os erros',slides:[
+      {text:'Nestas perguntas não há problema em errar. O importante é a explicação!',vis:'eq',eq:'Erro → explicação → aprendizagem'},
+      {text:'Lê sempre a explicação depois de responder, certa ou errada.',vis:'eq',eq:'Porquê? → a parte mais importante!'},
+      {text:'Quanto mais curiosidade tiveres, mais aprendes! ✅',vis:'eq',eq:'🌍 + ❓ = 🧠'},
+    ]},
+  ]},
+};
+
+const HINTS={
+  'count':{icon:'🔢',title:'Como contar',steps:[
+    {n:'1',t:'Aponta para cada objeto um a um.'},
+    {n:'2',t:'Diz o número em voz alta enquanto apontas.'},
+    {n:'3',t:'O último número que disseste é a resposta.'},
+  ],vis:'👆👆👆 → último número!'},
+  'which-more':{icon:'⚖️',title:'Qual tem mais',steps:[
+    {n:'1',t:'Conta os objetos do primeiro grupo.'},
+    {n:'2',t:'Conta os objetos do segundo grupo.'},
+    {n:'3',t:'O grupo com o número maior é o que tem mais.'},
+  ],vis:'3 vs 5 → 5 é maior'},
+  'add':{icon:'➕',title:'Como somar',steps:[
+    {n:'1',t:'Pega no número maior na cabeça.'},
+    {n:'2',t:'Conta mais tantos quanto o número mais pequeno.'},
+    {n:'3',t:'O número em que parares é a resposta.'},
+  ],vis:'4 → 5, 6, 7 → 4+3=7'},
+  'subtract':{icon:'➖',title:'Como subtrair',steps:[
+    {n:'1',t:'Imagina os objetos do primeiro número.'},
+    {n:'2',t:'Risca mentalmente tantos quanto o segundo número.'},
+    {n:'3',t:'Conta os que sobram. Esse é o resultado.'},
+  ],vis:'7 risca 3 → ficam 4'},
+  'sequence':{icon:'🔗',title:'Sequência em falta',steps:[
+    {n:'1',t:'Olha para dois números seguidos quaisquer.'},
+    {n:'2',t:'Calcula a diferença entre eles. Esse é o passo.'},
+    {n:'3',t:'Aplica esse passo ao último número que tens.'},
+  ],vis:'2, 4, 6, _ → passo é 2'},
+  'missing-addend':{icon:'🔍',title:'Número escondido',steps:[
+    {n:'1',t:'Sabes o primeiro número e o resultado.'},
+    {n:'2',t:'Conta desde o primeiro número até ao resultado.'},
+    {n:'3',t:'Quantos passos contaste? Esse é o número escondido.'},
+  ],vis:'3 + ? = 7 → conta de 3 até 7'},
+  'compare':{icon:'⚖️',title:'Maior ou menor',steps:[
+    {n:'1',t:'Pensa em qual dos dois números vem mais tarde ao contar.'},
+    {n:'2',t:'O que vem mais tarde é maior.'},
+    {n:'3',t:'Use > para o maior, < para o menor, = se forem iguais.'},
+  ],vis:'3 < 7 (7 vem depois)'},
+  'lightning':{icon:'⚡',title:'Contas rápidas',steps:[
+    {n:'1',t:'Pega no número maior na cabeça.'},
+    {n:'2',t:'Conta os restantes com os dedos rapidamente.'},
+    {n:'3',t:'Não adivinhes, pensa depressa mas com lógica.'},
+  ],vis:'Pensa depressa, não adivinhes!'},
+  'letter-tap':{icon:'🔤',title:'Reconhecer letras',steps:[
+    {n:'1',t:'Ouve o nome da letra com atenção.'},
+    {n:'2',t:'Pensa na forma visual dessa letra.'},
+    {n:'3',t:'Procura a opção com essa forma.'},
+  ],vis:'Ouvir + ver = reconhecer'},
+  'vowel-sort':{icon:'🔡',title:'Vogal ou consoante',steps:[
+    {n:'1',t:'Pergunta: é A, E, I, O ou U?'},
+    {n:'2',t:'Se sim, é vogal. Se não, é consoante.'},
+    {n:'3',t:'São só 5 vogais para memorizar!'},
+  ],vis:'A E I O U = vogais'},
+  'image-first':{icon:'🖼️',title:'Primeira letra',steps:[
+    {n:'1',t:'Olha para a imagem e diz a palavra em voz alta.'},
+    {n:'2',t:'Estica o primeiro som: SSS-OL, NNN-AVE.'},
+    {n:'3',t:'Esse primeiro som é a primeira letra.'},
+  ],vis:'Diz devagar → primeiro som'},
+  'missing-letter':{icon:'🔍',title:'Letra em falta',steps:[
+    {n:'1',t:'Olha para a imagem para saber que palavra é.'},
+    {n:'2',t:'Diz a palavra completa em voz alta.'},
+    {n:'3',t:'Qual letra aparece onde está o espaço em branco?'},
+  ],vis:'Imagem → palavra → letra'},
+  'first-letter':{icon:'🔤',title:'Letra inicial',steps:[
+    {n:'1',t:'Diz a palavra muito devagar.'},
+    {n:'2',t:'Para logo no primeiro som.'},
+    {n:'3',t:'Esse som é a primeira letra.'},
+  ],vis:'T-ERRA → T'},
+  'complete-word':{icon:'✏️',title:'Completar palavra',steps:[
+    {n:'1',t:'Usa a imagem para descobrir que palavra é.'},
+    {n:'2',t:'Diz a palavra completa em voz alta.'},
+    {n:'3',t:'Qual letra está no sítio vazio?'},
+  ],vis:'Imagem + palavra = letra'},
+  'syllable-count':{icon:'🎵',title:'Contar sílabas',steps:[
+    {n:'1',t:'Diz a palavra devagar em voz alta.'},
+    {n:'2',t:'Bate uma palma por cada bocadinho.'},
+    {n:'3',t:'Quantas palmas deste? Esse é o número de sílabas.'},
+  ],vis:'ES-TRE-LA = 3 palmas'},
+  'which-word':{icon:'👂',title:'Encontrar a palavra',steps:[
+    {n:'1',t:'Ouve a palavra com atenção.'},
+    {n:'2',t:'Repete-a em voz alta.'},
+    {n:'3',t:'Procura a imagem que corresponde a essa palavra.'},
+  ],vis:'Ouvir + repetir + procurar'},
+  'rhyme':{icon:'🎶',title:'Encontrar rima',steps:[
+    {n:'1',t:'Diz a palavra base e ouve bem o final.'},
+    {n:'2',t:'Testa cada opção a seguir da palavra base.'},
+    {n:'3',t:'A que soa bem no final é a que rima.'},
+  ],vis:'LUA... RUA ✅ BOLA ❌'},
+  'initial-sound':{icon:'👂',title:'Som inicial',steps:[
+    {n:'1',t:'Ouve a palavra e estica o primeiro som.'},
+    {n:'2',t:'Para cada opção, faz o mesmo.'},
+    {n:'3',t:'Encontra a opção com o mesmo primeiro som.'},
+  ],vis:'S-APO → procura outro S'},
+  'build-syllable':{icon:'🧩',title:'Construir palavra',steps:[
+    {n:'1',t:'Vê as sílabas que já tens.'},
+    {n:'2',t:'Diz-as em voz alta e ouve o que falta.'},
+    {n:'3',t:'Escolhe a sílaba que completa a palavra.'},
+  ],vis:'NA + ? → diz em voz alta'},
+  'pattern-next':{icon:'🧠',title:'Continuar padrão',steps:[
+    {n:'1',t:'Olha para os dois primeiros elementos.'},
+    {n:'2',t:'O que se repete entre eles? Essa é a regra.'},
+    {n:'3',t:'Aplica essa regra ao elemento em falta.'},
+  ],vis:'⭐🌙 ⭐🌙 → o que vem?'},
+  'odd-one-out':{icon:'🔎',title:'Encontrar o intruso',steps:[
+    {n:'1',t:'O que têm em comum três dos quatro objetos?'},
+    {n:'2',t:'O que não partilha essa característica é o intruso.'},
+    {n:'3',t:'Pensa: cor, tamanho, categoria, onde vive...'},
+  ],vis:'3 voam, 1 não → o intruso'},
+  'memory-seq':{icon:'🛰️',title:'Guardar sequência',steps:[
+    {n:'1',t:'Diz os elementos em voz alta enquanto os vês.'},
+    {n:'2',t:'Repete a ordem várias vezes rapidamente.'},
+    {n:'3',t:'Quando desaparecerem, diz de novo antes de escolher.'},
+  ],vis:'Ver + dizer + repetir'},
+  'rule-pick':{icon:'📐',title:'Aplicar a regra',steps:[
+    {n:'1',t:'Lê a regra muito devagar até perceberes.'},
+    {n:'2',t:'Para cada opção, pergunta: esta cumpre a regra?'},
+    {n:'3',t:'A que cumprir a regra é a resposta.'},
+  ],vis:'Regra → filtra opções'},
+  'curiosity-quiz':{icon:'🌍',title:'Pergunta de curiosidade',steps:[
+    {n:'1',t:'Lê a pergunta com atenção.'},
+    {n:'2',t:'Usa o que já sabes do mundo.'},
+    {n:'3',t:'Se não souberes, faz uma escolha com lógica e aprende com a explicação.'},
+  ],vis:'Pensar + curiosidade = aprender'},
+};
+
 const LEARN={
   'count':{em:'🔢',title:'Vamos Contar!',text:'Olha para os objetos, conta todos com cuidado e toca no número certo.'},
   'which-more':{em:'⚖️',title:'Qual tem MAIS?',text:'Vês dois grupos. Conta cada grupo e toca naquele que tem mais.'},
@@ -1526,23 +2558,16 @@ function selectPlanet(idx){
   CUR.planetDef=planet;
   CUR.isAdvanced=useBern;
 
-  // Check if any type is new
-  const newTypes=CUR.config.types.filter(t=>!CUR.profile.seenTypes.includes(t));
+  // Check if any type is new — show rich tutorial
+  const newTypes=CUR.config.types.filter(t=>!CUR.profile.seenTypes.includes(t)&&TUTORIALS[t]);
+  // Mark as seen immediately (before tutorial, so replay doesn't force it again)
   if(newTypes.length>0){
-    const lt=LEARN[newTypes[0]];
-    if(lt){
-      document.getElementById('lf-em').textContent=lt.em;
-      document.getElementById('lf-title').textContent=lt.title;
-      document.getElementById('lf-text').textContent=lt.text;
-      show('s-learn');
-      V.say(lt.text);
-      // Mark as seen
-      newTypes.forEach(t=>{if(!CUR.profile.seenTypes.includes(t))CUR.profile.seenTypes.push(t);});
-      updateProfile(CUR.profile);
-      return;
-    }
+    newTypes.forEach(t=>{if(!CUR.profile.seenTypes.includes(t))CUR.profile.seenTypes.push(t);});
+    updateProfile(CUR.profile);
+    openTutorial(newTypes,()=>startGame());
+  } else {
+    startGame();
   }
-  startGame();
 }
 
 function startGame(){
@@ -1996,24 +3021,25 @@ function renderQ(){
 
   const _hearSay=`Atenção. ${q.say||''}`;
   const hearBtn=`<button class="btn-hear" onclick="speakQ()">🔊</button>`;
+  const hintBtn=HINTS[q.type]?`<button class="btn-hear" onclick="openHint()" style="background:rgba(120,80,255,.3);border-color:rgba(120,80,255,.6);">❓</button>`:'';
 
   let h='';
   switch(q.type){
     case 'count':{
       const ems=Array(q.n).fill(0).map((_,i)=>`<span class="oem" style="animation-delay:${i*.07}s">${q.obj.em}</span>`).join('');
       CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.n),read:String(NUMS[o]||o)}));
-      h=`<div class="ibar"><div class="qinstr">${quantosAs(q.obj)} ${q.obj.names} vês?</div>${hearBtn}</div><div class="objs">${ems}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">${quantosAs(q.obj)} ${q.obj.names} vês?</div>${hearBtn}${hintBtn}</div><div class="objs">${ems}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'which-more':{
       const _mg=(n,off)=>{const sh=Math.min(n,12);return Array(sh).fill(0).map((_,i)=>`<span class="oem" style="font-size:clamp(1.5rem,3vw,2.2rem);animation-delay:${(off+i)*.06}s">${q.obj.em}</span>`).join('')+(n>12?`<span style="font-family:'Fredoka One',cursive;font-size:1rem;color:rgba(255,255,255,.6);"> +${n-12}</span>`:'');};
       const grpA=_mg(q.a,0);
       const grpB=_mg(q.b,q.a);
-      h=`<div class="ibar"><div class="qinstr">Qual grupo tem mais ${q.obj.names}?</div>${hearBtn}</div><div class="wmwrap"><div class="wmgrp" onclick="chkWM(this,0,${q.correct})" id="wm0"><div class="wmobjs">${grpA}</div>${isLearnMode()?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:rgba(255,255,255,.7)">${q.a}</div>`:''}</div><div class="wmgrp" onclick="chkWM(this,1,${q.correct})" id="wm1"><div class="wmobjs">${grpB}</div>${isLearnMode()?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:rgba(255,255,255,.7)">${q.b}</div>`:''}</div></div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual grupo tem mais ${q.obj.names}?</div>${hearBtn}${hintBtn}</div><div class="wmwrap"><div class="wmgrp" onclick="chkWM(this,0,${q.correct})" id="wm0"><div class="wmobjs">${grpA}</div>${isLearnMode()?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:rgba(255,255,255,.7)">${q.a}</div>`:''}</div><div class="wmgrp" onclick="chkWM(this,1,${q.correct})" id="wm1"><div class="wmobjs">${grpB}</div>${isLearnMode()?`<div style="font-family:'Fredoka One',cursive;font-size:1.5rem;color:rgba(255,255,255,.7)">${q.b}</div>`:''}</div></div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'sequence':{
       const seqHTML=q.shown.map((v,i)=>`<span class="snum${v===null?' bl':''}">${v===null?'?':v}</span>${i<q.shown.length-1?'<span class="ssep">→</span>':''}`).join('');
       CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct),read:String(NUMS[o]||o)}));
-      h=`<div class="ibar"><div class="qinstr">Qual é o número que falta?</div>${hearBtn}</div><div class="seqw">${seqHTML}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual é o número que falta?</div>${hearBtn}${hintBtn}</div><div class="seqw">${seqHTML}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'add':
     case 'subtract':
@@ -2028,85 +3054,85 @@ function renderQ(){
       setTimeout(()=>V.say(q.say),350);break;}
     case 'missing-addend':{
       CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.missing),read:String(NUMS[o]||o)}));
-      h=`<div class="ibar"><div class="qinstr">${q.a} + __ = ${q.total}</div>${hearBtn}</div><div class="seqw"><span class="snum">${q.a}</span><span class="ssep">+</span><span class="snum bl">?</span><span class="ssep">=</span><span class="snum">${q.total}</span></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">${q.a} + __ = ${q.total}</div>${hearBtn}${hintBtn}</div><div class="seqw"><span class="snum">${q.a}</span><span class="ssep">+</span><span class="snum bl">?</span><span class="ssep">=</span><span class="snum">${q.total}</span></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'compare':{
       const cmpRead={'>':'maior que','<':'menor que','=':'igual'};
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:cmpRead[o]||o}));
-      h=`<div class="ibar"><div class="qinstr">Qual símbolo está correto?</div>${hearBtn}</div><div class="cmpw"><span class="cmpn">${q.a}</span><span class="cmpmid">○</span><span class="cmpn">${q.b}</span></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual símbolo está correto?</div>${hearBtn}${hintBtn}</div><div class="cmpw"><span class="cmpn">${q.a}</span><span class="cmpmid">○</span><span class="cmpn">${q.b}</span></div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'letter-tap':{
       CUR._opts=q.opts.map(o=>({val:o,correct:q.lt,read:letterName(o)}));
-      h=`<div class="ibar"><div class="qinstr">Toca na letra ${q.lt}.</div>${hearBtn}</div><div class="bigltr">${letterFormsHTML(q.lt)}<div class="sound-tip">Som da letra: ${letterName(q.lt)}</div></div><div class="opts c3" style="margin-top:12px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Toca na letra ${q.lt}.</div>${hearBtn}${hintBtn}</div><div class="bigltr">${letterFormsHTML(q.lt)}<div class="sound-tip">Som da letra: ${letterName(q.lt)}</div></div><div class="opts c3" style="margin-top:12px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'vowel-sort':{
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correctOpt,read:o}));
       const vsBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">A letra ${q.lt} é...</div>${hearBtn}</div><div class="vcard">${letterFormsHTML(q.lt)}</div><div class="opts c2">${vsBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">A letra ${q.lt} é...</div>${hearBtn}${hintBtn}</div><div class="vcard">${letterFormsHTML(q.lt)}</div><div class="opts c2">${vsBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'image-first':{
       CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct,read:null}));
       const ifBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;font-size:clamp(2.2rem,5vw,3.5rem);min-height:clamp(90px,13vw,125px);"><span>${o.em}</span>${isLearnMode()?`<span style="font-size:clamp(.8rem,1.8vw,1.1rem);color:rgba(255,255,255,.6)">${o.w}</span>`:''}</button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">Qual começa com a letra ${q.lt}?</div>${hearBtn}</div><div class="opts c3">${ifBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual começa com a letra ${q.lt}?</div>${hearBtn}${hintBtn}</div><div class="opts c3">${ifBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'missing-letter':
     case 'complete-word':{
       const disp=q.displayed.split('').map((c,i)=>{if(c==='_')return`<span class="bl">_</span>`;if(i===0)return`<span class="hl">${c}</span>`;return c;}).join('');
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:letterName(o)}));
-      h=`<div class="ibar"><div class="qinstr">Que letra falta?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div class="wddisp">${disp}</div><div class="opts c3" style="margin-top:10px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Que letra falta?</div>${hearBtn}${hintBtn}</div><span class="wdhero">${q.word.em}</span><div class="wddisp">${disp}</div><div class="opts c3" style="margin-top:10px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'first-letter':{
       const disp=isLearnMode()?q.word.w.split('').map((c,i)=>i===0?`<span class="hl">${c}</span>`:c).join(''):`<span style="letter-spacing:.22em;opacity:.8">${'•'.repeat(q.word.w.length)}</span>`;
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:letterName(o)}));
-      h=`<div class="ibar"><div class="qinstr">Com que letra começa?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div class="wddisp">${disp}</div><div class="opts c3" style="margin-top:10px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Com que letra começa?</div>${hearBtn}${hintBtn}</div><span class="wdhero">${q.word.em}</span><div class="wddisp">${disp}</div><div class="opts c3" style="margin-top:10px">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${letterOptionHTML(o)}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'syllable-count':{
       const sylHTML=isLearnMode()?q.word.syls.map((s,i)=>`<span class="syl" style="font-family:'Fredoka One',cursive;font-size:clamp(1.5rem,3.5vw,2.5rem);background:rgba(155,89,182,.22);border:2px solid rgba(155,89,182,.4);border-radius:12px;padding:7px 14px;color:#fff;">${s}</span>${i<q.word.syls.length-1?'<span style="font-size:1.2rem;color:rgba(255,255,255,.3)">-</span>':''}`).join(''):`<div class="modebadge">👂 Diz a palavra devagar</div>`;
       CUR._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct),read:String((NUMS[o]||o)+' sílaba'+(o>1?'s':''))}));
-      h=`<div class="ibar"><div class="qinstr">Quantas sílabas tem ${q.word.w}?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0 14px;">${sylHTML}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Quantas sílabas tem ${q.word.w}?</div>${hearBtn}${hintBtn}</div><span class="wdhero">${q.word.em}</span><div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:8px 0 14px;">${sylHTML}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'which-word':{
       CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct,read:null}));
-      h=`<div class="ibar"><div class="qinstr">Ouve e toca na imagem certa.</div>${hearBtn}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;font-size:clamp(2.2rem,5vw,3.5rem);min-height:clamp(90px,13vw,125px);"><span>${o.em}</span>${isLearnMode()?`<span style="font-size:clamp(.78rem,1.7vw,1.05rem);color:rgba(255,255,255,.5)">${o.w}</span>`:''}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Ouve e toca na imagem certa.</div>${hearBtn}${hintBtn}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;font-size:clamp(2.2rem,5vw,3.5rem);min-height:clamp(90px,13vw,125px);"><span>${o.em}</span>${isLearnMode()?`<span style="font-size:clamp(.78rem,1.7vw,1.05rem);color:rgba(255,255,255,.5)">${o.w}</span>`:''}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'rhyme':{
       CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct.w,read:o.w.toLowerCase()}));
       const rhBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;"><span style="font-size:2.4rem">${o.em}</span><span style="font-size:1rem;opacity:.82">${o.w}</span></button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">Qual rima com ${q.base}?</div>${hearBtn}</div><div class="logic-strip"><div class="logic-chip">${q.baseEm}</div><div class="logic-chip">${q.base}</div></div><div class="opts c3">${rhBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual rima com ${q.base}?</div>${hearBtn}${hintBtn}</div><div class="logic-strip"><div class="logic-chip">${q.baseEm}</div><div class="logic-chip">${q.base}</div></div><div class="opts c3">${rhBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'initial-sound':{
       CUR._opts=q.opts.map(o=>({val:o.w,correct:q.correct,read:o.w.toLowerCase()}));
       const isBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.w}" onclick="pick(this,${i})" style="flex-direction:column;gap:6px;"><span style="font-size:2.4rem">${o.em}</span><span style="font-size:1rem;opacity:.82">${isLearnMode()?o.w:'?'}</span></button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">Qual começa com o mesmo som?</div>${hearBtn}</div><div class="logic-strip"><div class="logic-chip">${q.ref.em}</div><div class="logic-chip">${q.ref.w}</div></div><div class="opts c3">${isBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual começa com o mesmo som?</div>${hearBtn}${hintBtn}</div><div class="logic-strip"><div class="logic-chip">${q.ref.em}</div><div class="logic-chip">${q.ref.w}</div></div><div class="opts c3">${isBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'build-syllable':{
       const disp=q.displayedSyls.map((s,i)=>s==='__'?`<span class="snum bl">?</span>`:`<span class="snum">${s}</span>`).join('<span class="ssep">+</span>');
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:o.toLowerCase()}));
-      h=`<div class="ibar"><div class="qinstr">Que sílaba falta?</div>${hearBtn}</div><span class="wdhero">${q.word.em}</span><div class="seqw">${disp}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Que sílaba falta?</div>${hearBtn}${hintBtn}</div><span class="wdhero">${q.word.em}</span><div class="seqw">${disp}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'pattern-next':{
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:o}));
-      h=`<div class="ibar"><div class="qinstr">O que vem a seguir?</div>${hearBtn}</div><div class="logic-strip">${q.seq.map(v=>`<div class="logic-chip">${v}</div>`).join('')}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">O que vem a seguir?</div>${hearBtn}${hintBtn}</div><div class="logic-strip">${q.seq.map(v=>`<div class="logic-chip">${v}</div>`).join('')}</div><div class="opts c3">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'odd-one-out':{
       CUR._opts=q.opts.map(o=>({val:o,correct:q.correct,read:o}));
-      h=`<div class="ibar"><div class="qinstr">Qual é o diferente?</div>${hearBtn}</div><div class="logic-strip">${q.items.map(it=>`<div class="logic-chip">${it.v}</div>`).join('')}</div><div class="opts c2">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Qual é o diferente?</div>${hearBtn}${hintBtn}</div><div class="logic-strip">${q.items.map(it=>`<div class="logic-chip">${it.v}</div>`).join('')}</div><div class="opts c2">${q.opts.map((o,i)=>`<button class="obtn" data-value="${o}" onclick="pick(this,${i})">${o}</button>`).join('')}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'memory-seq':{
       const correct=q.correct;
       CUR._opts=q.opts.map(o=>({val:o.join(''),correct:correct,read:null}));
       const seqBtns=q.opts.map((o,i)=>`<button class="obtn logic-seq-btn" data-value="${o.join('')}" onclick="pick(this,${i})">${o.map(v=>`<span style="font-size:2rem">${v}</span>`).join('')}</button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">Guarda esta sequência na cabeça.</div>${hearBtn}</div><div class="logic-strip" id="mseq-show">${q.seq.map(v=>`<div class="logic-chip">${v}</div>`).join('')}</div><div class="opts c1" id="mseq-opts" style="grid-template-columns:1fr;display:none">${seqBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">Guarda esta sequência na cabeça.</div>${hearBtn}${hintBtn}</div><div class="logic-strip" id="mseq-show">${q.seq.map(v=>`<div class="logic-chip">${v}</div>`).join('')}</div><div class="opts c1" id="mseq-opts" style="grid-template-columns:1fr;display:none">${seqBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>{V.say(q.say);setTimeout(()=>{const s=document.getElementById('mseq-show');const o=document.getElementById('mseq-opts');if(s)s.innerHTML='<div class="modebadge">🧠 Agora escolhe a igual</div>';if(o)o.style.display='';},2500);},350);break;}
     case 'rule-pick':{
       CUR._opts=q.options.map(o=>({val:o.label,correct:q.correct,read:o.label.toLowerCase()}));
       const rpBtns=q.options.map((o,i)=>`<button class="obtn" data-value="${o.label}" onclick="pick(this,${i})" style="flex-direction:column;gap:8px;"><span style="font-size:2.4rem">${o.visual}</span><span style="font-size:1rem;opacity:.82">${o.label}</span></button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">${q.prompt}</div>${hearBtn}</div><div class="opts c3">${rpBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">${q.prompt}</div>${hearBtn}${hintBtn}</div><div class="opts c3">${rpBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     case 'curiosity-quiz':{
       CUR._opts=q.opts.map(o=>({val:o.label,correct:q.correct,read:o.label.toLowerCase()}));
       const cqBtns=q.opts.map((o,i)=>`<button class="obtn" data-value="${o.label}" onclick="pick(this,${i})" style="flex-direction:column;gap:8px;"><span style="font-size:2.4rem">${o.visual}</span><span style="font-size:1rem;opacity:.82">${o.label}</span></button>`).join('');
-      h=`<div class="ibar"><div class="qinstr">${q.curiosity.question}</div>${hearBtn}</div><div class="cur-visual">${q.curiosity.visual}</div><div class="opts c3">${cqBtns}</div><div class="fb" id="fb"></div>`;
+      h=`<div class="ibar"><div class="qinstr">${q.curiosity.question}</div>${hearBtn}${hintBtn}</div><div class="cur-visual">${q.curiosity.visual}</div><div class="opts c3">${cqBtns}</div><div class="fb" id="fb"></div>`;
       setTimeout(()=>V.say(q.say),350);break;}
     default:h=`<div class="qinstr">A carregar...</div>`;
   }
@@ -2658,6 +3684,40 @@ document.addEventListener('touchmove',()=>{},{passive:true});
     <div style="display:flex;gap:12px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
       <button class="btn-y" id="ps-prev-btn" onclick="psSuggestGo()">⬅️ Ir ao anterior</button>
       <button class="btn-g" onclick="psDismiss()">Continuar aqui</button>
+    </div>
+  </div>
+</div>
+
+<!-- TUTORIAL OVERLAY -->
+<div id="tut-overlay">
+  <div id="tut-box">
+    <div id="tut-header">
+      <span id="tut-icon">🔢</span>
+      <div id="tut-title">Aprende antes de jogar!</div>
+      <div class="tut-methods" id="tut-methods"></div>
+    </div>
+    <div id="tut-visual"></div>
+    <div id="tut-text"></div>
+    <div class="tut-progress" id="tut-dots"></div>
+    <div class="tut-nav">
+      <button class="tut-nav-btn" id="tut-prev" onclick="tutNav(-1)">← Anterior</button>
+      <button class="tut-nav-btn primary" id="tut-next" onclick="tutNav(1)">Próximo →</button>
+    </div>
+    <div class="tut-skip" id="tut-skip" onclick="tutSkip()">Já percebi, quero jogar!</div>
+  </div>
+</div>
+
+<!-- HINT OVERLAY -->
+<div id="hint-overlay" onclick="closeHint()">
+  <div id="hint-box" onclick="event.stopPropagation()">
+    <div id="hint-header">
+      <span id="hint-icon">💡</span>
+      <div id="hint-title">Como pensar neste exercício</div>
+      <button class="btn-rnd" style="margin-left:auto;font-size:1rem;" onclick="closeHint()">✕</button>
+    </div>
+    <div class="hint-steps" id="hint-steps"></div>
+    <div style="text-align:center;margin-top:14px;">
+      <button class="tut-nav-btn primary" onclick="closeHint()">Entendi! Vou tentar 💪</button>
     </div>
   </div>
 </div>
