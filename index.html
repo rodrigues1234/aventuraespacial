@@ -609,9 +609,50 @@ const OBJS=[
   {em:'🌙',name:'lua',names:'luas',gen:'f'},
   {em:'☄️',name:'cometa',names:'cometas',gen:'m'},
   {em:'🛸',name:'nave',names:'naves',gen:'f'},
-  {em:'👾',name:'alien',names:'aliens',gen:'m'},
+  {em:'👽',name:'alien',names:'aliens',gen:'m'},
   {em:'🌠',name:'meteoro',names:'meteoros',gen:'m'},
   {em:'🛰️',name:'satélite',names:'satélites',gen:'m'},
+  {em:'⚽',name:'bola',names:'bolas',gen:'f'},
+  {em:'🌸',name:'flor',names:'flores',gen:'f'},
+  {em:'🍎',name:'maçã',names:'maçãs',gen:'f'},
+  {em:'🍐',name:'pera',names:'peras',gen:'f'},
+  {em:'🍌',name:'banana',names:'bananas',gen:'f'},
+  {em:'🚗',name:'carro',names:'carros',gen:'m'},
+  {em:'✈️',name:'avião',names:'aviões',gen:'m'},
+  {em:'🎈',name:'balão',names:'balões',gen:'m'},
+  {em:'🦋',name:'borboleta',names:'borboletas',gen:'f'},
+  {em:'🐝',name:'abelha',names:'abelhas',gen:'f'},
+  {em:'🐟',name:'peixe',names:'peixes',gen:'m'},
+  {em:'🐱',name:'gato',names:'gatos',gen:'m'},
+  {em:'🐶',name:'cão',names:'cães',gen:'m'},
+  {em:'🐰',name:'coelho',names:'coelhos',gen:'m'},
+  {em:'🐻',name:'urso',names:'ursos',gen:'m'},
+  {em:'🦆',name:'pato',names:'patos',gen:'m'},
+  {em:'🐸',name:'sapo',names:'sapos',gen:'m'},
+  {em:'🦁',name:'leão',names:'leões',gen:'m'},
+  {em:'🐘',name:'elefante',names:'elefantes',gen:'m'},
+  {em:'🦒',name:'girafa',names:'girafas',gen:'f'},
+  {em:'🐒',name:'macaco',names:'macacos',gen:'m'},
+  {em:'📚',name:'livro',names:'livros',gen:'m'},
+  {em:'✏️',name:'lápis',names:'lápis',gen:'m'},
+  {em:'❤️',name:'coração',names:'corações',gen:'m'},
+  {em:'🎁',name:'presente',names:'presentes',gen:'m'},
+  {em:'☁️',name:'nuvem',names:'nuvens',gen:'f'},
+  {em:'🌳',name:'árvore',names:'árvores',gen:'f'},
+  {em:'🍓',name:'morango',names:'morangos',gen:'m'},
+  {em:'🍪',name:'bolacha',names:'bolachas',gen:'f'},
+  {em:'🍦',name:'gelado',names:'gelados',gen:'m'},
+  {em:'🥚',name:'ovo',names:'ovos',gen:'m'},
+  {em:'🥕',name:'cenoura',names:'cenouras',gen:'f'},
+  {em:'🌻',name:'girassol',names:'girassóis',gen:'m'},
+  {em:'🐛',name:'lagarta',names:'lagartas',gen:'f'},
+  {em:'🦓',name:'zebra',names:'zebras',gen:'f'},
+  {em:'🐌',name:'caracol',names:'caracóis',gen:'m'},
+  {em:'🐜',name:'formiga',names:'formigas',gen:'f'},
+  {em:'🎂',name:'bolo',names:'bolos',gen:'m'},
+  {em:'🌈',name:'arco-íris',names:'arcos-íris',gen:'m'},
+  {em:'🍒',name:'cereja',names:'cerejas',gen:'f'},
+  {em:'🎪',name:'circo',names:'circos',gen:'m'},
 ];
 
 const NUMS=['zero','um','dois','três','quatro','cinco','seis','sete','oito','nove',
@@ -630,36 +671,68 @@ const WORDS=[
   {w:'FOGUETÃO',em:'🚀',fl:'F',syls:['FO','GUE','TÃO'],nSyl:3},
   {w:'GALÁXIA',em:'🌌',fl:'G',syls:['GA','LÁ','XI','A'],nSyl:4},
   {w:'ASTRONAUTA',em:'👨‍🚀',fl:'A',syls:['AS','TRO','NAU','TA'],nSyl:4},
-  {w:'UNIVERSO',em:'🌐',fl:'U',syls:['U','NI','VER','SO'],nSyl:4},
+  {w:'UNIVERSO',em:'🌌',fl:'U',syls:['U','NI','VER','SO'],nSyl:4},
   {w:'SATÉLITE',em:'🛰️',fl:'S',syls:['SA','TÉ','LI','TE'],nSyl:4},
-  {w:'METEORITO',em:'🪨',fl:'M',syls:['ME','TE','O','RI','TO'],nSyl:5},
-];
-
-const READING_WORDS=[
-  {w:'LUA',em:'🌙',fl:'L',syls:['LU','A'],nSyl:2},
-  {w:'RUA',em:'🛣️',fl:'R',syls:['RU','A'],nSyl:2},
-  {w:'SAPO',em:'🐸',fl:'S',syls:['SA','PO'],nSyl:2},
-  {w:'SACO',em:'👜',fl:'S',syls:['SA','CO'],nSyl:2},
+  {w:'METEORITO',em:'☄️',fl:'M',syls:['ME','TE','O','RI','TO'],nSyl:5},
   {w:'GATO',em:'🐱',fl:'G',syls:['GA','TO'],nSyl:2},
+  {w:'CÃO',em:'🐶',fl:'C',syls:['CÃO'],nSyl:1},
   {w:'PATO',em:'🦆',fl:'P',syls:['PA','TO'],nSyl:2},
-  {w:'MALA',em:'🧳',fl:'M',syls:['MA','LA'],nSyl:2},
-  {w:'BALA',em:'🍬',fl:'B',syls:['BA','LA'],nSyl:2},
+  {w:'PEIXE',em:'🐟',fl:'P',syls:['PEI','XE'],nSyl:2},
+  {w:'SAPO',em:'🐸',fl:'S',syls:['SA','PO'],nSyl:2},
+  {w:'URSO',em:'🐻',fl:'U',syls:['UR','SO'],nSyl:2},
+  {w:'LEÃO',em:'🦁',fl:'L',syls:['LE','ÃO'],nSyl:2},
+  {w:'LOBO',em:'🐺',fl:'L',syls:['LO','BO'],nSyl:2},
+  {w:'RATO',em:'🐭',fl:'R',syls:['RA','TO'],nSyl:2},
+  {w:'ZEBRA',em:'🦓',fl:'Z',syls:['ZE','BRA'],nSyl:2},
+  {w:'GIRAFA',em:'🦒',fl:'G',syls:['GI','RA','FA'],nSyl:3},
+  {w:'ELEFANTE',em:'🐘',fl:'E',syls:['E','LE','FAN','TE'],nSyl:4},
+  {w:'MACACO',em:'🐒',fl:'M',syls:['MA','CA','CO'],nSyl:3},
+  {w:'COELHO',em:'🐰',fl:'C',syls:['CO','E','LHO'],nSyl:3},
+  {w:'PÁSSARO',em:'🐦',fl:'P',syls:['PÁS','SA','RO'],nSyl:3},
+  {w:'BORBOLETA',em:'🦋',fl:'B',syls:['BOR','BO','LE','TA'],nSyl:4},
+  {w:'ABELHA',em:'🐝',fl:'A',syls:['A','BE','LHA'],nSyl:3},
+  {w:'CARACOL',em:'🐌',fl:'C',syls:['CA','RA','COL'],nSyl:3},
+  {w:'FORMIGA',em:'🐜',fl:'F',syls:['FOR','MI','GA'],nSyl:3},
+  {w:'TARTARUGA',em:'🐢',fl:'T',syls:['TAR','TA','RU','GA'],nSyl:4},
+  {w:'BALEIA',em:'🐋',fl:'B',syls:['BA','LEI','A'],nSyl:3},
   {w:'BOLA',em:'⚽',fl:'B',syls:['BO','LA'],nSyl:2},
   {w:'CASA',em:'🏠',fl:'C',syls:['CA','SA'],nSyl:2},
   {w:'MESA',em:'🪑',fl:'M',syls:['ME','SA'],nSyl:2},
+  {w:'PORTA',em:'🚪',fl:'P',syls:['POR','TA'],nSyl:2},
+  {w:'LIVRO',em:'📚',fl:'L',syls:['LI','VRO'],nSyl:2},
+  {w:'CARRO',em:'🚗',fl:'C',syls:['CAR','RO'],nSyl:2},
+  {w:'BARCO',em:'⛵',fl:'B',syls:['BAR','CO'],nSyl:2},
+  {w:'AVIÃO',em:'✈️',fl:'A',syls:['A','VI','ÃO'],nSyl:3},
+  {w:'BALÃO',em:'🎈',fl:'B',syls:['BA','LÃO'],nSyl:2},
+  {w:'FLOR',em:'🌸',fl:'F',syls:['FLOR'],nSyl:1},
+  {w:'ÁRVORE',em:'🌳',fl:'A',syls:['ÁR','VO','RE'],nSyl:3},
+  {w:'MALA',em:'🧳',fl:'M',syls:['MA','LA'],nSyl:2},
+  {w:'CHAPÉU',em:'🎩',fl:'C',syls:['CHA','PÉU'],nSyl:2},
   {w:'DADO',em:'🎲',fl:'D',syls:['DA','DO'],nSyl:2},
-  {w:'FADA',em:'🧚',fl:'F',syls:['FA','DA'],nSyl:2},
+  {w:'NAVIO',em:'⛴️',fl:'N',syls:['NA','VI','O'],nSyl:3},
+  {w:'PONTE',em:'🌉',fl:'P',syls:['PON','TE'],nSyl:2},
+  {w:'JANELA',em:'🪟',fl:'J',syls:['JA','NE','LA'],nSyl:3},
+  {w:'ESCOLA',em:'🏫',fl:'E',syls:['ES','CO','LA'],nSyl:3},
+  {w:'COZINHA',em:'🍳',fl:'C',syls:['CO','ZI','NHA'],nSyl:3},
+  {w:'MAÇÃ',em:'🍎',fl:'M',syls:['MA','ÇÃ'],nSyl:2},
+  {w:'PERA',em:'🍐',fl:'P',syls:['PE','RA'],nSyl:2},
+  {w:'BOLO',em:'🎂',fl:'B',syls:['BO','LO'],nSyl:2},
+  {w:'LEITE',em:'🥛',fl:'L',syls:['LEI','TE'],nSyl:2},
+  {w:'SOPA',em:'🍲',fl:'S',syls:['SO','PA'],nSyl:2},
+  {w:'CHUVA',em:'🌧️',fl:'C',syls:['CHU','VA'],nSyl:2},
+  {w:'NUVEM',em:'☁️',fl:'N',syls:['NU','VEM'],nSyl:2},
   {w:'VELA',em:'🕯️',fl:'V',syls:['VE','LA'],nSyl:2},
-  {w:'VACA',em:'🐄',fl:'V',syls:['VA','CA'],nSyl:2},
-  {w:'RATO',em:'🐭',fl:'R',syls:['RA','TO'],nSyl:2},
-  {w:'DEDO',em:'👆',fl:'D',syls:['DE','DO'],nSyl:2},
-  {w:'DOCE',em:'🍬',fl:'D',syls:['DO','CE'],nSyl:2},
-  {w:'ELMO',em:'⛑️',fl:'E',syls:['EL','MO'],nSyl:2},
-  {w:'ANEL',em:'💍',fl:'A',syls:['A','NEL'],nSyl:2},
-  {w:'NAVIO',em:'⛵',fl:'N',syls:['NA','VI','O'],nSyl:3},
-  {w:'TIGRE',em:'🐯',fl:'T',syls:['TI','GRE'],nSyl:2},
-  {w:'UVA',em:'🍇',fl:'U',syls:['U','VA'],nSyl:2},
+  {w:'FADA',em:'🧚',fl:'F',syls:['FA','DA'],nSyl:2},
+  {w:'DRAGÃO',em:'🐉',fl:'D',syls:['DRA','GÃO'],nSyl:2},
+  {w:'CASTELO',em:'🏰',fl:'C',syls:['CAS','TE','LO'],nSyl:3},
+  {w:'CENOURA',em:'🥕',fl:'C',syls:['CE','NOU','RA'],nSyl:3},
+  {w:'MORANGO',em:'🍓',fl:'M',syls:['MO','RAN','GO'],nSyl:3},
+  {w:'PALHAÇO',em:'🤡',fl:'P',syls:['PA','LHA','ÇO'],nSyl:3},
+  {w:'BANANA',em:'🍌',fl:'B',syls:['BA','NA','NA'],nSyl:3},
+  {w:'TOMATE',em:'🍅',fl:'T',syls:['TO','MA','TE'],nSyl:3},
+  {w:'PRAIA',em:'🏖️',fl:'P',syls:['PRAI','A'],nSyl:2},
 ];
+const READING_WORDS=WORDS;
 
 const RHYME_SETS=[
   {base:'LUA',baseEm:'🌙',correct:{w:'RUA',em:'🛣️'},opts:[{w:'RUA',em:'🛣️'},{w:'BOLA',em:'⚽'},{w:'MESA',em:'🪑'}],explain:'LUA e RUA acabam com o mesmo som: UA.'},
@@ -684,7 +757,77 @@ const CURIOSITIES=[
   {id:'fish',title:'Animais',visual:'🐟',question:'Qual destes animais vive na água?',options:[{label:'Peixe',visual:'🐟'},{label:'Galo',visual:'🐓'},{label:'Coelho',visual:'🐇'}],correct:'Peixe',explain:'O peixe vive na água. É por isso que gosta tanto de nadar.'},
   {id:'teeth',title:'Higiene',visual:'🪥',question:'Porque lavamos os dentes?',options:[{label:'Para ficarem limpos',visual:'😁'},{label:'Para dormirem',visual:'😴'},{label:'Para voarem',visual:'🪽'}],correct:'Para ficarem limpos',explain:'Lavamos os dentes para os manter limpos e fortes.'},
   {id:'rain',title:'Tempo',visual:'🌧️',question:'O que usamos quando chove?',options:[{label:'Guarda-chuva',visual:'☂️'},{label:'Colher',visual:'🥄'},{label:'Almofada',visual:'🛏️'}],correct:'Guarda-chuva',explain:'O guarda-chuva ajuda a não ficar molhado quando está a chover.'},
-];
+
+  {id:'gato-patas',title:'Patas do Gato',visual:'🐱',question:'Quantas patas tem um gato?',options:[{label:'4',visual:'🐾'},{label:'2',visual:'✌️'},{label:'6',visual:'🦷'}],correct:'4',explain:'Os gatos têm 4 patas, tal como os cães, coelhos e muitos outros animais!'},
+  {id:'abelha-mel',title:'A Abelha e o Mel',visual:'🐝',question:'O que produzem as abelhas?',options:[{label:'Mel',visual:'🍯'},{label:'Leite',visual:'🥛'},{label:'Sumo',visual:'🧃'}],correct:'Mel',explain:'As abelhas recolhem néctar das flores e transformam-no em mel!'},
+  {id:'pinguim-voa',title:'O Pinguim',visual:'🐧',question:'Qual ave não consegue voar?',options:[{label:'Pinguim',visual:'🐧'},{label:'Águia',visual:'🦅'},{label:'Andorinha',visual:'🐦'}],correct:'Pinguim',explain:'O pinguim tem asas mas não voa! Nada muito bem na água gelada.'},
+  {id:'aranha-patas',title:'Patas da Aranha',visual:'🕷️',question:'Quantas patas tem uma aranha?',options:[{label:'8',visual:'🕸️'},{label:'4',visual:'🐾'},{label:'6',visual:'🦷'}],correct:'8',explain:'As aranhas têm 8 patas. São aracnídeos, não insetos!'},
+  {id:'galinha-ovo',title:'A Galinha',visual:'🐔',question:'O que dá a galinha?',options:[{label:'Ovos',visual:'🥚'},{label:'Leite',visual:'🥛'},{label:'Mel',visual:'🍯'}],correct:'Ovos',explain:'A galinha bota ovos. De alguns ovos nascem pintainhos fofos!'},
+  {id:'baleia-grande',title:'O Maior Animal',visual:'🐋',question:'Qual é o maior animal do mar?',options:[{label:'Baleia azul',visual:'🐋'},{label:'Tubarão',visual:'🦈'},{label:'Polvo',visual:'🐙'}],correct:'Baleia azul',explain:'A baleia azul é o maior animal de todo o planeta!'},
+  {id:'borboleta-nasce',title:'A Borboleta',visual:'🦋',question:'De onde nasce uma borboleta?',options:[{label:'De uma lagarta',visual:'🐛'},{label:'De uma flor',visual:'🌸'},{label:'De um casulo direto',visual:'🥚'}],correct:'De uma lagarta',explain:'A borboleta começa como lagarta, faz um casulo e transforma-se!'},
+  {id:'arcoiris-cores',title:'O Arco-Íris',visual:'🌈',question:'Quantas cores tem o arco-íris?',options:[{label:'7',visual:'🌈'},{label:'5',visual:'✋'},{label:'3',visual:'🔵'}],correct:'7',explain:'O arco-íris tem 7 cores: vermelho, laranja, amarelo, verde, azul, anil e violeta!'},
+  {id:'chuva-origem',title:'De onde vem a chuva?',visual:'🌧️',question:'De onde vem a chuva?',options:[{label:'Das nuvens',visual:'☁️'},{label:'Do mar',visual:'🌊'},{label:'Dos rios',visual:'🏞️'}],correct:'Das nuvens',explain:'As nuvens acumulam água e quando ficam pesadas, chove!'},
+  {id:'vulcao-lava',title:'O Vulcão',visual:'🌋',question:'O que sai de um vulcão?',options:[{label:'Lava',visual:'🔥'},{label:'Água',visual:'💧'},{label:'Gelo',visual:'❄️'}],correct:'Lava',explain:'Um vulcão expulsa lava muito quente quando entra em erupção!'},
+  {id:'mercurio-perto',title:'Perto do Sol',visual:'☀️',question:'Qual planeta está mais perto do Sol?',options:[{label:'Mercúrio',visual:'⚫'},{label:'Vénus',visual:'🟡'},{label:'Terra',visual:'🌍'}],correct:'Mercúrio',explain:'Mercúrio é o planeta mais próximo do Sol. É muito quente de dia!'},
+  {id:'jupiter-grande',title:'O Maior Planeta',visual:'🪐',question:'Qual é o maior planeta do Sistema Solar?',options:[{label:'Júpiter',visual:'🟤'},{label:'Saturno',visual:'🪐'},{label:'Terra',visual:'🌍'}],correct:'Júpiter',explain:'Júpiter é tão grande que cabem mais de 1000 planetas Terra lá dentro!'},
+  {id:'lua-viagem',title:'Viagem à Lua',visual:'🌙',question:'Quanto tempo leva ir à Lua de foguetão?',options:[{label:'3 dias',visual:'🚀'},{label:'1 semana',visual:'📅'},{label:'1 mês',visual:'🗓️'}],correct:'3 dias',explain:'Os astronautas demoram cerca de 3 dias a chegar à Lua de foguetão!'},
+  {id:'saturno-aneis',title:'Saturno e os Anéis',visual:'🪐',question:'Qual planeta tem anéis famosos?',options:[{label:'Saturno',visual:'🪐'},{label:'Júpiter',visual:'🟤'},{label:'Marte',visual:'🔴'}],correct:'Saturno',explain:'Saturno tem enormes anéis feitos de gelo e rocha à sua volta!'},
+  {id:'estrela-sol',title:'O Sol',visual:'☀️',question:'O que é o Sol?',options:[{label:'Uma estrela',visual:'⭐'},{label:'Um planeta',visual:'🪐'},{label:'Uma lua',visual:'🌙'}],correct:'Uma estrela',explain:'O Sol é uma estrela! Parece grande porque está muito mais perto do que as outras.'},
+  {id:'planeta-numero',title:'Planetas',visual:'🌍',question:'Quantos planetas tem o Sistema Solar?',options:[{label:'8',visual:'🔢'},{label:'9',visual:'🔢'},{label:'7',visual:'🔢'}],correct:'8',explain:'O Sistema Solar tem 8 planetas: Mercúrio, Vénus, Terra, Marte, Júpiter, Saturno, Urano e Neptuno.'},
+  {id:'marte-cor',title:'Marte',visual:'🔴',question:'Qual a cor de Marte?',options:[{label:'Vermelho',visual:'🔴'},{label:'Azul',visual:'🔵'},{label:'Verde',visual:'🟢'}],correct:'Vermelho',explain:'Marte é o Planeta Vermelho por causa do ferro no seu solo!'},
+  {id:'coracao-bate',title:'O Coração',visual:'❤️',question:'Para que serve o coração?',options:[{label:'Bombear sangue',visual:'❤️'},{label:'Respirar',visual:'🫁'},{label:'Digerir',visual:'🍽️'}],correct:'Bombear sangue',explain:'O coração bate para fazer o sangue circular por todo o corpo.'},
+  {id:'pulmoes-respirar',title:'Os Pulmões',visual:'🫁',question:'Para que servem os pulmões?',options:[{label:'Respirar',visual:'💨'},{label:'Bombear sangue',visual:'❤️'},{label:'Ver',visual:'👀'}],correct:'Respirar',explain:'Os pulmões trocam o ar que respiramos. Absorvem o oxigénio que precisamos!'},
+  {id:'dentes-mastigar',title:'Os Dentes',visual:'🦷',question:'Para que servem os dentes?',options:[{label:'Mastigar',visual:'🍽️'},{label:'Ver',visual:'👀'},{label:'Ouvir',visual:'👂'}],correct:'Mastigar',explain:'Os dentes ajudam a mastigar a comida antes de a engolirmos.'},
+  {id:'cerebro-controla',title:'O Cérebro',visual:'🧠',question:'Qual órgão controla o corpo?',options:[{label:'Cérebro',visual:'🧠'},{label:'Coração',visual:'❤️'},{label:'Fígado',visual:'🫀'}],correct:'Cérebro',explain:'O cérebro é o chefe do corpo! Controla os pensamentos e movimentos.'},
+  {id:'lingua-sabor',title:'A Língua',visual:'👅',question:'Para que serve a língua?',options:[{label:'Provar sabores',visual:'😋'},{label:'Ouvir',visual:'👂'},{label:'Ver',visual:'👀'}],correct:'Provar sabores',explain:'A língua tem papilas gustativas que nos permitem sentir sabores!'},
+  {id:'triangulo-lados',title:'O Triângulo',visual:'🔺',question:'Quantos lados tem um triângulo?',options:[{label:'3',visual:'🔺'},{label:'4',visual:'🟦'},{label:'5',visual:'⭐'}],correct:'3',explain:'Um triângulo tem sempre 3 lados. Tri significa três!'},
+  {id:'quadrado-lados',title:'O Quadrado',visual:'🟦',question:'Quantos lados tem um quadrado?',options:[{label:'4',visual:'🟦'},{label:'3',visual:'🔺'},{label:'6',visual:'⬡'}],correct:'4',explain:'Um quadrado tem 4 lados iguais. É uma forma muito especial!'},
+  {id:'circulo-cantos',title:'O Círculo',visual:'⭕',question:'Quantos cantos tem um círculo?',options:[{label:'Nenhum',visual:'⭕'},{label:'1',visual:'☝️'},{label:'4',visual:'🟦'}],correct:'Nenhum',explain:'O círculo é redondo e não tem cantos nem lados retos!'},
+  {id:'leite-animal',title:'De onde vem o leite?',visual:'🥛',question:'De onde vem o leite que bebemos?',options:[{label:'Da vaca',visual:'🐄'},{label:'Da galinha',visual:'🐔'},{label:'Da abelha',visual:'🐝'}],correct:'Da vaca',explain:'O leite que bebemos vem principalmente das vacas!'},
+  {id:'cenoura-cor',title:'A Cenoura',visual:'🥕',question:'Qual a cor da cenoura?',options:[{label:'Laranja',visual:'🟠'},{label:'Verde',visual:'🟢'},{label:'Vermelha',visual:'🔴'}],correct:'Laranja',explain:'A cenoura é laranja e cresce debaixo da terra!'},
+  {id:'banana-forma',title:'A Banana',visual:'🍌',question:'Qual fruta é amarela e curva?',options:[{label:'Banana',visual:'🍌'},{label:'Maçã',visual:'🍎'},{label:'Uva',visual:'🍇'}],correct:'Banana',explain:'A banana é amarela quando está madura e tem uma forma curva muito especial!'},
+  {id:'pao-ingrediente',title:'O Pão',visual:'🍞',question:'De que é feito o pão?',options:[{label:'Farinha',visual:'🌾'},{label:'Açúcar',visual:'🍬'},{label:'Mel',visual:'🍯'}],correct:'Farinha',explain:'O pão é feito principalmente de farinha, água, sal e fermento!'},
+  {id:'aviao-voa',title:'Como voa o avião?',visual:'✈️',question:'O que permite ao avião voar?',options:[{label:'As asas',visual:'✈️'},{label:'As rodas',visual:'🛞'},{label:'O peso',visual:'⚖️'}],correct:'As asas',explain:'As asas criam uma força chamada sustentação que eleva o avião no ar!'},
+  {id:'submarino-onde',title:'O Submarino',visual:'🤿',question:'Onde vai um submarino?',options:[{label:'Debaixo de água',visual:'🌊'},{label:'No ar',visual:'☁️'},{label:'No espaço',visual:'🌌'}],correct:'Debaixo de água',explain:'O submarino mergulha e navega debaixo de água!'},
+  {id:'semaforo-verde',title:'O Semáforo',visual:'🚦',question:'O que significa a luz verde no semáforo?',options:[{label:'Avançar',visual:'▶️'},{label:'Parar',visual:'⏹️'},{label:'Esperar',visual:'⏸️'}],correct:'Avançar',explain:'Verde é avançar, amarelo é esperar e vermelho é parar!'},
+  {id:'portugal-capital',title:'Portugal',visual:'🇵🇹',question:'Qual é a capital de Portugal?',options:[{label:'Lisboa',visual:'🏛️'},{label:'Porto',visual:'🏙️'},{label:'Faro',visual:'☀️'}],correct:'Lisboa',explain:'Lisboa é a capital de Portugal e fica junto ao Rio Tejo!'},
+  {id:'piano-teclas',title:'O Piano',visual:'🎹',question:'Qual instrumento tem teclas brancas e pretas?',options:[{label:'Piano',visual:'🎹'},{label:'Guitarra',visual:'🎸'},{label:'Flauta',visual:'🎵'}],correct:'Piano',explain:'O piano tem teclas brancas e pretas. Cada tecla produz um som diferente!'},
+  {id:'arco-iris-causa',title:'O Arco-Íris',visual:'🌈',question:'Quando aparece o arco-íris?',options:[{label:'Depois da chuva com sol',visual:'🌦️'},{label:'Só de noite',visual:'🌙'},{label:'No inverno',visual:'❄️'}],correct:'Depois da chuva com sol',explain:'O arco-íris aparece quando o Sol brilha enquanto chove ou logo a seguir!'},
+  {id:'neve-o-que',title:'A Neve',visual:'❄️',question:'O que é a neve?',options:[{label:'Água gelada',visual:'🧊'},{label:'Algodão',visual:'☁️'},{label:'Açúcar',visual:'🍬'}],correct:'Água gelada',explain:'A neve são cristais de gelo que caem do céu quando está muito frio.'},
+  {id:'semente-nasce',title:'A Semente',visual:'🌱',question:'O que nasce de uma semente?',options:[{label:'Uma planta',visual:'🌱'},{label:'Um animal',visual:'🐣'},{label:'Uma pedra',visual:'🪨'}],correct:'Uma planta',explain:'Da semente nasce uma pequena planta que pode crescer muito com água e sol!'},
+  {id:'peixes-vivem',title:'Os Peixes',visual:'🐟',question:'Onde vivem os peixes?',options:[{label:'Na água',visual:'🌊'},{label:'No ar',visual:'💨'},{label:'Na terra',visual:'🌍'}],correct:'Na água',explain:'Os peixes vivem na água. Respiram através das guelras!'},
+  {id:'passaro-move',title:'O Pássaro',visual:'🐦',question:'Como se move um pássaro?',options:[{label:'Voa',visual:'🦅'},{label:'Nada',visual:'🏊'},{label:'Rasteja',visual:'🐍'}],correct:'Voa',explain:'Os pássaros voam com as suas asas! Alguns são muito rápidos.'},
+  {id:'sol-manha',title:'O Sol de Manhã',visual:'🌅',question:'O que faz o Sol de manhã?',options:[{label:'Nasce',visual:'🌅'},{label:'Põe-se',visual:'🌇'},{label:'Dorme',visual:'💤'}],correct:'Nasce',explain:'O Sol nasce de manhã a Este e põe-se à tarde a Oeste!'},
+  {id:'panda-come',title:'O Panda',visual:'🐼',question:'O que come o panda?',options:[{label:'Bambu',visual:'🎋'},{label:'Carne',visual:'🥩'},{label:'Peixe',visual:'🐟'}],correct:'Bambu',explain:'O panda come bambu quase toda a vida. Come até 12 horas por dia!'},
+  {id:'tartaruga-longa',title:'A Tartaruga',visual:'🐢',question:'Qual animal vive mais tempo?',options:[{label:'Tartaruga',visual:'🐢'},{label:'Gato',visual:'🐱'},{label:'Coelho',visual:'🐰'}],correct:'Tartaruga',explain:'As tartarugas podem viver mais de 100 anos! São recordistas de longevidade.'},
+  {id:'inseto-pernas',title:'Os Insetos',visual:'🐛',question:'Quantas patas tem um inseto?',options:[{label:'6',visual:'🦷'},{label:'4',visual:'🐾'},{label:'8',visual:'🕸️'}],correct:'6',explain:'Todos os insetos têm 6 patas. Formigas, borboletas e abelhas têm 6!'},
+  {id:'urso-inverno',title:'O Urso no Inverno',visual:'🐻',question:'O que faz o urso no inverno?',options:[{label:'Hiberna',visual:'💤'},{label:'Corre',visual:'🏃'},{label:'Nada',visual:'🏊'}],correct:'Hiberna',explain:'O urso hiberna! Dorme quase todo o inverno numa gruta para poupar energia.'},
+  {id:'caracol-casca',title:'O Caracol',visual:'🐌',question:'Onde vive o caracol?',options:[{label:'Na casca',visual:'🐌'},{label:'Num ninho',visual:'🪹'},{label:'Numa toca',visual:'🕳️'}],correct:'Na casca',explain:'O caracol carrega a sua casinha nas costas! Protege-se lá dentro.'},
+  {id:'montanha-pico',title:'A Montanha',visual:'🏔️',question:'O que é o pico de uma montanha?',options:[{label:'O ponto mais alto',visual:'🏔️'},{label:'A base',visual:'⬇️'},{label:'O meio',visual:'➡️'}],correct:'O ponto mais alto',explain:'O pico é o topo da montanha, o sítio mais alto de tudo!'},
+  {id:'rio-vai',title:'O Rio',visual:'🏞️',question:'Para onde vai a água do rio?',options:[{label:'Para o mar',visual:'🌊'},{label:'Para o céu',visual:'☁️'},{label:'Para o chão',visual:'🌍'}],correct:'Para o mar',explain:'Os rios correm sempre para baixo e no fim desaguam no mar!'},
+  {id:'ouvidos-para',title:'Os Ouvidos',visual:'👂',question:'Para que servem os ouvidos?',options:[{label:'Ouvir',visual:'👂'},{label:'Ver',visual:'👀'},{label:'Cheirar',visual:'👃'}],correct:'Ouvir',explain:'Os ouvidos captam os sons que chegam até nós!'},
+  {id:'nariz-para',title:'O Nariz',visual:'👃',question:'Para que serve o nariz?',options:[{label:'Cheirar',visual:'🌸'},{label:'Ver',visual:'👀'},{label:'Ouvir',visual:'👂'}],correct:'Cheirar',explain:'O nariz serve para cheirar e também para respirar!'},
+  {id:'zebra-listras',title:'A Zebra',visual:'🦓',question:'Qual animal tem listras pretas e brancas?',options:[{label:'Zebra',visual:'🦓'},{label:'Leão',visual:'🦁'},{label:'Elefante',visual:'🐘'}],correct:'Zebra',explain:'A zebra tem um padrão único de listras pretas e brancas!'},
+  {id:'girafas-pescoço',title:'A Girafa',visual:'🦒',question:'Qual animal tem o pescoço mais comprido?',options:[{label:'Girafa',visual:'🦒'},{label:'Elefante',visual:'🐘'},{label:'Hipopótamo',visual:'🦛'}],correct:'Girafa',explain:'A girafa tem o pescoço mais longo de todos os animais!'},
+  {id:'guepardo-rapido',title:'O Mais Rápido',visual:'🐆',question:'Qual é o animal terrestre mais rápido?',options:[{label:'Guepardo',visual:'🐆'},{label:'Leão',visual:'🦁'},{label:'Cavalo',visual:'🐴'}],correct:'Guepardo',explain:'O guepardo corre até 100 km/h! É o animal terrestre mais rápido do mundo.'},
+
+  {id:'cobra-pernas',title:'A Cobra',visual:'🐍',question:'Quantas patas tem uma cobra?',options:[{label:'Nenhuma',visual:'❌'},{label:'4',visual:'🐾'},{label:'2',visual:'✌️'}],correct:'Nenhuma',explain:'A cobra não tem patas! Rasteja usando os músculos do corpo.'},
+  {id:'polvos-bracos',title:'O Polvo',visual:'🐙',question:'Quantos braços tem um polvo?',options:[{label:'8',visual:'🐙'},{label:'6',visual:'🕷️'},{label:'4',visual:'🐾'}],correct:'8',explain:'O polvo tem 8 tentáculos. Cada um pode mover-se de forma independente!'},
+  {id:'camelao-cor',title:'O Camaleão',visual:'🦎',question:'O que faz o camaleão especial?',options:[{label:'Muda de cor',visual:'🎨'},{label:'Voa',visual:'🦅'},{label:'Nada rápido',visual:'🏊'}],correct:'Muda de cor',explain:'O camaleão muda de cor para se camuflar ou mostrar emoções!'},
+  {id:'foguetao-combustivel',title:'O Foguetão',visual:'🚀',question:'O que faz um foguetão subir?',options:[{label:'Combustível e fogo',visual:'🔥'},{label:'Vento',visual:'💨'},{label:'Eletricidade',visual:'⚡'}],correct:'Combustível e fogo',explain:'O foguetão queima combustível e expulsa gases para baixo, o que o empurra para cima!'},
+  {id:'estrela-calor',title:'As Estrelas',visual:'⭐',question:'O que são as estrelas?',options:[{label:'Bolas de fogo gigantes',visual:'🔥'},{label:'Pedras no espaço',visual:'🪨'},{label:'Gelo no espaço',visual:'❄️'}],correct:'Bolas de fogo gigantes',explain:'As estrelas são enormes bolas de gás em chamas, como o nosso Sol!'},
+  {id:'agua-estados',title:'A Água',visual:'💧',question:'Como se chama a água quando congela?',options:[{label:'Gelo',visual:'🧊'},{label:'Vapor',visual:'💨'},{label:'Lama',visual:'🟫'}],correct:'Gelo',explain:'Quando a água fica muito fria transforma-se em gelo. Quando aquece muito vira vapor!'},
+  {id:'dia-noite',title:'Dia e Noite',visual:'🌍',question:'Por que existe dia e noite?',options:[{label:'A Terra gira',visual:'🔄'},{label:'O Sol apaga-se',visual:'☀️'},{label:'A Lua tapa o Sol',visual:'🌙'}],correct:'A Terra gira',explain:'A Terra gira sobre si própria. Quando o teu lado aponta para o Sol é dia, quando afasta é noite!'},
+  {id:'fotossintese',title:'As Plantas',visual:'🌱',question:'Como fazem as plantas a sua comida?',options:[{label:'Com luz solar',visual:'☀️'},{label:'Com chuva',visual:'🌧️'},{label:'Com terra',visual:'🌍'}],correct:'Com luz solar',explain:'As plantas usam a luz do Sol para transformar água e ar em alimento. Chama-se fotossíntese!'},
+  {id:'lua-brilha',title:'A Lua',visual:'🌙',question:'A Lua produz a sua própria luz?',options:[{label:'Não, reflete o Sol',visual:'☀️'},{label:'Sim',visual:'💡'},{label:'Às vezes',visual:'🤷'}],correct:'Não, reflete o Sol',explain:'A Lua não produz luz própria! Brilha porque reflete a luz do Sol.'},
+  {id:'gravidade',title:'A Gravidade',visual:'🍎',question:'Por que caem os objetos no chão?',options:[{label:'Pela gravidade',visual:'⬇️'},{label:'Pelo vento',visual:'💨'},{label:'Pelo peso',visual:'⚖️'}],correct:'Pela gravidade',explain:'A gravidade é uma força que a Terra tem e que puxa tudo para baixo!'},
+  {id:'dinossauros',title:'Os Dinossauros',visual:'🦕',question:'Quando viveram os dinossauros?',options:[{label:'Há milhões de anos',visual:'⏳'},{label:'Há 100 anos',visual:'📅'},{label:'Ainda existem',visual:'🌍'}],correct:'Há milhões de anos',explain:'Os dinossauros viveram há cerca de 66 milhões de anos e depois desapareceram!'},
+  {id:'oxigenio-arvores',title:'O Ar que Respiramos',visual:'🌳',question:'Quem produz o oxigénio que respiramos?',options:[{label:'As plantas',visual:'🌿'},{label:'As pedras',visual:'🪨'},{label:'O Sol',visual:'☀️'}],correct:'As plantas',explain:'As plantas produzem oxigénio durante a fotossíntese. Por isso as florestas são tão importantes!'},
+  {id:'aranha-teia',title:'A Teia de Aranha',visual:'🕸️',question:'Para que serve a teia de aranha?',options:[{label:'Para apanhar insetos',visual:'🦟'},{label:'Para dormir',visual:'💤'},{label:'Para jogar',visual:'🎮'}],correct:'Para apanhar insetos',explain:'A aranha faz a teia para apanhar insetos que são a sua comida!'},
+  {id:'caracol-casca-cresce',title:'A Casca do Caracol',visual:'🐌',question:'O que acontece à casca do caracol?',options:[{label:'Cresce com ele',visual:'📈'},{label:'Cai no inverno',visual:'🍂'},{label:'Muda todos os anos',visual:'🔄'}],correct:'Cresce com ele',explain:'A casca do caracol cresce à medida que o caracol cresce. Fica com ele para sempre!'},
+  {id:'venus-quente',title:'Vénus',visual:'🔥',question:'Qual o planeta mais quente do Sistema Solar?',options:[{label:'Vénus',visual:'🔥'},{label:'Mercúrio',visual:'⚫'},{label:'Marte',visual:'🔴'}],correct:'Vénus',explain:'Vénus é o mais quente por ter uma atmosfera muito espessa que retém o calor!'},
+  {id:'neptuno-longe',title:'Neptuno',visual:'🔵',question:'Qual o planeta mais afastado do Sol?',options:[{label:'Neptuno',visual:'🔵'},{label:'Urano',visual:'🩵'},{label:'Saturno',visual:'🪐'}],correct:'Neptuno',explain:'Neptuno é o planeta mais afastado do Sol. É azul e tem ventos muito fortes!'},
+]
 
 const LOGIC_RULES=[
   {prompt:'Qual destes serve para voar?',explain:'O foguetão voa. Os outros não voam no céu.',options:[{label:'Foguetão',visual:'🚀',group:'fly'},{label:'Mesa',visual:'🪑',group:'other'},{label:'Bola',visual:'⚽',group:'other'}],correct:'Foguetão'},
@@ -710,6 +853,42 @@ const PATTERN_SETS=[
   {items:['🟢','🟡','🟢'],correct:'🟡',opts:['🟡','🔴','🔵']},
   {items:['🎵','🎶','🎵'],correct:'🎶',opts:['🎶','🎸','🎹']},
   {items:['🌸','🌺','🌸','🌺'],correct:'🌸',opts:['🌸','🌻','🌹']},
+
+  {items:['🐱','🐶','🐱'],correct:'🐶',opts:['🐶','🐸','🐰']},
+  {items:['🦁','🐯','🦁','🐯'],correct:'🦁',opts:['🦁','🐻','🐼']},
+  {items:['🐸','🐌','🐸','🐌'],correct:'🐸',opts:['🐸','🦋','🐝']},
+  {items:['🦋','🐝','🦋','🐝'],correct:'🦋',opts:['🦋','🐞','🐜']},
+  {items:['🐘','🦒','🐘'],correct:'🦒',opts:['🦒','🦓','🦏']},
+  {items:['🔴','🔵','🟡','🔴','🔵','🟡'],correct:'🔴',opts:['🔴','🟢','🟣']},
+  {items:['🟢','🟡','🟢','🟡'],correct:'🟢',opts:['🟢','🔵','🔴']},
+  {items:['🔷','🔶','🔷','🔶'],correct:'🔷',opts:['🔷','🔹','💠']},
+  {items:['⬛','⬜','⬛','⬜'],correct:'⬛',opts:['⬛','🟫','🟧']},
+  {items:['🔺','🔻','🔺','🔻'],correct:'🔺',opts:['🔺','🔶','🔹']},
+  {items:['🍎','🍊','🍎','🍊'],correct:'🍎',opts:['🍎','🍇','🍓']},
+  {items:['🍕','🍔','🍕','🍔'],correct:'🍕',opts:['🍕','🌮','🥪']},
+  {items:['🍰','🎂','🍰','🎂'],correct:'🍰',opts:['🍰','🍩','🍦']},
+  {items:['🍌','🍇','🍌'],correct:'🍇',opts:['🍇','🍉','🍑']},
+  {items:['🥕','🥦','🥕','🥦'],correct:'🥕',opts:['🥕','🥬','🌽']},
+  {items:['🌍','🌙','🌍','🌙'],correct:'🌍',opts:['🌍','🪐','☄️']},
+  {items:['☀️','🌧️','☀️','🌧️'],correct:'☀️',opts:['☀️','⛅','🌈']},
+  {items:['🌸','🌺','🌸','🌺'],correct:'🌸',opts:['🌸','🌻','🌷']},
+  {items:['🌳','🌲','🌳','🌲'],correct:'🌳',opts:['🌳','🌴','🌵']},
+  {items:['🚗','🚕','🚗','🚕'],correct:'🚗',opts:['🚗','🚙','🏎️']},
+  {items:['✈️','🚢','✈️','🚢'],correct:'✈️',opts:['✈️','🚁','🛸']},
+  {items:['🎈','🎁','🎈','🎁'],correct:'🎈',opts:['🎈','🎀','🎊']},
+  {items:['👑','💎','👑','💎'],correct:'👑',opts:['👑','🏆','🎖️']},
+  {items:['🐔','🥚','🐔','🥚'],correct:'🐔',opts:['🐔','🦃','🐧']},
+  {items:['🌱','🌻','🌱','🌻'],correct:'🌱',opts:['🌱','🌿','🍀']},
+  {items:['🐱','🐶','🐭','🐱','🐶','🐭'],correct:'🐱',opts:['🐱','🐰','🐻']},
+  {items:['⭐','🌙','☀️','⭐','🌙','☀️'],correct:'⭐',opts:['⭐','💫','✨']},
+  {items:['🍎','🍌','🍇','🍎','🍌','🍇'],correct:'🍎',opts:['🍎','🍑','🍒']},
+  {items:['🚀','🌍','🪐','🚀','🌍','🪐'],correct:'🚀',opts:['🚀','🛸','✈️']},
+  {items:['🐘','🦒','🦓','🐘','🦒','🦓'],correct:'🐘',opts:['🐘','🦏','🐪']},
+  {items:['💙','💚','💛','💙','💚','💛'],correct:'💙',opts:['💙','💜','🖤']},
+  {items:['🐛','🦋','🐛','🦋'],correct:'🐛',opts:['🐛','🐝','🐞']},
+  {items:['🌊','🏖️','🌊','🏖️'],correct:'🌊',opts:['🌊','💧','🫧']},
+  {items:['🎺','🎸','🎺','🎸'],correct:'🎺',opts:['🎺','🥁','🎹']},
+  {items:['🦊','🐺','🦊','🐺'],correct:'🦊',opts:['🦊','🦝','🐗']},
 ];
 
 const ODD_SETS=[
@@ -732,57 +911,90 @@ const MEMORY_SETS=[
   {seq:['🍎','🍌','🍊'],opts:[['🍎','🍌','🍊'],['🍌','🍎','🍊'],['🍎','🍊','🍌']]},
   {seq:['🔴','🟢','🔵'],opts:[['🔴','🟢','🔵'],['🟢','🔴','🔵'],['🔴','🔵','🟢']]},
   {seq:['☀️','🌧️','⛅'],opts:[['☀️','🌧️','⛅'],['🌧️','☀️','⛅'],['☀️','⛅','🌧️']]},
+
+  {seq:['🦁','🐯','🐻'],opts:[['🦁','🐯','🐻'],['🐯','🦁','🐻'],['🦁','🐻','🐯']]},
+  {seq:['🍎','🍊','🍋'],opts:[['🍎','🍊','🍋'],['🍊','🍎','🍋'],['🍎','🍋','🍊']]},
+  {seq:['🚗','✈️','🚢'],opts:[['🚗','✈️','🚢'],['✈️','🚗','🚢'],['🚗','🚢','✈️']]},
+  {seq:['🔴','🔵','🟡'],opts:[['🔴','🔵','🟡'],['🔵','🔴','🟡'],['🔴','🟡','🔵']]},
+  {seq:['🐶','🐱','🐰'],opts:[['🐶','🐱','🐰'],['🐱','🐶','🐰'],['🐶','🐰','🐱']]},
+  {seq:['☀️','🌧️','❄️'],opts:[['☀️','🌧️','❄️'],['🌧️','☀️','❄️'],['☀️','❄️','🌧️']]},
+  {seq:['🍕','🍔','🌮'],opts:[['🍕','🍔','🌮'],['🍔','🍕','🌮'],['🍕','🌮','🍔']]},
+  {seq:['🏠','🏫','🏥'],opts:[['🏠','🏫','🏥'],['🏫','🏠','🏥'],['🏠','🏥','🏫']]},
+  {seq:['🌹','🌻','🌷'],opts:[['🌹','🌻','🌷'],['🌻','🌹','🌷'],['🌹','🌷','🌻']]},
+  {seq:['🐠','🐙','🦈'],opts:[['🐠','🐙','🦈'],['🐙','🐠','🦈'],['🐠','🦈','🐙']]},
+  {seq:['⚽','🏀','🎾'],opts:[['⚽','🏀','🎾'],['🏀','⚽','🎾'],['⚽','🎾','🏀']]},
+  {seq:['🎺','🎸','🥁'],opts:[['🎺','🎸','🥁'],['🎸','🎺','🥁'],['🎺','🥁','🎸']]},
+  {seq:['🍰','🎂','🍩'],opts:[['🍰','🎂','🍩'],['🎂','🍰','🍩'],['🍰','🍩','🎂']]},
+  {seq:['🦅','🦜','🐦'],opts:[['🦅','🦜','🐦'],['🦜','🦅','🐦'],['🦅','🐦','🦜']]},
+  {seq:['🌲','🌴','🌵'],opts:[['🌲','🌴','🌵'],['🌴','🌲','🌵'],['🌲','🌵','🌴']]},
+  {seq:['👒','🎩','⛑️'],opts:[['👒','🎩','⛑️'],['🎩','👒','⛑️'],['👒','⛑️','🎩']]},
+  {seq:['🎈','🎁','🎊'],opts:[['🎈','🎁','🎊'],['🎁','🎈','🎊'],['🎈','🎊','🎁']]},
+  {seq:['🐘','🦒','🦓'],opts:[['🐘','🦒','🦓'],['🦒','🐘','🦓'],['🐘','🦓','🦒']]},
+  {seq:['🌙','🌟','☀️'],opts:[['🌙','🌟','☀️'],['🌟','🌙','☀️'],['🌙','☀️','🌟']]},
+  {seq:['🍓','🫐','🍒'],opts:[['🍓','🫐','🍒'],['🫐','🍓','🍒'],['🍓','🍒','🫐']]},
+  {seq:['🚀','🛸','🛰️'],opts:[['🚀','🛸','🛰️'],['🛸','🚀','🛰️'],['🚀','🛰️','🛸']]},
+  {seq:['🧩','🎲','♟️'],opts:[['🧩','🎲','♟️'],['🎲','🧩','♟️'],['🧩','♟️','🎲']]},
+  {seq:['🦊','🐺','🦝'],opts:[['🦊','🐺','🦝'],['🐺','🦊','🦝'],['🦊','🦝','🐺']]},
+  {seq:['🍄','🌿','🌾'],opts:[['🍄','🌿','🌾'],['🌿','🍄','🌾'],['🍄','🌾','🌿']]},
+  {seq:['🌍','🌎','🌏'],opts:[['🌍','🌎','🌏'],['🌎','🌍','🌏'],['🌍','🌏','🌎']]},
+  {seq:['🌙','⭐','🌍','☄️'],opts:[['🌙','⭐','🌍','☄️'],['⭐','🌙','🌍','☄️'],['🌙','🌍','⭐','☄️']]},
+  {seq:['🔴','🔵','🟡','🟢'],opts:[['🔴','🔵','🟡','🟢'],['🔵','🔴','🟡','🟢'],['🔴','🟡','🔵','🟢']]},
+  {seq:['🐱','🐶','🐰','🐻'],opts:[['🐱','🐶','🐰','🐻'],['🐶','🐱','🐰','🐻'],['🐱','🐰','🐶','🐻']]},
+  {seq:['🍎','🍌','🍇','🍊'],opts:[['🍎','🍌','🍇','🍊'],['🍌','🍎','🍇','🍊'],['🍎','🍇','🍌','🍊']]},
+  {seq:['🚗','🚢','✈️','🚁'],opts:[['🚗','🚢','✈️','🚁'],['🚢','🚗','✈️','🚁'],['🚗','✈️','🚢','🚁']]},
+  {seq:['⭐','🌙','☀️','🌍'],opts:[['⭐','🌙','☀️','🌍'],['🌙','⭐','☀️','🌍'],['⭐','☀️','🌙','🌍']]},
+  {seq:['🎸','🎺','🥁','🎹'],opts:[['🎸','🎺','🥁','🎹'],['🎺','🎸','🥁','🎹'],['🎸','🥁','🎺','🎹']]},
 ];
 
 // Galaxy planet definitions per world
 const PLANETS={
   numbers:[
     {id:0,name:'Planeta Eco',em:'🟢',bg:'#1a5c30',
-     vasco:{types:['count'],maxN:5,nQ:5},bernardo:{types:['count','add'],maxN:8,nQ:5}},
+     vasco:{types:['count'],maxN:5,nQ:15},bernardo:{types:['count','add'],maxN:8,nQ:15}},
     {id:1,name:'Lua Prateada',em:'🌙',bg:'#3a3a6a',
-     vasco:{types:['count','which-more'],maxN:10,nQ:5},bernardo:{types:['add'],maxN:12,nQ:5}},
+     vasco:{types:['count','which-more'],maxN:10,nQ:15},bernardo:{types:['add'],maxN:12,nQ:15}},
     {id:2,name:'Asteroide',em:'☄️',bg:'#6a3a0a',
-     vasco:{types:['which-more','sequence'],maxN:10,nQ:6},bernardo:{types:['subtract'],maxN:12,nQ:6}},
+     vasco:{types:['which-more','sequence'],maxN:10,nQ:16},bernardo:{types:['subtract'],maxN:12,nQ:16}},
     {id:3,name:'Terra Azul',em:'🌍',bg:'#0a3a6a',
-     vasco:{types:['count','sequence'],maxN:10,nQ:6},bernardo:{types:['add','subtract'],maxN:15,nQ:6}},
+     vasco:{types:['count','sequence'],maxN:10,nQ:16},bernardo:{types:['add','subtract'],maxN:15,nQ:16}},
     {id:4,name:'Planeta Roxo',em:'🟣',bg:'#4a1a7a',
-     vasco:{types:['which-more','count'],maxN:10,nQ:7},bernardo:{types:['missing-addend','compare'],maxN:15,nQ:7}},
+     vasco:{types:['which-more','count'],maxN:10,nQ:18},bernardo:{types:['missing-addend','compare'],maxN:15,nQ:18}},
     {id:5,name:'Nebulosa',em:'🌌',bg:'#2a0a5a',
-     vasco:{types:['sequence','which-more'],maxN:10,nQ:7},bernardo:{types:['missing-addend','compare','subtract'],maxN:20,nQ:7}},
+     vasco:{types:['sequence','which-more'],maxN:10,nQ:18},bernardo:{types:['missing-addend','compare','subtract'],maxN:20,nQ:18}},
     {id:6,name:'Estrela Dourada',em:'⭐',bg:'#5a4a00',
-     vasco:{types:['count','which-more','sequence'],maxN:10,nQ:8},bernardo:{types:['add','subtract','compare','lightning'],maxN:20,nQ:8}},
+     vasco:{types:['count','which-more','sequence'],maxN:10,nQ:20},bernardo:{types:['add','subtract','compare','lightning'],maxN:20,nQ:20}},
   ],
   letters:[
     {id:0,name:'Planeta Vocal',em:'🔴',bg:'#6a0a0a',
-     vasco:{types:['letter-tap'],letters:VOWELS,nQ:5},bernardo:{types:['first-letter'],wordSet:'easy',nQ:5}},
+     vasco:{types:['letter-tap'],letters:VOWELS,nQ:15},bernardo:{types:['first-letter'],wordSet:'easy',nQ:15}},
     {id:1,name:'Lua das Letras',em:'🌙',bg:'#3a1a5a',
-     vasco:{types:['letter-tap','vowel-sort'],letters:[...'ABCDEFG'],nQ:5},bernardo:{types:['first-letter','complete-word'],wordSet:'easy',nQ:5}},
+     vasco:{types:['letter-tap','vowel-sort'],letters:[...'ABCDEFG'],nQ:15},bernardo:{types:['first-letter','complete-word'],wordSet:'easy',nQ:15}},
     {id:2,name:'Nuvem Cósmica',em:'🌫️',bg:'#1a3a5a',
-     vasco:{types:['letter-tap','vowel-sort'],letters:[...'HIJLMNO'],nQ:6},bernardo:{types:['complete-word','syllable-count'],wordSet:'medium',nQ:6}},
+     vasco:{types:['letter-tap','vowel-sort'],letters:[...'HIJLMNO'],nQ:16},bernardo:{types:['complete-word','syllable-count'],wordSet:'medium',nQ:16}},
     {id:3,name:'Planeta Verde',em:'🟢',bg:'#0a4a1a',
-     vasco:{types:['missing-letter','image-first'],nQ:6},bernardo:{types:['complete-word','syllable-count'],wordSet:'medium',nQ:6}},
+     vasco:{types:['missing-letter','image-first'],nQ:16},bernardo:{types:['complete-word','syllable-count'],wordSet:'medium',nQ:16}},
     {id:4,name:'Sol Dourado',em:'☀️',bg:'#5a3a00',
-     vasco:{types:['missing-letter','letter-tap','initial-sound'],letters:[...'PQRSTUVXZ'],nQ:7},bernardo:{types:['syllable-count','complete-word','rhyme'],wordSet:'hard',nQ:7}},
+     vasco:{types:['missing-letter','letter-tap','initial-sound'],letters:[...'PQRSTUVXZ'],nQ:18},bernardo:{types:['syllable-count','complete-word','rhyme'],wordSet:'hard',nQ:18}},
     {id:5,name:'Galáxia Rosa',em:'🌸',bg:'#5a0a3a',
-     vasco:{types:['image-first','missing-letter','build-syllable'],nQ:7},bernardo:{types:['syllable-count','which-word','initial-sound'],wordSet:'hard',nQ:7}},
+     vasco:{types:['image-first','missing-letter','build-syllable'],nQ:18},bernardo:{types:['syllable-count','which-word','initial-sound'],wordSet:'hard',nQ:18}},
     {id:6,name:'Estrela Sábia',em:'⭐',bg:'#5a4a00',
-     vasco:{types:['letter-tap','vowel-sort','missing-letter','image-first','build-syllable'],nQ:8},bernardo:{types:['complete-word','syllable-count','which-word','first-letter','rhyme','initial-sound'],wordSet:'all',nQ:8}},
+     vasco:{types:['letter-tap','vowel-sort','missing-letter','image-first','build-syllable'],nQ:20},bernardo:{types:['complete-word','syllable-count','which-word','first-letter','rhyme','initial-sound'],wordSet:'all',nQ:20}},
   ],
   logic:[
     {id:0,name:'Pista dos Padrões',em:'🟦',bg:'#0f4c81',
-     vasco:{types:['pattern-next'],nQ:5},bernardo:{types:['pattern-next','rule-pick'],nQ:5}},
+     vasco:{types:['pattern-next'],nQ:15},bernardo:{types:['pattern-next','rule-pick'],nQ:15}},
     {id:1,name:'Vale do Intruso',em:'🟠',bg:'#7b3f00',
-     vasco:{types:['odd-one-out'],nQ:5},bernardo:{types:['odd-one-out','pattern-next'],nQ:5}},
+     vasco:{types:['odd-one-out'],nQ:15},bernardo:{types:['odd-one-out','pattern-next'],nQ:15}},
     {id:2,name:'Memória Lunar',em:'🌙',bg:'#324376',
-     vasco:{types:['memory-seq'],nQ:5},bernardo:{types:['memory-seq','rule-pick'],nQ:5}},
+     vasco:{types:['memory-seq'],nQ:15},bernardo:{types:['memory-seq','rule-pick'],nQ:15}},
     {id:3,name:'Estação das Regras',em:'📡',bg:'#145a32',
-     vasco:{types:['rule-pick'],nQ:6},bernardo:{types:['rule-pick','odd-one-out'],nQ:6}},
+     vasco:{types:['rule-pick'],nQ:16},bernardo:{types:['rule-pick','odd-one-out'],nQ:16}},
     {id:4,name:'Orbita Curiosa',em:'🌍',bg:'#1565c0',
-     vasco:{types:['curiosity-quiz','pattern-next'],nQ:6},bernardo:{types:['curiosity-quiz','memory-seq'],nQ:6}},
+     vasco:{types:['curiosity-quiz','pattern-next'],nQ:16},bernardo:{types:['curiosity-quiz','memory-seq'],nQ:16}},
     {id:5,name:'Nebulosa Sábia',em:'💡',bg:'#6c3483',
-     vasco:{types:['curiosity-quiz','rule-pick'],nQ:7},bernardo:{types:['curiosity-quiz','odd-one-out','memory-seq'],nQ:7}},
+     vasco:{types:['curiosity-quiz','rule-pick'],nQ:18},bernardo:{types:['curiosity-quiz','odd-one-out','memory-seq'],nQ:18}},
     {id:6,name:'Missão Final',em:'🏆',bg:'#8a6d1d',
-     vasco:{types:['pattern-next','odd-one-out','memory-seq','rule-pick'],nQ:8},bernardo:{types:['pattern-next','odd-one-out','memory-seq','rule-pick','curiosity-quiz'],nQ:8}},
+     vasco:{types:['pattern-next','odd-one-out','memory-seq','rule-pick'],nQ:20},bernardo:{types:['pattern-next','odd-one-out','memory-seq','rule-pick','curiosity-quiz'],nQ:20}},
   ]
 };
 
@@ -1336,6 +1548,7 @@ function selectPlanet(idx){
 function startGame(){
   buildQuestions();
   CUR.qIdx=0;CUR.score=0;CUR.busy=false;CUR.explaining=false;CUR.streak=0;
+  const _qc=document.getElementById('qcard');if(_qc)_qc.innerHTML='';
   show('s-game');
   const nm=CUR.profile.name;
   const starts=[
@@ -1418,12 +1631,17 @@ function _bhRenderQ(){
         BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.n)}));
         btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
       case 'sequence':{
+        const _sq=q.shown.map((v,i)=>`<span class="snum${v===null?' bl':''}">` + (v===null?'?':v) + `</span>${i<q.shown.length-1?'<span class="ssep">→</span>':''}`).join('');
+        h+=`<div class="seqw" style="justify-content:center;margin-bottom:10px;font-size:1.1rem">${_sq}</div>`;
         BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.correct)}));
         btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
       case 'add': case 'subtract': case 'lightning':{
+        const _op=q.op==='+'?'+':'−';
+        h+=`<div style="text-align:center;font-family:'Fredoka One',cursive;font-size:2.2rem;color:#fff;margin-bottom:10px">${q.a} ${_op} ${q.b} = ?</div>`;
         BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.ans)}));
         btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
       case 'missing-addend':{
+        h+=`<div style="text-align:center;font-family:'Fredoka One',cursive;font-size:2.2rem;color:#fff;margin-bottom:10px">${q.a} + ? = ${q.total}</div>`;
         BH._opts=q.opts.map(o=>({val:String(o),correct:String(q.missing)}));
         btnHTML=q.opts.map((o,i)=>`<button class="obtn" onclick="bhPick(this,${i})" data-value="${o}">${o}</button>`).join('');break;}
       case 'syllable-count':{
@@ -1633,9 +1851,9 @@ function buildQuestions(){
   // Shuffle and inject up to 2 wrong-answer review questions
   const wrongPool=(CUR.profile.wrongQ||[]).map(q=>({...q,reviewKey:questionKey(q)}));
   if(wrongPool.length>0&&nQ>3){
-    const extras=shuf(wrongPool).slice(0,2);
-    CUR.qs.splice(2,0,...extras.map(q=>({...JSON.parse(JSON.stringify(q)),isReview:true})));
-    CUR.qs=CUR.qs.slice(0,nQ+2);
+    const extras=shuf(wrongPool).slice(0,4);
+    CUR.qs.splice(Math.floor(nQ/3),0,...extras.map(q=>({...JSON.parse(JSON.stringify(q)),isReview:true})));
+    CUR.qs=CUR.qs.slice(0,nQ+4);
   }
 }
 
@@ -1711,20 +1929,20 @@ function genQuestion(type,cfg){
       return{type,word,displayed,blankIdx,correct,opts:shuf([correct,...ws]),say:`Que letra falta na palavra ${word.w.toLowerCase()}?`};
     }
     case 'first-letter':{
-      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,word=rnd(wordSet),ws=wrongLetters(word.fl);
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,18):cfg.wordSet==='medium'?WORDS.slice(0,40):WORDS,word=rnd(wordSet),ws=wrongLetters(word.fl);
       return{type,word,correct:word.fl,opts:shuf([word.fl,...ws]),say:`Com que letra começa a palavra ${word.w.toLowerCase()}?`};
     }
     case 'complete-word':{
-      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,word=rnd(wordSet.filter(w=>w.w.length>=3));
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,18):cfg.wordSet==='medium'?WORDS.slice(0,40):WORDS,word=rnd(wordSet.filter(w=>w.w.length>=3));
       const blankIdx=ri(1,word.w.length-1),correct=word.w[blankIdx],ws=wrongLetters(correct),displayed=word.w.split('').map((c,i)=>i===blankIdx?'_':c).join('');
       return{type,word,displayed,blankIdx,correct,opts:shuf([correct,...ws]),say:`Que letra falta na palavra ${word.w.toLowerCase()}?`};
     }
     case 'syllable-count':{
-      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,word=rnd(wordSet),correct=word.nSyl,ws=wrongNums(correct,1,5);
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,18):cfg.wordSet==='medium'?WORDS.slice(0,40):WORDS,word=rnd(wordSet),correct=word.nSyl,ws=wrongNums(correct,1,5);
       return{type,word,correct,opts:shuf([correct,...ws]),say:`Quantas sílabas tem a palavra ${word.w.toLowerCase()}?`};
     }
     case 'which-word':{
-      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,6):cfg.wordSet==='medium'?WORDS.slice(0,10):WORDS,correct=rnd(wordSet),distractors=shuf(wordSet.filter(w=>w.w!==correct.w)).slice(0,2);
+      const wordSet=cfg.wordSet==='easy'?WORDS.slice(0,18):cfg.wordSet==='medium'?WORDS.slice(0,40):WORDS,correct=rnd(wordSet),distractors=shuf(wordSet.filter(w=>w.w!==correct.w)).slice(0,2);
       if(distractors.length<2)return genQuestion('first-letter',cfg);
       const opts=shuf([correct,...distractors]);
       return{type,correct:correct.w,opts:opts.map(o=>({w:o.w,em:o.em})),say:`Ouve bem e toca na imagem da palavra ${correct.w.toLowerCase()}.`};
